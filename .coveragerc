@@ -4,6 +4,10 @@ omit =
     */tests*
     */examples*
     */lib/python*
+    */site-packages*
+    */lib/python*
+    */lib-python*
+    */lib_pypy*
 
 [report]
 exclude_lines =
