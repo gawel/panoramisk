@@ -105,7 +105,7 @@ class TestManager(TestCase):
         manager = self.callFTU(use_http=True, url='http://host')
         manager.register_event('Peer*', callback)
         event = panoramisk.Message.from_line('Event: PeerStatus',
-                                          manager.callbacks)
+                                             manager.callbacks)
         self.assertTrue(event.success)
         self.assertEqual(event['Event'], 'PeerStatus')
         self.assertIn('Event', event)
@@ -113,7 +113,7 @@ class TestManager(TestCase):
         self.assertTrue(event is future.result())
 
         event = panoramisk.Message.from_line('Event: NoPeerStatus',
-                                          manager.callbacks)
+                                             manager.callbacks)
         self.assertTrue(event is None)
 
 

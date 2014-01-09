@@ -199,13 +199,15 @@ class Connection(asyncio.Protocol):
     def connection_made(self, transport):
         self.transport = transport
         self.closed = False
-        self.buf = ''
+        self.queue = Queue()
 
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')
-        data = self.buf + data.decode(encoding, 'ignore')
+        data = data.decode(encoding, 'ignore')
+        if not self.queue.empty():
+            data = self.queue.get_nowait() + data
         lines = data.split(EOL+EOL)
-        self.buf = lines.pop(-1)
+        self.queue.put_nowait(lines.pop(-1))
         for line in lines:
             obj = Message.from_line(line, self.factory.callbacks)
             if obj is None:
@@ -352,7 +354,7 @@ class Manager(object):
             self.http.auth = auth
         try:
             resp = self.http.get(self.config['url'], params=action)
-        except Exception as e:
+        except Exception as e:  # pragma: no cover
             self.log.exception(e)
             self.http = None
             if not retries:
