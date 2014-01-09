@@ -1,13 +1,6 @@
 [run]
-omit =
-    */docs*
-    */tests*
-    */examples*
-    */lib/python*
-    */site-packages*
-    */lib/python*
-    */lib-python*
-    */lib_pypy*
+include =
+    */panoramisk/__init__*
 
 [report]
 exclude_lines =
