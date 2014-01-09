@@ -25,7 +25,11 @@ Source: https://github.com/gawel/panoramisk/
 Basic usage::
 
     >>> from panoramisk import Manager
-    >>> manager = Manager()
+    >>> import asyncio
+
+    >>> loop = asyncio.get_event_loop()
+
+    >>> manager = Manager(loop=loop)
 
     >>> def handle_meetme(event, manager):
     ...     # do stuff with the event
@@ -33,8 +37,12 @@ Basic usage::
     >>> # listen to Meetme* events
     >>> manager.register_event('Meetme*', handle_meetme)
 
+    >>> # connect
+    >>> manager.connect()
+
+    >>> # wait a few seconds while we connecting and
     >>> # call gawel and make him call 0299999999 on reply
-    >>> manager.send_action({
+    >>> loop.call_later(5, manager.send_action({
     ...     'Action': 'Originate',
     ...     'Channel': 'SIP/gawel',
     ...     'WaitTime': 20,
@@ -42,4 +50,4 @@ Basic usage::
     ...     'Exten': '0299999999',
     ...     'Context': 'default',
     ...     'Priority': 1,
-    ... })
+    ... }))
