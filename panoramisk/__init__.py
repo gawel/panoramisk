@@ -280,26 +280,27 @@ class Manager(object):
         except OSError as e:  # pragma: no cover
             self.log.exception(e)
             self.loop.call_later(2, self.connect)
-            return
-        self.log.info('Connected %s %s', transport, protocol)
-        self.protocol = protocol
-        self.protocol.factory = self
-        self.protocol.config = self.config
-        self.protocol.encoding = self.encoding = self.config['encoding']
-        self.responses = self.protocol.responses = Queue(loop=self.loop)
-        if 'username' in self.config:
-            action = Action({
-                'Action': 'Login',
-                'Username': self.config['username'],
-                'Secret': self.config['secret']})
+        else:
+            self.log.info('Manager connected')
+            self.protocol = protocol
+            self.protocol.queue = Queue(loop=self.loop)
+            self.protocol.factory = self
+            self.protocol.config = self.config
+            self.protocol.encoding = self.encoding = self.config['encoding']
+            self.responses = self.protocol.responses = Queue(loop=self.loop)
+            if 'username' in self.config:
+                action = Action({
+                    'Action': 'Login',
+                    'Username': self.config['username'],
+                    'Secret': self.config['secret']})
+                self.protocol.send(action)
+            action = Action({'Command': 'http show status',
+                             'Action': 'Command'})
             self.protocol.send(action)
-        action = Action({'Command': 'http show status',
-                         'Action': 'Command'})
-        self.protocol.send(action)
-        if 'url' not in self.config:
-            # alway use http for now
-            self.parse_http_config()
-        self.loop.call_later(10, self.ping)
+            if 'url' not in self.config:
+                # alway use http for now
+                self.parse_http_config()
+            self.loop.call_later(10, self.ping)
 
     def ping(self):  # pragma: no cover
         self.protocol.send({'Action': 'Ping'})
