@@ -200,6 +200,7 @@ class Connection(asyncio.Protocol):
         self.transport = transport
         self.closed = False
         self.queue = Queue()
+        self.log = logging.getLogger(__name__)
 
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')
@@ -210,6 +211,7 @@ class Connection(asyncio.Protocol):
         self.queue.put_nowait(lines.pop(-1))
         for line in lines:
             obj = Message.from_line(line, self.factory.callbacks)
+            self.log.debug('data_received: %r', obj)
             if obj is None:
                 continue
             if obj.type == 'event':
@@ -223,6 +225,7 @@ class Connection(asyncio.Protocol):
         if not isinstance(data, Action):
             data = Action(data)
         self.transport.write(str(data).encode('utf8'))
+        self.log.debug('send: %r', data)
         return data
 
     def connection_lost(self, exc):  # pragma: no cover
@@ -285,6 +288,7 @@ class Manager(object):
             self.protocol = protocol
             self.protocol.queue = Queue(loop=self.loop)
             self.protocol.factory = self
+            self.protocol.log = self.log
             self.protocol.config = self.config
             self.protocol.encoding = self.encoding = self.config['encoding']
             self.responses = self.protocol.responses = Queue(loop=self.loop)
@@ -339,7 +343,7 @@ class Manager(object):
             self.config['url'] = (
                 '{protocol}://{host}:{http_port}/arawman'
             ).format(**self.config)
-        self.log.debug(self.config)
+            self.log.info('Using http interface at %s', self.config['url'])
 
     def send_action_via_http(self, action, **kwargs):
         retries = kwargs.pop('_retries', 0)
