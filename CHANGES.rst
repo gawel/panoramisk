@@ -1,4 +1,4 @@
-0.3 (unreleased)
+0.3 (2014-01-10)
 ================
 
 - Dont send commands twice
