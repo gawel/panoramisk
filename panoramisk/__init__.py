@@ -339,7 +339,7 @@ class Manager(object):
             self.config['url'] = (
                 '{protocol}://{host}:{http_port}/arawman'
             ).format(**self.config)
-        print(self.config)
+        self.log.debug(self.config)
 
     def send_action_via_http(self, action, **kwargs):
         retries = kwargs.pop('_retries', 0)
@@ -363,7 +363,6 @@ class Manager(object):
                 return self.send_action_via_http(action, **kwargs)
             raise
         else:
-            resp = self.http.get(self.config['url'], params=action)
             msg = Message.from_line(resp.text)
             msg.orig = resp
             return msg
