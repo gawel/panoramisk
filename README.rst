@@ -42,7 +42,7 @@ Basic usage::
 
     >>> # wait a few seconds while we connecting and
     >>> # call gawel and make him call 0299999999 on reply
-    >>> loop.call_later(5, manager.send_action({
+    >>> loop.call_later(5, manager.send_action, {
     ...     'Action': 'Originate',
     ...     'Channel': 'SIP/gawel',
     ...     'WaitTime': 20,
@@ -50,4 +50,4 @@ Basic usage::
     ...     'Exten': '0299999999',
     ...     'Context': 'default',
     ...     'Priority': 1,
-    ... }))
+    ... })
