@@ -4,12 +4,17 @@ from requests.structures import CaseInsensitiveDict
 from requests.compat import str
 from collections import defaultdict
 from fnmatch import fnmatch
-from asyncio.queues import Queue
 import requests
 import logging
-import asyncio
 import time
 import uuid
+
+try:  # pragma: no cover
+    import asyncio
+    from asyncio.queues import Queue
+except ImportError:  # pragma: no cover
+    import trollius as asyncio  # NOQA
+    from trollius.queues import Queue  # NOQA
 
 EOL = '\r\n'
 
@@ -71,7 +76,7 @@ class Message(object):
         >>> bool(resp.success)
         True
         >>> resp.headers
-        CaseInsensitiveDict({'Response': 'Follows'})
+        {'Response': 'Follows'}
         >>> print(resp.text)
         Response body
         >>> for line in resp.iter_lines():

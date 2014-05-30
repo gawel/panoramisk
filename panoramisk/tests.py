@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from unittest import TestCase
 import panoramisk
-import asyncio
+
+try:  # pragma: no cover
+    import asyncio
+except ImportError:  # pragma: no cover
+    import trollius as asyncio  # NOQA
 
 try:
     from unittest import mock
@@ -79,7 +83,7 @@ class TestManager(TestCase):
         self.assertFalse(resp.success)
         self.assertIn('command', resp.iter_lines())
 
-    @mock.patch('asyncio.Task')
+    @mock.patch('panoramisk.tests.asyncio.Task')
     def test_action_via_manager(self, *args):
         def callback():
             return True
