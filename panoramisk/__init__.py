@@ -39,7 +39,7 @@ class Action(dict):
         >>> action = Action({'Action': 'Status'})
         >>> print(action)
         Action: Status
-        ActionID: .../1/13
+        ActionID: .../1/12
     """
 
     action_id = action_id()
@@ -77,10 +77,10 @@ class Message(object):
         True
         >>> resp.headers
         {'Response': 'Follows'}
-        >>> print(resp.text)
+        >>> print(resp.content)
         Response body
         >>> for line in resp.iter_lines():
-        ...     print(resp.text)
+        ...     print(resp.content)
         Response body
 
     Events:
@@ -102,7 +102,7 @@ class Message(object):
 
     def __init__(self, type, content, headers=None, matches=None):
         self.type = type
-        self.text = content
+        self.content = content
         self.headers = CaseInsensitiveDict(headers)
         self.manager = self.name = None,
         self.matches = matches
@@ -140,12 +140,12 @@ class Message(object):
         return value in self.headers
 
     def __repr__(self):
-        return '<{0} {1}>'.format(
-            self.type.title(), self.headers)
+        return '<{0} headers:{1} content:"{2}">'.format(
+            self.type.title(), self.headers, self.content)
 
     def iter_lines(self):
         """Iter over response body"""
-        for line in self.text.split('\n'):
+        for line in self.content.split('\n'):
             yield line
 
     @property
@@ -205,33 +205,35 @@ class Connection(asyncio.Protocol):
         self.transport = transport
         self.closed = False
         self.queue = Queue()
+        self.responses = {}
         self.log = logging.getLogger(__name__)
 
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')
         data = data.decode(encoding, 'ignore')
+        self.log.debug('data received: "%s"', data)
         if not self.queue.empty():
             data = self.queue.get_nowait() + data
         lines = data.split(EOL+EOL)
         self.queue.put_nowait(lines.pop(-1))
         for line in lines:
             obj = Message.from_line(line, self.factory.callbacks)
-            self.log.debug('data_received: %r', obj)
+            self.log.debug('data interpreted: %r', obj)
             if obj is None:
                 continue
             if obj.type == 'event':
                 self.factory.dispatch(obj, obj.matches)
-            else:
-                if obj.headers.get('Ping'):
-                    continue
-                self.responses.put_nowait(obj)
+            else: # Action response received
+                self.responses[obj.headers.get('ActionID')].set_result(obj)
+                del(self.responses[obj.headers.get('ActionID')]) # clean responses queue
 
     def send(self, data):
         if not isinstance(data, Action):
             data = Action(data)
+        self.responses[data.id] = asyncio.Future()
         self.transport.write(str(data).encode('utf8'))
         self.log.debug('send: %r', data)
-        return data
+        return self.responses[data.id]
 
     def connection_lost(self, exc):  # pragma: no cover
         if not self.closed:
@@ -296,7 +298,7 @@ class Manager(object):
             self.protocol.log = self.log
             self.protocol.config = self.config
             self.protocol.encoding = self.encoding = self.config['encoding']
-            self.responses = self.protocol.responses = Queue(loop=self.loop)
+            self.responses = self.protocol.responses = {}
             if 'username' in self.config:
                 action = Action({
                     'Action': 'Login',
@@ -305,27 +307,16 @@ class Manager(object):
                 self.protocol.send(action)
             action = Action({'Command': 'http show status',
                              'Action': 'Command'})
-            self.protocol.send(action)
-            if 'url' not in self.config:
-                # alway use http for now
-                self.parse_http_config()
+            self.protocol.send(action).add_done_callback(self.parse_http_config)
             self.loop.call_later(10, self.ping)
 
     def ping(self):  # pragma: no cover
         self.protocol.send({'Action': 'Ping'})
         self.loop.call_later(10, self.ping)
 
-    def parse_http_config(self, future=None):  # pragma: no cover
-        def recall():
-            asyncio.Task(
-                self.responses.get(), loop=self.loop
-            ).add_done_callback(self.parse_http_config)
-        if future is None:
-            return recall()
+    def parse_http_config(self, future):  # pragma: no cover
         if 'use_http' not in self.config:
             resp = future.result()
-            if 'HTTP Server Status:' not in resp.text:
-                return recall()
             host, port, path = None, None, None
             for line in resp.iter_lines():
                 if line.startswith('Server Enabled and Bound to'):
@@ -372,16 +363,31 @@ class Manager(object):
                 return self.send_action_via_http(action, **kwargs)
             raise
         else:
-            msg = Message.from_line(resp.text)
+            msg = Message.from_line(resp.content)
             msg.orig = resp
             return msg
 
-    def send_action_via_manager(self, action, callback=None, **kwargs):
-        self.protocol.send(Action(action, **kwargs))
-        task = asyncio.Task(self.responses.get(self.loop), self.loop)
-        if callback:
-            task.add_done_callback(callback)
-        return task
+    def send_action_via_manager(self, action, **kwargs):
+        """Send an action to the server via manager::
+
+            >>> manager = Manager()
+            >>> resp = manager.send_action({'Action': 'Status'})
+
+        To retrieve answer in a coroutine:
+        
+            manager = Manager()
+            resp = yield from manager.send_action_via_manager({'Action': 'Status'})
+
+        With a callback:
+
+            manager = Manager()
+            future = manager.send_action_via_manager({'Action': 'Status'})
+            future.add_done_callback(handle_status_response)
+
+        See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for more
+        information on actions
+        """
+        return self.protocol.send(Action(action, **kwargs))
 
     def send_action(self, action, **kwargs):
         """Send an action to the server::

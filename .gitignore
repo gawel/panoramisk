@@ -39,3 +39,5 @@ src
 *.tmp*
 var
 *.wpr
+pyvenv/
+.directory

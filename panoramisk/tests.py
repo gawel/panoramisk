@@ -50,24 +50,24 @@ class TestManager(TestCase):
     def test_action(self):
         manager = self.callFTU(use_http=True, url='http://host',
                                username='user', secret='passwd')
-        self.response.text = 'Response: Success\r\nPing: Pong'
+        self.response.content = 'Response: Success\r\nPing: Pong'
         self.assertIn('ping', manager.send_action({'Action': 'Ping'}))
         self.assertIn('ping', manager.send_action({'Action': 'Ping'}).lheaders)
 
-        self.response.text = 'Response: Follows\r\nPing: Pong'
-        self.assertIn('Ping', manager.send_action({'Action': 'Ping'}).text)
+        self.response.content = 'Response: Follows\r\nPing: Pong'
+        self.assertIn('Ping', manager.send_action({'Action': 'Ping'}).content)
 
-        self.response.text = 'Response: Success\r\nPing: Pong\r\nPing: Pong'
+        self.response.content = 'Response: Success\r\nPing: Pong\r\nPing: Pong'
         self.assertIn('Ping', manager.send_action({'Action': 'Ping'}))
         self.assertEqual(manager.send_action({'Action': 'Ping'})['Ping'],
                          ['Pong', 'Pong'])
 
-        self.response.text = 'Response: Follows\r\ncommand'
+        self.response.content = 'Response: Follows\r\ncommand'
         resp = manager.send_command({'Action': 'Ping'})
-        self.response.text = 'Response: Follows\r\ncommand\r\n'
+        self.response.content = 'Response: Follows\r\ncommand\r\n'
         resp = manager.send_command({'Action': 'Ping'})
         self.assertTrue(resp.success)
-        self.assertIn('command', resp.text)
+        self.assertIn('command', resp.content)
 
     def test_action_class(self):
         action = panoramisk.Action({'Action': 'Ping'})
@@ -77,7 +77,7 @@ class TestManager(TestCase):
 
     def test_action_failed(self):
         manager = self.callFTU(use_http=True, url='http://host')
-        self.response.text = 'Response: Failed\r\ncommand'
+        self.response.content = 'Response: Failed\r\ncommand'
         action = panoramisk.Action({'Action': 'Ping'})
         resp = manager.send_command(action)
         self.assertFalse(resp.success)
@@ -89,8 +89,8 @@ class TestManager(TestCase):
             return True
         manager = self.callFTU(use_http=True)
         manager.responses = mock.MagicMock()
-        manager.send_action({'Action': 'Ping'},
-                            callback=callback)
+        future = manager.send_action({'Action': 'Ping'})
+        future.add_done_callback(callback)
 
     def test_action_error(self):
         manager = self.callFTU(use_http=True)
@@ -144,4 +144,4 @@ class TestProtocol(TestCase):
 
     def test_send(self):
         conn = self.callFTU()
-        self.assertTrue(isinstance(conn.send({}), panoramisk.Action))
+        self.assertTrue(isinstance(conn.send({}), asyncio.Future))
