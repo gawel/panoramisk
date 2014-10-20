@@ -20,6 +20,7 @@ fake-eggs
 .hg
 .hgignore
 .idea
+*.iml
 .installed.cfg
 *.jar
 *.mo
