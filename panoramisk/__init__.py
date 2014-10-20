@@ -429,7 +429,7 @@ class Manager(object):
                 ssl=self.config['ssl']),
             loop=self.loop)
         t.add_done_callback(self.connection_made)
-        return self.loop
+        return t
 
     def register_event(self, pattern, callback):
         """register an event. See :class:`Message`:
