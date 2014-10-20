@@ -1,7 +1,9 @@
 0.5 (unreleased)
 ================
 
-- Nothing changed yet.
+- AMI command results tracking fixed
+- Add an example
+- Start internal refactoring
 
 
 0.4 (2014-05-30)
@@ -13,7 +15,7 @@
 0.3 (2014-01-10)
 ================
 
-- Dont send commands twice
+- Don't send commands twice
 
 
 0.2 (2014-01-09)
