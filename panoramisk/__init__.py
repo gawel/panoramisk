@@ -73,7 +73,7 @@ class Message(object):
 
     .. code-block:: python
 
-        >>> print(resp.type)
+        >>> print(resp.message_type)
         response
         >>> bool(resp.success)
         True
@@ -89,7 +89,7 @@ class Message(object):
 
     .. code-block:: python
 
-        >>> print(event.type)
+        >>> print(event.message_type)
         event
         >>> print(event.name)
         MeetmeEnd
@@ -102,13 +102,13 @@ class Message(object):
 
     """
 
-    def __init__(self, type, content, headers=None, matches=None):
-        self.type = type
+    def __init__(self, message_type, content, headers=None, matches=None):
+        self.message_type = message_type
         self.content = content
         self.headers = CaseInsensitiveDict(headers)
         self.manager = self.name = None,
         self.matches = matches
-        if self.type == 'event':
+        if self.message_type == 'event':
             self.name = self.headers['event']
         self.orig = None
 
@@ -125,7 +125,7 @@ class Message(object):
             >>> resp.success
             False
         """
-        if self.type == 'event':
+        if self.message_type == 'event':
             return True
         status = self.headers['response']
         if status in ('Success', 'Follows'):
@@ -143,7 +143,7 @@ class Message(object):
 
     def __repr__(self):
         return '<{0} headers:{1} content:"{2}">'.format(
-            self.type.title(), self.headers, self.content)
+            self.message_type.title(), self.headers, self.content)
 
     def iter_lines(self):
         """Iter over response body"""
@@ -171,7 +171,7 @@ class Message(object):
             headers = CaseInsensitiveDict()
             content = ''
             if mlines[0].startswith('Event: '):
-                type = 'event'
+                message_type = 'event'
                 name = mlines[0].split(': ', 1)[1]
                 matches = []
                 for pattern in patterns:
@@ -180,7 +180,7 @@ class Message(object):
                 if not matches:
                     return
             else:
-                type = 'response'
+                message_type = 'response'
                 matches = []
                 has_body = ('Response: Follows', 'Response: Fail')
                 if mlines[0].startswith(has_body):
@@ -198,7 +198,7 @@ class Message(object):
                         headers[k] = o
                     else:
                         headers[k] = v
-            return cls(type, content, headers, matches=matches)
+            return cls(message_type, content, headers, matches=matches)
 
 
 class Connection(asyncio.Protocol):
@@ -213,17 +213,19 @@ class Connection(asyncio.Protocol):
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')
         data = data.decode(encoding, 'ignore')
-        self.log.debug('data received: "%s"', data)
+        #self.log.debug('data received: "%s"', data) # Very verbose, uncomment only if necessary
         if not self.queue.empty():
             data = self.queue.get_nowait() + data
         lines = data.split(EOL+EOL)
         self.queue.put_nowait(lines.pop(-1))
         for line in lines:
+            line = line.strip() # Because sometimes me receive only one EOL from Asterisk
+            #self.log.debug('message received: "%s"', line) # Very verbose, uncomment only if necessary
             obj = Message.from_line(line, self.factory.callbacks)
-            self.log.debug('data interpreted: %r', obj)
+            self.log.debug('message interpreted: %r', obj)
             if obj is None:
                 continue
-            if obj.type == 'event':
+            if obj.message_type == 'event':
                 self.factory.dispatch(obj, obj.matches)
             else: # Action response received
                 self.responses[obj.headers.get('ActionID')].set_result(obj)
