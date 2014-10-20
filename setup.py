@@ -39,6 +39,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Topic :: Communications :: Telephony',
         'License :: OSI Approved :: MIT License',
     ],
     keywords='asyncio asterisk voip',
