@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-from requests.auth import HTTPDigestAuth
-from requests.structures import CaseInsensitiveDict
-from requests.compat import str
 from collections import defaultdict
 from fnmatch import fnmatch
-import requests
 import logging
 import time
 import uuid
+
+import requests
+from requests.auth import HTTPDigestAuth
+from requests.structures import CaseInsensitiveDict
+from requests.compat import str
+
 
 try:  # pragma: no cover
     import asyncio
