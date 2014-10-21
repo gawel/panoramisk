@@ -44,17 +44,28 @@ class Action(dict):
         ActionID: .../1/13
     """
 
-    action_id = action_id()
+    action_id_gen = action_id()
+    command_id_gen = action_id()
 
     @property
     def id(self):
         if 'ActionID' not in self:
-            self['ActionID'] = next(self.action_id)
+            self['ActionID'] = next(self.action_id_gen)
         return self['ActionID']
+
+    @property
+    def command_id(self):
+        if 'Action' in self and self['Action'].lower() != 'agi':
+            raise KeyError
+        elif 'CommandID' not in self:
+            self['CommandID'] = next(self.command_id_gen)
+        return self['CommandID']
 
     def __str__(self):
         if 'ActionID' not in self:
-            self['ActionID'] = next(self.action_id)
+            self['ActionID'] = next(self.action_id_gen)
+        if 'CommandID' not in self and 'Action' in self and self['Action'].lower() == 'agi':
+            self['CommandID'] = next(self.command_id_gen)
         action = [': '.join(i) for i in sorted(self.items())]
         action.append(EOL)
         return EOL.join(action)
@@ -208,17 +219,23 @@ class Connection(asyncio.Protocol):
         self.closed = False
         self.queue = Queue()
         self.responses = {}
+        self.commands = {}
         self.factory = None
         self.log = logging.getLogger(__name__)
 
     def send(self, data, multi=True):
         if not isinstance(data, Action):
             data = Action(data)
-        self.responses[data.id] = {'future': asyncio.Future(),
+        self.responses[data.id] = {'id': data.id,
+                                   'future': asyncio.Future(),
                                    'multi': multi,
                                    'values':[]}
-        self.transport.write(str(data).encode('utf8'))
+        if 'Action' in data and data['Action'].lower() == 'agi':
+            # access to the same dict with a different key
+            self.responses[data.id]['command_id'] = data.command_id
+            self.commands[data.command_id] = self.responses[data.id]
         self.log.debug('send: "%r", expect multi answer: %s', data, multi)
+        self.transport.write(str(data).encode('utf8'))
         return self.responses[data.id]['future']
 
     def data_received(self, data):
@@ -248,15 +265,29 @@ class Connection(asyncio.Protocol):
                         results['future'].set_result(results['values'])
                     else:
                         self.responses[obj.headers['ActionID']]['values'].append(obj)
+
+                elif obj.headers.get('CommandID', None) in self.commands and self.commands[obj.headers['CommandID']]['multi']:
+                    self.log.debug('for CommandID "%s", receive an answer: "%r"', obj.headers['CommandID'], obj)
+                    results = self.commands.pop(obj.headers['CommandID'])
+                    del(self.responses[results['id']])
+                    results['future'].set_result(obj)
                 else:
                     self.factory.dispatch(obj, obj.matches)
             else:  # Action response received
                 if obj.headers.get('ActionID', None) in self.responses:
-                    if self.responses[obj.headers['ActionID']]['multi'] and 'Message' in obj.headers and obj.headers['Message'].endswith(' will follow'):
-                        self.log.debug('for ActionID "%s", receive first answer: "%r"', obj.headers['ActionID'], obj)
-                        # self.responses[obj.headers['ActionID']]['values'].append(obj) # uncomment to retrieve first answer
+                    # high-level response processing
+                    if self.responses[obj.headers['ActionID']]['multi']:
+                        # Actions with multi responses
+                        if 'Message' in obj.headers and obj.headers['Message'].endswith(' will follow'):
+                            self.log.debug('for ActionID "%s", receive first answer: "%r"', obj.headers['ActionID'], obj)
+                            # self.responses[obj.headers['ActionID']]['values'].append(obj) # uncomment to retrieve first answer
+                        elif 'command_id' in self.responses[obj.headers['ActionID']]:
+                            self.log.debug('for ActionID "%s" and CommandID "%s", receive first answer: "%r"', obj.headers['ActionID'], self.responses[obj.headers['ActionID']]['command_id'], obj)
+                            # self.responses[obj.headers['ActionID']]['values'].append(obj) # uncomment to retrieve first answer
                     else:
                         self.log.debug('for ActionID "%s", receive only one answer: "%r"', obj.headers['ActionID'], obj)
+                        if 'command_id' in self.responses[obj.headers['ActionID']]:
+                            del(self.commands[self.responses[obj.headers['ActionID']]['command_id']])
                         self.responses.pop(obj.headers['ActionID'])['future'].set_result(obj)
                 else:
                     self.log.warn('not able to retrieve action for %r', obj)
