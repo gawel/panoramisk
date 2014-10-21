@@ -22,4 +22,5 @@ See the api for more informations: https://panoramisk.readthedocs.org/
 
 Source: https://github.com/gawel/panoramisk/
 
-For basic usage, you have some examples in **examples/** folder.
+For basic usage, you have some examples in `examples/
+<https://github.com/gawel/panoramisk/tree/master/examples>`_ folder.
