@@ -89,8 +89,7 @@ class TestManager(TestCase):
             return True
         manager = self.callFTU(use_http=True)
         manager.responses = mock.MagicMock()
-        future = manager.send_action({'Action': 'Ping'})
-        future.add_done_callback(callback)
+        manager.send_action({'Action': 'Ping'}, callback=callback)
 
     def test_action_error(self):
         manager = self.callFTU(use_http=True)

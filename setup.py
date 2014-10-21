@@ -9,7 +9,7 @@ version = '0.5.dev0'
 
 install_requires = ['requests']
 test_requires = [
-    'nose', 'coverage', 'coveralls'
+    'nose', 'coveralls'
 ]
 
 if sys.version_info[:2] < (3, 0):

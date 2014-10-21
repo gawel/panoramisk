@@ -41,7 +41,7 @@ class Action(dict):
         >>> action = Action({'Action': 'Status'})
         >>> print(action)
         Action: Status
-        ActionID: .../1/12
+        ActionID: .../1/13
     """
 
     action_id = action_id()
@@ -213,23 +213,29 @@ class Connection(asyncio.Protocol):
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')
         data = data.decode(encoding, 'ignore')
-        #self.log.debug('data received: "%s"', data) # Very verbose, uncomment only if necessary
+        # Very verbose, uncomment only if necessary
+        #self.log.debug('data received: "%s"', data)
         if not self.queue.empty():
             data = self.queue.get_nowait() + data
         lines = data.split(EOL+EOL)
         self.queue.put_nowait(lines.pop(-1))
         for line in lines:
-            line = line.strip() # Because sometimes me receive only one EOL from Asterisk
-            #self.log.debug('message received: "%s"', line) # Very verbose, uncomment only if necessary
+            # Because sometimes me receive only one EOL from Asterisk
+            line = line.strip()
+            # Very verbose, uncomment only if necessary
+            #self.log.debug('message received: "%s"', line)
             obj = Message.from_line(line, self.factory.callbacks)
             self.log.debug('message interpreted: %r', obj)
             if obj is None:
                 continue
             if obj.message_type == 'event':
                 self.factory.dispatch(obj, obj.matches)
-            else: # Action response received
-                self.responses[obj.headers.get('ActionID')].set_result(obj)
-                del(self.responses[obj.headers.get('ActionID')]) # clean responses queue
+            else:  # Action response received
+                future = self.responses.pop(obj.headers.get('ActionID'), None)
+                if future is not None:
+                    future.set_result(obj)
+                else:
+                    self.log.warn('Not able to retrieve action for %r', obj)
 
     def send(self, data):
         if not isinstance(data, Action):
@@ -311,7 +317,8 @@ class Manager(object):
                 self.protocol.send(action)
             action = Action({'Command': 'http show status',
                              'Action': 'Command'})
-            self.protocol.send(action).add_done_callback(self.parse_http_config)
+            self.protocol.send(action).add_done_callback(
+                self.parse_http_config)
             self.loop.call_later(10, self.ping)
 
     def ping(self):  # pragma: no cover
@@ -378,9 +385,10 @@ class Manager(object):
             >>> resp = manager.send_action({'Action': 'Status'})
 
         To retrieve answer in a coroutine:
-        
+
             manager = Manager()
-            resp = yield from manager.send_action_via_manager({'Action': 'Status'})
+            resp = yield from manager.send_action_via_manager(
+                {'Action': 'Status'})
 
         With a callback:
 
@@ -405,7 +413,10 @@ class Manager(object):
         information on actions
         """
         if 'callback' in kwargs:
-            return self.send_action_via_manager(action, **kwargs)
+            callback = kwargs.pop('callback')
+            future = self.send_action_via_manager(action, **kwargs)
+            future.add_done_callback(callback)
+            return future
         action.update(**kwargs)
         return self.send_action_via_http(action)
 
