@@ -2,7 +2,8 @@
 ================
 
 - AMI command results tracking fixed
-- Add an example
+- Return AMI command result with multiple events in a Future
+- Add two examples
 - Start internal refactoring
 
 

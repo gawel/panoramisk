@@ -4,6 +4,8 @@ import asyncio
 from panoramisk import Manager
 
 
+# logging.basicConfig(level=logging.DEBUG)
+
 loop = asyncio.get_event_loop()
 
 @asyncio.coroutine
@@ -14,6 +16,5 @@ def extension_status():
                                                             'Exten': '2001',
                                                             'Context': 'default'})
     pprint(extension)
-#    import ipdb; ipdb.set_trace()
 
 loop.run_until_complete(extension_status())

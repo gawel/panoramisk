@@ -177,7 +177,7 @@ class Message(object):
                 for pattern in patterns:
                     if fnmatch(name, pattern):
                         matches.append(pattern)
-                if not matches:
+                if not matches and not mlines[-1].startswith('ActionID: '):
                     return
             else:
                 message_type = 'response'
@@ -208,6 +208,7 @@ class Connection(asyncio.Protocol):
         self.closed = False
         self.queue = Queue()
         self.responses = {}
+        self.factory = None
         self.log = logging.getLogger(__name__)
 
     def data_received(self, data):
@@ -223,27 +224,42 @@ class Connection(asyncio.Protocol):
             # Because sometimes me receive only one EOL from Asterisk
             line = line.strip()
             # Very verbose, uncomment only if necessary
-            #self.log.debug('message received: "%s"', line)
+            # self.log.debug('message received: "%s"', line)
             obj = Message.from_line(line, self.factory.callbacks)
             self.log.debug('message interpreted: %r', obj)
             if obj is None:
                 continue
             if obj.message_type == 'event':
-                self.factory.dispatch(obj, obj.matches)
-            else:  # Action response received
-                future = self.responses.pop(obj.headers.get('ActionID'), None)
-                if future is not None:
-                    future.set_result(obj)
+                if obj.headers.get('ActionID', None) in self.responses and self.responses[obj.headers['ActionID']]['multi']:
+                    self.log.debug('for ActionID "%s", receive an answer: "%r"', obj.headers['ActionID'], obj)
+                    if obj.headers['Event'].endswith('Complete'):
+                        self.log.debug('for ActionID "%s", received last answer', obj.headers['ActionID'])
+                        results = self.responses.pop(obj.headers['ActionID'])
+                        results['future'].set_result(results['values'])
+                    else:
+                        self.responses[obj.headers['ActionID']]['values'].append(obj)
                 else:
-                    self.log.warn('Not able to retrieve action for %r', obj)
+                    self.factory.dispatch(obj, obj.matches)
+            else:  # Action response received
+                if obj.headers.get('ActionID', None) in self.responses:
+                    if self.responses[obj.headers['ActionID']]['multi'] and 'Message' in obj.headers and obj.headers['Message'].endswith(' will follow'):
+                        self.log.debug('for ActionID "%s", receive first answer: "%r"', obj.headers['ActionID'], obj)
+                        # self.responses[obj.headers['ActionID']]['values'].append(obj) # uncomment to retrieve first answer
+                    else:
+                        self.log.debug('for ActionID "%s", receive only one answer: "%r"', obj.headers['ActionID'], obj)
+                        self.responses.pop(obj.headers['ActionID'])['future'].set_result(obj)
+                else:
+                    self.log.warn('not able to retrieve action for %r', obj)
 
-    def send(self, data):
+    def send(self, data, multi=True):
         if not isinstance(data, Action):
             data = Action(data)
-        self.responses[data.id] = asyncio.Future()
+        self.responses[data.id] = {'future': asyncio.Future(),
+                                   'multi': multi,
+                                   'values':[]}
         self.transport.write(str(data).encode('utf8'))
-        self.log.debug('send: %r', data)
-        return self.responses[data.id]
+        self.log.debug('send: "%r", expect multi answer: %s', data, multi)
+        return self.responses[data.id]['future']
 
     def connection_lost(self, exc):  # pragma: no cover
         if not self.closed:
@@ -378,28 +394,39 @@ class Manager(object):
             msg.orig = resp
             return msg
 
-    def send_action_via_manager(self, action, **kwargs):
-        """Send an action to the server via manager::
-
-            >>> manager = Manager()
-            >>> resp = manager.send_action({'Action': 'Status'})
-
-        To retrieve answer in a coroutine:
-
-            manager = Manager()
-            resp = yield from manager.send_action_via_manager(
-                {'Action': 'Status'})
-
-        With a callback:
-
-            manager = Manager()
-            future = manager.send_action_via_manager({'Action': 'Status'})
-            future.add_done_callback(handle_status_response)
-
-        See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for more
-        information on actions
+    def send_action_via_manager(self, action, multi: bool = True, **kwargs) -> asyncio.Future:
         """
-        return self.protocol.send(Action(action, **kwargs))
+            Send an action to the server via manager::
+
+            :param action: an Action or dict with action name and parameters to send
+            :type action: Action or dict
+            :param multi: If action send multiple responses, retrieve all responses via future
+            :type multi: boolean
+            :return: a Future will receive the response
+            :rtype: asyncio.Future
+
+            :Example:
+
+
+                    >>> manager = Manager()
+                    >>> resp = manager.send_action({'Action': 'Status'})
+
+                To retrieve answer in a coroutine:
+
+                    manager = Manager()
+                    resp = yield from manager.send_action_via_manager(
+                        {'Action': 'Status'})
+
+                With a callback:
+
+                    manager = Manager()
+                    future = manager.send_action_via_manager({'Action': 'Status'})
+                    future.add_done_callback(handle_status_response)
+
+                See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for more
+                information on actions
+        """
+        return self.protocol.send(Action(action, **kwargs), multi)
 
     def send_action(self, action, **kwargs):
         """Send an action to the server::
