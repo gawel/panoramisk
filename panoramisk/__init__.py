@@ -211,6 +211,16 @@ class Connection(asyncio.Protocol):
         self.factory = None
         self.log = logging.getLogger(__name__)
 
+    def send(self, data, multi=True):
+        if not isinstance(data, Action):
+            data = Action(data)
+        self.responses[data.id] = {'future': asyncio.Future(),
+                                   'multi': multi,
+                                   'values':[]}
+        self.transport.write(str(data).encode('utf8'))
+        self.log.debug('send: "%r", expect multi answer: %s', data, multi)
+        return self.responses[data.id]['future']
+
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')
         data = data.decode(encoding, 'ignore')
@@ -250,16 +260,6 @@ class Connection(asyncio.Protocol):
                         self.responses.pop(obj.headers['ActionID'])['future'].set_result(obj)
                 else:
                     self.log.warn('not able to retrieve action for %r', obj)
-
-    def send(self, data, multi=True):
-        if not isinstance(data, Action):
-            data = Action(data)
-        self.responses[data.id] = {'future': asyncio.Future(),
-                                   'multi': multi,
-                                   'values':[]}
-        self.transport.write(str(data).encode('utf8'))
-        self.log.debug('send: "%r", expect multi answer: %s', data, multi)
-        return self.responses[data.id]['future']
 
     def connection_lost(self, exc):  # pragma: no cover
         if not self.closed:
