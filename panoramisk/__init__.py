@@ -87,15 +87,16 @@ class Action(dict):
     def multi(self):
         if self.as_list:
             return True
-        elif 'will follow' in self.responses[0].headers.get('Message'):
+        elif 'will follow' in self.responses[0].headers.get('Message', ''):
             return True
-        elif 'Complete' in self.responses[0].headers.get('Event'):
+        elif 'Complete' in self.responses[0].headers.get('Event', ''):
             return True
         return False
 
     @property
     def completed(self):
-        if 'Complete' in self.responses[-1].headers.get('Event'):
+        print(self.responses)
+        if 'Complete' in self.responses[-1].headers.get('Event', ''):
             return True
         elif not self.multi:
             return True
@@ -295,7 +296,7 @@ class Connection(asyncio.Protocol):
 
     def send(self, data, as_list=False):
         if not isinstance(data, Action):
-            if 'Action' not in data or 'Command' in data:
+            if 'Command' in data:
                 klass = Command
             else:
                 klass = Action
@@ -332,7 +333,7 @@ class Connection(asyncio.Protocol):
             if response is not None:
                 if response.add_message(obj):
                     # completed; dequeue
-                    self.response.pop(response.id)
+                    self.responses.pop(response.id)
             elif obj.message_type == 'event':
                 self.factory.dispatch(obj, obj.matches)
 

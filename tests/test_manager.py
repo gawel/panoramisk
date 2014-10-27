@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from unittest import TestCase
+import os
 import panoramisk
 from panoramisk import testing
 
@@ -22,15 +23,11 @@ class TestManager(TestCase):
         loop=asyncio.get_event_loop()
     )
 
-    def setUp(self):
-        patcher = mock.patch('requests.Session.get')
-        session_get = patcher.start()
-        self.response = panoramisk.Message(
-            'response', '', {'Response': 'Follows'})
-        session_get.return_value = self.response
-        self.addCleanup(patcher.stop)
+    test_dir = os.path.join(os.path.dirname(__file__), 'data')
 
-    def callFTU(self, **config):
+    def callFTU(self, stream=None, **config):
+        if stream:
+            config['stream'] = os.path.join(self.test_dir, stream)
         manager = testing.Manager(**dict(
             self.defaults,
             **config))
@@ -51,13 +48,9 @@ class TestManager(TestCase):
         self.assertTrue('bla')
 
     def test_action(self):
-        manager = self.callFTU(use_http=True, url='http://host',
-                               username='user', secret='passwd')
-        self.response.content = 'Response: Success\r\nPing: Pong'
-        future =  manager.send_action({'Action': 'Ping'})
-        manager.loop.run_until_complete(future)
-        self.assertIn('ping', future.get_result())
-
+        manager = self.callFTU(stream='pong')
+        future = manager.send_action({'Action': 'Ping'})
+        self.assertIn('ping', future.result())
 
         self.assertIn('ping', manager.send_action({'Action': 'Ping'}).lheaders)
 
@@ -89,7 +82,7 @@ class TestManager(TestCase):
         manager = self.callFTU(use_http=True, url='http://host')
         self.response.content = 'Response: Failed\r\ncommand'
         action = panoramisk.Action({'Action': 'Ping'})
-        resp = manager.send_command(action)
+        resp = manager.send_command({'Action': 'Ping'})
         self.assertFalse(resp.success)
         self.assertIn('command', resp.iter_lines())
 

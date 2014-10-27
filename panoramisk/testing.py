@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from unittest import TestCase
 import codecs
 
 import panoramisk
@@ -26,24 +25,18 @@ class Connection(panoramisk.Connection):
         self.transport = MagicMock()
 
     def send(self, data, as_list=False):
-        panoramisk.IdGenerator.reset()
-        resp = super(Connection, self).send(data, as_list=as_list)
-        self.debug_count[0] += 1
-        print(resp)
-        print('called mock_data_received with %d' % self.debug_count[0])
-        self.factory.loop.call_later(.1, self.mock_data_received, data,
-                                     self.debug_count[0])
-        return resp
+        future = super(Connection, self).send(data, as_list=as_list)
+        self.get_stream()
+        if future.done():
+            return future
+        else:
+            raise AssertionError("Future's result was never set")
 
-    def mock_data_received(self, data, c):
-        resp = ''
-        try:
-            with codecs.open('../tests/data/connection_response') as resp_fd:
-                resp = resp_fd.read()
+    def get_stream(self):
+        if self.factory.stream is not None:
+            with codecs.open(self.factory.stream, encoding='utf8') as fd:
+                resp = fd.read()
             self.data_received(resp)
-        except OSError:
-            self.log.error('Connection response test file can\'t be read')
-        print('mock_data_received with %d' % c)
 
 
 class Manager(panoramisk.Manager):
@@ -51,7 +44,6 @@ class Manager(panoramisk.Manager):
     def __init__(self, **config):
         self.defaults['connection_class'] = Connection
         super(Manager, self).__init__(**config)
-
-
-class PanoramiskTestCase(TestCase):
-    pass
+        self.stream = config.get('stream')
+        panoramisk.IdGenerator.reset(uid='transaction_uid')
+        panoramisk.EOL = '\n'
