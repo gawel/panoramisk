@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from unittest import TestCase
 import panoramisk
+from panoramisk import testing
 
 try:  # pragma: no cover
     import asyncio
@@ -17,7 +18,8 @@ class TestManager(TestCase):
 
     defaults = dict(
         async=False, testing=True,
-        loop=mock.MagicMock(),
+        # loop=mock.MagicMock(),
+        loop=asyncio.get_event_loop()
     )
 
     def setUp(self):
@@ -29,11 +31,12 @@ class TestManager(TestCase):
         self.addCleanup(patcher.stop)
 
     def callFTU(self, **config):
-        manager = panoramisk.Manager(**dict(
+        manager = testing.Manager(**dict(
             self.defaults,
             **config))
         if manager.loop:
-            protocol = panoramisk.Connection()
+            protocol = testing.Connection()
+            protocol.factory = manager
             protocol.connection_made(mock.MagicMock())
             protocol.responses = mock.MagicMock()
             future = asyncio.Future()
@@ -51,7 +54,11 @@ class TestManager(TestCase):
         manager = self.callFTU(use_http=True, url='http://host',
                                username='user', secret='passwd')
         self.response.content = 'Response: Success\r\nPing: Pong'
-        self.assertIn('ping', manager.send_action({'Action': 'Ping'}))
+        future =  manager.send_action({'Action': 'Ping'})
+        manager.loop.run_until_complete(future)
+        self.assertIn('ping', future.get_result())
+
+
         self.assertIn('ping', manager.send_action({'Action': 'Ping'}).lheaders)
 
         self.response.content = 'Response: Follows\r\nPing: Pong'
@@ -68,6 +75,9 @@ class TestManager(TestCase):
         resp = manager.send_command({'Action': 'Ping'})
         self.assertTrue(resp.success)
         self.assertIn('command', resp.content)
+        f = manager.send_action({'Action': 'Ping'}, callback=lambda _: None)
+        manager.loop.run_until_complete(f)
+        print('loop complete')
 
     def test_action_class(self):
         action = panoramisk.Action({'Action': 'Ping'})
@@ -82,14 +92,6 @@ class TestManager(TestCase):
         resp = manager.send_command(action)
         self.assertFalse(resp.success)
         self.assertIn('command', resp.iter_lines())
-
-    @mock.patch('panoramisk.tests.asyncio.Task')
-    def test_action_via_manager(self, *args):
-        def callback():
-            return True
-        manager = self.callFTU(use_http=True)
-        manager.responses = mock.MagicMock()
-        manager.send_action({'Action': 'Ping'}, callback=callback)
 
     def test_action_error(self):
         manager = self.callFTU(use_http=True)
@@ -126,10 +128,11 @@ class TestProtocol(TestCase):
         pass
 
     def callFTU(self):
-        conn = panoramisk.Connection()
+        conn = testing.Connection()
         conn.responses = mock.MagicMock()
-        manager = panoramisk.Manager()
+        manager = testing.Manager()
         manager.register_event('Peer*', self.callback)
+        manager.loop = asyncio.get_event_loop()
         conn.connection_made(mock.MagicMock())
         conn.factory = manager
         return conn
