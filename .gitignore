@@ -7,6 +7,7 @@ _build
 .bzrignore
 .chutifab
 .coverage
+.coverage*
 coverage*
 develop-eggs
 dist

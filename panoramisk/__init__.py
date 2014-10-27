@@ -97,8 +97,8 @@ class Action(dict):
 
     @property
     def completed(self):
-        print(self.responses)
-        if 'Complete' in self.responses[-1].headers.get('Event', ''):
+        resp = self.responses[-1]
+        if resp.headers.get('Event', '').endswith('Complete'):
             return True
         elif not self.multi:
             return True

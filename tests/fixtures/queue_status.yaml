@@ -1,15 +1,5 @@
-action: login
-username: xxxxxxxx
-secret: yyyyyyyyyyyyy
-events: off
-
 Response: Success
-Message: Authentication accepted
-
-action: QueueStatus
-queue: xxxxxxxxxxxxxxxx-tous
-
-Response: Success
+ActionID: action/transaction_uid/1/1
 Message: Queue status will follow
 
 Event: QueueParams
@@ -24,6 +14,7 @@ Abandoned: 5
 ServiceLevel: 0
 ServicelevelPerf: 0.0
 Weight: 0
+ActionID: action/transaction_uid/1/1
 
 Event: QueueMember
 Queue: xxxxxxxxxxxxxxxx-tous
@@ -37,104 +28,7 @@ LastCall: 1413884970
 Status: 1
 Paused: 0
 Skills: agent-9
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/859
-Location: Local/id-7@agentcallback
-StateInterface: SIP/rrrrrrr
-Membership: dynamic
-Penalty: 0
-CallsTaken: 0
-LastCall: 0
-Status: 1
-Paused: 0
-Skills: agent-7
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/214
-Location: Local/id-4@agentcallback
-StateInterface: SIP/6r0vs5
-Membership: dynamic
-Penalty: 0
-CallsTaken: 0
-LastCall: 0
-Status: 1
-Paused: 0
-Skills: agent-4
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/333
-Location: Local/id-10@agentcallback
-StateInterface: SIP/qqqqqq
-Membership: dynamic
-Penalty: 0
-CallsTaken: 8
-LastCall: 1413758765
-Status: 1
-Paused: 0
-Skills: agent-10
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/999
-Location: Local/id-12@agentcallback
-StateInterface: SIP/000000
-Membership: dynamic
-Penalty: 0
-CallsTaken: 0
-LastCall: 0
-Status: 5
-Paused: 1
-Skills: agent-12
-
-Event: QueueStatusComplete
-
-action: ExtensionState
-Exten: 9999
-Context: default
-
-Response: Success
-Message: Extension Status
-Exten: 9999
-Context: default
-Hint: 
-Status: -1
-
-action: QueueStatus
-queue: xxxxxxxxxxxxxxxx-tous
-CommandID: trotro
-
-Response: Success
-Message: Queue status will follow
-
-Event: QueueParams
-Queue: xxxxxxxxxxxxxxxx-tous
-Max: 0
-Strategy: ringall
-Calls: 0
-Holdtime: 3
-TalkTime: 303
-Completed: 60
-Abandoned: 5
-ServiceLevel: 0
-ServicelevelPerf: 0.0
-Weight: 0
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/220
-Location: Local/id-9@agentcallback
-StateInterface: SIP/iiiiiiiiiii
-Membership: dynamic
-Penalty: 0
-CallsTaken: 2
-LastCall: 1413884970
-Status: 1
-Paused: 0
-Skills: agent-9
+ActionID: action/transaction_uid/1/1
 
 Event: QueueMember
 Queue: xxxxxxxxxxxxxxxx-tous
@@ -148,6 +42,7 @@ LastCall: 0
 Status: 1
 Paused: 0
 Skills: agent-3
+ActionID: action/transaction_uid/1/1
 
 Event: QueueMember
 Queue: xxxxxxxxxxxxxxxx-tous
@@ -161,6 +56,7 @@ LastCall: 0
 Status: 1
 Paused: 0
 Skills: agent-7
+ActionID: action/transaction_uid/1/1
 
 Event: QueueMember
 Queue: xxxxxxxxxxxxxxxx-tous
@@ -174,6 +70,7 @@ LastCall: 0
 Status: 1
 Paused: 0
 Skills: agent-4
+ActionID: action/transaction_uid/1/1
 
 Event: QueueMember
 Queue: xxxxxxxxxxxxxxxx-tous
@@ -187,6 +84,7 @@ LastCall: 1413758765
 Status: 1
 Paused: 0
 Skills: agent-10
+ActionID: action/transaction_uid/1/1
 
 Event: QueueMember
 Queue: xxxxxxxxxxxxxxxx-tous
@@ -200,155 +98,9 @@ LastCall: 0
 Status: 5
 Paused: 1
 Skills: agent-12
+ActionID: action/transaction_uid/1/1
 
 Event: QueueStatusComplete
-
-action: QueueStatus
-queue: xxxxxxxxxxxxxxxx-tous
-ActionID: trotro
-
-Response: Success
-ActionID: trotro
-Message: Queue status will follow
-
-Event: QueueParams
-Queue: xxxxxxxxxxxxxxxx-tous
-Max: 0
-Strategy: ringall
-Calls: 0
-Holdtime: 3
-TalkTime: 303
-Completed: 60
-Abandoned: 5
-ServiceLevel: 0
-ServicelevelPerf: 0.0
-Weight: 0
-ActionID: trotro
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/220
-Location: Local/id-9@agentcallback
-StateInterface: SIP/iiiiiiiiiii
-Membership: dynamic
-Penalty: 0
-CallsTaken: 2
-LastCall: 1413884970
-Status: 1
-Paused: 0
-Skills: agent-9
-ActionID: trotro
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/213
-Location: Local/id-3@agentcallback
-StateInterface: SIP/ijfptg
-Membership: dynamic
-Penalty: 0
-CallsTaken: 0
-LastCall: 0
-Status: 1
-Paused: 0
-Skills: agent-3
-ActionID: trotro
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/859
-Location: Local/id-7@agentcallback
-StateInterface: SIP/rrrrrrr
-Membership: dynamic
-Penalty: 0
-CallsTaken: 0
-LastCall: 0
-Status: 1
-Paused: 0
-Skills: agent-7
-ActionID: trotro
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/214
-Location: Local/id-4@agentcallback
-StateInterface: SIP/6r0vs5
-Membership: dynamic
-Penalty: 0
-CallsTaken: 0
-LastCall: 0
-Status: 1
-Paused: 0
-Skills: agent-4
-ActionID: trotro
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/333
-Location: Local/id-10@agentcallback
-StateInterface: SIP/qqqqqq
-Membership: dynamic
-Penalty: 0
-CallsTaken: 8
-LastCall: 1413758765
-Status: 1
-Paused: 0
-Skills: agent-10
-ActionID: trotro
-
-Event: QueueMember
-Queue: xxxxxxxxxxxxxxxx-tous
-Name: Agent/999
-Location: Local/id-12@agentcallback
-StateInterface: SIP/000000
-Membership: dynamic
-Penalty: 0
-CallsTaken: 0
-LastCall: 0
-Status: 5
-Paused: 1
-Skills: agent-12
-ActionID: trotro
-
-Event: QueueStatusComplete
-ActionID: trotro
-
-action: ExtensionState
-Exten: 9999
-Context: default
-
-Response: Success
-Message: Extension Status
-Exten: 9999
-Context: default
-Hint: 
-Status: -1
-
-
-Response: Error
-Message: Missing action in request
-
-action: ping
-
-Response: Success
-Ping: Pong
-Timestamp: 1413902857.972189
-
-Action: Command
-Command: http show status
-
-Response: Follows
-Privilege: Command
-HTTP Server Status:
-Prefix: 
-Server Enabled and Bound to 127.0.0.1:8080
-
-Enabled URI's:
-/httpstatus => Asterisk HTTP General Status
-/static/... => Asterisk HTTP Static Delivery
-/ws => Asterisk HTTP WebSocket
-
-Enabled Redirects:
-  None.
---END COMMAND--
+ActionID: action/transaction_uid/1/1
 
 

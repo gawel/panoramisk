@@ -46,10 +46,17 @@ class TestManager(TestCase):
         self.assertTrue(manager.connect())
         self.assertTrue('bla')
 
-    def test_action(self):
+    def test_ping(self):
         manager = self.callFTU(stream='ping.yaml')
         future = manager.send_action({'Action': 'Ping'})
         self.assertIn('ping', future.result().lheaders)
+
+    def test_queue_status(self):
+        manager = self.callFTU(stream='queue_status.yaml')
+        future = manager.send_action({'Action': 'QueueStatus',
+                                      'Queue': 'xxxxxxxxxxxxxxxx-tous'})
+        responses = future.result()
+        self.assertEqual(len(responses), 9)
 
     def test_close(self):
         manager = self.callFTU(use_http=True, url='http://host')
