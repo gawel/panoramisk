@@ -87,6 +87,8 @@ class Action(dict):
     def multi(self):
         if self.as_list:
             return True
+        elif 'Start' in self.responses[0].headers.get('SubEvent', ''):
+            return True
         elif 'will follow' in self.responses[0].headers.get('Message', ''):
             return True
         elif 'Complete' in self.responses[0].headers.get('Event', ''):

@@ -9,7 +9,7 @@ version = '0.5.dev0'
 
 install_requires = ['requests']
 test_requires = [
-    'nose', 'coveralls'
+    'pytest', 'coverage<3.99', 'coveralls'
 ]
 
 if sys.version_info[:2] < (3, 0):
