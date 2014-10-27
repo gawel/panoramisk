@@ -85,13 +85,14 @@ class Action(dict):
 
     @property
     def multi(self):
-        if self.as_list:
+        headers = self.responses[0].headers
+        if headers.get('SubEvent', '') == 'Start':
             return True
-        elif 'Start' in self.responses[0].headers.get('SubEvent', ''):
+        elif 'will follow' in headers.get('Message', ''):
             return True
-        elif 'will follow' in self.responses[0].headers.get('Message', ''):
+        elif 'Complete' in headers.get('Event', ''):
             return True
-        elif 'Complete' in self.responses[0].headers.get('Event', ''):
+        elif self.as_list:
             return True
         return False
 
@@ -99,6 +100,8 @@ class Action(dict):
     def completed(self):
         resp = self.responses[-1]
         if resp.headers.get('Event', '').endswith('Complete'):
+            return True
+        elif resp.headers.get('SubEvent', '') == 'End':
             return True
         elif not self.multi:
             return True
@@ -261,7 +264,9 @@ class Message(object):
                 for pattern in patterns:
                     if fnmatch(name, pattern):
                         matches.append(pattern)
-                if not matches and not mlines[-1].startswith('ActionID: '):
+                if not matches and \
+                   'ActionID: ' not in line and \
+                   '\nCommand' not in line:
                     return
             else:
                 message_type = 'response'
@@ -327,10 +332,11 @@ class Connection(asyncio.Protocol):
                 continue
 
             response = None
-            if 'CommandID' in obj.headers:
-                response = self.responses.get(obj.headers['CommandID'])
-            if response is None and 'ActionID' in obj.headers:
-                response = self.responses.get(obj.headers['ActionID'])
+            headers = obj.lheaders
+            if 'commandid' in headers:
+                response = self.responses.get(headers['commandid'])
+            if response is None and 'actionid' in headers:
+                response = self.responses.get(headers['actionid'])
 
             if response is not None:
                 if response.add_message(obj):

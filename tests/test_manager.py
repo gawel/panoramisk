@@ -58,6 +58,12 @@ class TestManager(TestCase):
         responses = future.result()
         self.assertEqual(len(responses), 9)
 
+    def test_get_variable(self):
+        manager = self.callFTU(stream='get_variable.yaml')
+        future = manager.send_action({'Command': 'GET VARIABLE "PEERNAME"'})
+        responses = future.result()
+        self.assertEqual(len(responses), 2)
+
     def test_close(self):
         manager = self.callFTU(use_http=True, url='http://host')
         manager.close()
