@@ -309,7 +309,7 @@ class Connection(asyncio.Protocol):
         encoding = getattr(self, 'encoding', 'ascii')
         data = data.decode(encoding, 'ignore')
         # Very verbose, uncomment only if necessary
-        #self.log.debug('data received: "%s"', data)
+        # self.log.debug('data received: "%s"', data)
         if not self.queue.empty():
             data = self.queue.get_nowait() + data
         lines = data.split(EOL+EOL)
