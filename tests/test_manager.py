@@ -23,7 +23,7 @@ class TestManager(TestCase):
         loop=asyncio.get_event_loop()
     )
 
-    test_dir = os.path.join(os.path.dirname(__file__), 'data')
+    test_dir = os.path.join(os.path.dirname(__file__), 'fixtures')
 
     def callFTU(self, stream=None, **config):
         if stream:
@@ -35,7 +35,6 @@ class TestManager(TestCase):
             protocol = testing.Connection()
             protocol.factory = manager
             protocol.connection_made(mock.MagicMock())
-            protocol.responses = mock.MagicMock()
             future = asyncio.Future()
             future.set_result((mock.MagicMock(), protocol))
             manager.protocol = protocol
@@ -48,47 +47,9 @@ class TestManager(TestCase):
         self.assertTrue('bla')
 
     def test_action(self):
-        manager = self.callFTU(stream='pong')
+        manager = self.callFTU(stream='ping.yaml')
         future = manager.send_action({'Action': 'Ping'})
-        self.assertIn('ping', future.result())
-
-        self.assertIn('ping', manager.send_action({'Action': 'Ping'}).lheaders)
-
-        self.response.content = 'Response: Follows\r\nPing: Pong'
-        self.assertIn('Ping', manager.send_action({'Action': 'Ping'}).content)
-
-        self.response.content = 'Response: Success\r\nPing: Pong\r\nPing: Pong'
-        self.assertIn('Ping', manager.send_action({'Action': 'Ping'}))
-        self.assertEqual(manager.send_action({'Action': 'Ping'})['Ping'],
-                         ['Pong', 'Pong'])
-
-        self.response.content = 'Response: Follows\r\ncommand'
-        resp = manager.send_command({'Action': 'Ping'})
-        self.response.content = 'Response: Follows\r\ncommand\r\n'
-        resp = manager.send_command({'Action': 'Ping'})
-        self.assertTrue(resp.success)
-        self.assertIn('command', resp.content)
-        f = manager.send_action({'Action': 'Ping'}, callback=lambda _: None)
-        manager.loop.run_until_complete(f)
-        print('loop complete')
-
-    def test_action_class(self):
-        action = panoramisk.Action({'Action': 'Ping'})
-        self.assertNotEqual(action.id, panoramisk.Action().id)
-        self.assertIn('ActionID', str(action))
-        self.assertIn('ActionID', str(panoramisk.Action()))
-
-    def test_action_failed(self):
-        manager = self.callFTU(use_http=True, url='http://host')
-        self.response.content = 'Response: Failed\r\ncommand'
-        action = panoramisk.Action({'Action': 'Ping'})
-        resp = manager.send_command({'Action': 'Ping'})
-        self.assertFalse(resp.success)
-        self.assertIn('command', resp.iter_lines())
-
-    def test_action_error(self):
-        manager = self.callFTU(use_http=True)
-        self.assertFalse(manager.send_action({'Action': 'Ping'}).success)
+        self.assertIn('ping', future.result().lheaders)
 
     def test_close(self):
         manager = self.callFTU(use_http=True, url='http://host')
@@ -122,7 +83,6 @@ class TestProtocol(TestCase):
 
     def callFTU(self):
         conn = testing.Connection()
-        conn.responses = mock.MagicMock()
         manager = testing.Manager()
         manager.register_event('Peer*', self.callback)
         manager.loop = asyncio.get_event_loop()
