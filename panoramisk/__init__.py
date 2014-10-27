@@ -5,8 +5,6 @@ import logging
 import time
 import uuid
 
-import requests
-from requests.auth import HTTPDigestAuth
 from requests.structures import CaseInsensitiveDict
 from requests.compat import str
 
@@ -21,54 +19,126 @@ except ImportError:  # pragma: no cover
 EOL = '\r\n'
 
 
-def action_id():
-    uid = str(uuid.uuid4())
-    i = 0
-    j = 1
-    while True:
-        i += 1
-        yield uid + '/' + str(j) + '/' + str(i)
-        if i > 10000:  # pragma: no cover
-            j += 1
-            i = 0
+class IdGenerator(object):
+
+    instances = []
+
+    def __init__(self, prefix):
+        self.instances.append(self)
+        self.prefix = prefix
+        self.uid = str(uuid.uuid4())
+        self.generator = self.get_generator()
+
+    def get_generator(self):
+        i = 0
+        j = 1
+        while True:
+            i += 1
+            yield self.prefix + '/' + self.uid + '/' + str(j) + '/' + str(i)
+            if i > 10000:  # pragma: no cover
+                j += 1
+                i = 0
+
+    @classmethod
+    def reset(cls, uid=None):
+        for instance in cls.instances:
+            if uid:
+                instance.uid = uid
+            instance.generator = instance.get_generator()
+
+    def __call__(self):
+        return next(self.generator)
 
 
 class Action(dict):
     """Dict like object to handle actions. Generate action ids for you:
 
+    ..
+        >>> IdGenerator.reset('myuuid')
+
     .. code-block:: python
 
         >>> action = Action({'Action': 'Status'})
-        >>> print(action)
+        >>> print(action) # doctest: +NORMALIZE_WHITESPACE
         Action: Status
-        ActionID: .../1/13
+        ActionID: action/myuuid/1/1
     """
 
-    action_id_gen = action_id()
-    command_id_gen = action_id()
+    action_id_generator = IdGenerator('action')
+
+    def __init__(self, *args, **kwargs):
+        self.as_list = kwargs.pop('as_list', False)
+        super(Action, self).__init__(*args, **kwargs)
+        if 'ActionID' not in self:
+            self['ActionID'] = self.action_id_generator()
+        self.responses = []
+        self.future = asyncio.Future()
 
     @property
     def id(self):
-        if 'ActionID' not in self:
-            self['ActionID'] = next(self.action_id_gen)
         return self['ActionID']
 
-    @property
-    def command_id(self):
-        if 'Action' in self and self['Action'].lower() != 'agi':
-            raise KeyError
-        elif 'CommandID' not in self:
-            self['CommandID'] = next(self.command_id_gen)
-        return self['CommandID']
-
     def __str__(self):
-        if 'ActionID' not in self:
-            self['ActionID'] = next(self.action_id_gen)
-        if 'CommandID' not in self and 'Action' in self and self['Action'].lower() == 'agi':
-            self['CommandID'] = next(self.command_id_gen)
         action = [': '.join(i) for i in sorted(self.items())]
         action.append(EOL)
         return EOL.join(action)
+
+    @property
+    def multi(self):
+        if self.as_list:
+            return True
+        elif 'will follow' in self.responses[0].headers.get('Message'):
+            return True
+        elif 'Complete' in self.responses[0].headers.get('Event'):
+            return True
+        return False
+
+    @property
+    def completed(self):
+        if 'Complete' in self.responses[-1].headers.get('Event'):
+            return True
+        elif not self.multi:
+            return True
+        return False
+
+    def add_message(self, message):
+        self.responses.append(message)
+        if self.completed:
+            if self.multi:
+                self.future.set_result(self.responses)
+            else:
+                self.future.set_result(self.responses[0])
+            return True
+
+
+class Command(Action):
+    """Dict like object to handle actions. Generate action ids for you:
+
+    ..
+        >>> IdGenerator.reset('myuuid')
+
+    .. code-block:: python
+
+        >>> command = Command({'Command' : 'Do something'})
+        >>> print(command) # doctest: +NORMALIZE_WHITESPACE
+        Action: AGI
+        ActionID: action/myuuid/1/1
+        Command: Do something
+        CommandID: command/myuuid/1/1
+    """
+
+    command_id_generator = IdGenerator('command')
+
+    def __init__(self, *args, **kwargs):
+        super(Command, self).__init__(*args, **kwargs)
+        if 'Action' not in self:
+            self['Action'] = 'AGI'
+        if 'CommandID' not in self:
+            self['CommandID'] = self.command_id_generator()
+
+    @property
+    def id(self):
+        return self['CommandID']
 
 
 class Message(object):
@@ -223,20 +293,16 @@ class Connection(asyncio.Protocol):
         self.factory = None
         self.log = logging.getLogger(__name__)
 
-    def send(self, data, multi=True):
+    def send(self, data, as_list=False):
         if not isinstance(data, Action):
-            data = Action(data)
-        self.responses[data.id] = {'id': data.id,
-                                   'future': asyncio.Future(),
-                                   'multi': multi,
-                                   'values':[]}
-        if 'Action' in data and data['Action'].lower() == 'agi':
-            # access to the same dict with a different key
-            self.responses[data.id]['command_id'] = data.command_id
-            self.commands[data.command_id] = self.responses[data.id]
-        self.log.debug('send: "%r", expect multi answer: %s', data, multi)
+            if 'Action' not in data or 'Command' in data:
+                klass = Command
+            else:
+                klass = Action
+            data = klass(data, as_list=as_list)
         self.transport.write(str(data).encode('utf8'))
-        return self.responses[data.id]['future']
+        self.responses[data.id] = data
+        return data.future
 
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')
@@ -256,41 +322,19 @@ class Connection(asyncio.Protocol):
             self.log.debug('message interpreted: %r', obj)
             if obj is None:
                 continue
-            if obj.message_type == 'event':
-                if obj.headers.get('ActionID', None) in self.responses and self.responses[obj.headers['ActionID']]['multi']:
-                    self.log.debug('for ActionID "%s", receive an answer: "%r"', obj.headers['ActionID'], obj)
-                    if obj.headers['Event'].endswith('Complete'):
-                        self.log.debug('for ActionID "%s", received last answer', obj.headers['ActionID'])
-                        results = self.responses.pop(obj.headers['ActionID'])
-                        results['future'].set_result(results['values'])
-                    else:
-                        self.responses[obj.headers['ActionID']]['values'].append(obj)
 
-                elif obj.headers.get('CommandID', None) in self.commands and self.commands[obj.headers['CommandID']]['multi']:
-                    self.log.debug('for CommandID "%s", receive an answer: "%r"', obj.headers['CommandID'], obj)
-                    results = self.commands.pop(obj.headers['CommandID'])
-                    del(self.responses[results['id']])
-                    results['future'].set_result(obj)
-                else:
-                    self.factory.dispatch(obj, obj.matches)
-            else:  # Action response received
-                if obj.headers.get('ActionID', None) in self.responses:
-                    # high-level response processing
-                    if self.responses[obj.headers['ActionID']]['multi']:
-                        # Actions with multi responses
-                        if 'Message' in obj.headers and obj.headers['Message'].endswith(' will follow'):
-                            self.log.debug('for ActionID "%s", receive first answer: "%r"', obj.headers['ActionID'], obj)
-                            # self.responses[obj.headers['ActionID']]['values'].append(obj) # uncomment to retrieve first answer
-                        elif 'command_id' in self.responses[obj.headers['ActionID']]:
-                            self.log.debug('for ActionID "%s" and CommandID "%s", receive first answer: "%r"', obj.headers['ActionID'], self.responses[obj.headers['ActionID']]['command_id'], obj)
-                            # self.responses[obj.headers['ActionID']]['values'].append(obj) # uncomment to retrieve first answer
-                    else:
-                        self.log.debug('for ActionID "%s", receive only one answer: "%r"', obj.headers['ActionID'], obj)
-                        if 'command_id' in self.responses[obj.headers['ActionID']]:
-                            del(self.commands[self.responses[obj.headers['ActionID']]['command_id']])
-                        self.responses.pop(obj.headers['ActionID'])['future'].set_result(obj)
-                else:
-                    self.log.warn('not able to retrieve action for %r', obj)
+            response = None
+            if 'CommandID' in obj.headers:
+                response = self.responses.get(obj.headers['CommandID'])
+            if response is None and 'ActionID' in obj.headers:
+                response = self.responses.get(obj.headers['ActionID'])
+
+            if response is not None:
+                if response.add_message(obj):
+                    # completed; dequeue
+                    self.response.pop(response.id)
+            elif obj.message_type == 'event':
+                self.factory.dispatch(obj, obj.matches)
 
     def connection_lost(self, exc):  # pragma: no cover
         if not self.closed:
@@ -337,7 +381,6 @@ class Manager(object):
         self.log = config.get('log', logging.getLogger(__name__))
         self.callbacks = defaultdict(list)
         self.protocol = None
-        self.http = None
 
     def connection_made(self, f):
         if getattr(self, 'protocol', None):
@@ -362,134 +405,66 @@ class Manager(object):
                     'Username': self.config['username'],
                     'Secret': self.config['secret']})
                 self.protocol.send(action)
-            action = Action({'Command': 'http show status',
-                             'Action': 'Command'})
-            self.protocol.send(action).add_done_callback(
-                self.parse_http_config)
             self.loop.call_later(10, self.ping)
 
     def ping(self):  # pragma: no cover
         self.protocol.send({'Action': 'Ping'})
         self.loop.call_later(10, self.ping)
 
-    def parse_http_config(self, future):  # pragma: no cover
-        if 'use_http' not in self.config:
-            resp = future.result()
-            host, port, path = None, None, None
-            for line in resp.iter_lines():
-                if line.startswith('Server Enabled and Bound to'):
-                    host = line.split(' ')[-1]
-                    host, port = host.split(':')
-                    if self.config['host'] == '127.0.0.1':
-                        # allow ssh tunnels
-                        host = '127.0.0.1'
-                    self.config.update(
-                        host=host,
-                        http_port=port)
-                elif '/arawman' in line:
-                    path = True
-                    break
-            if host and port and path:
-                self.config['use_http'] = 'true'
-
-        if self.config.get('use_http', 'false') in ('true', True):
-            self.config.setdefault('protocol', 'http')
-            self.config['url'] = (
-                '{protocol}://{host}:{http_port}/arawman'
-            ).format(**self.config)
-            self.log.info('Using http interface at %s', self.config['url'])
-
-    def send_action_via_http(self, action, **kwargs):
-        retries = kwargs.pop('_retries', 0)
-        if 'url' not in self.config:
-            return Message('response',
-                           'No url available to perform the request (yet?)',
-                           headers={'Response': 'Failed'})
-        if self.http is None:
-            self.http = requests.Session()
-        if 'username' in self.config:
-            auth = (self.config['username'], self.config['secret'])
-            auth = HTTPDigestAuth(*auth)
-            self.http.auth = auth
-        try:
-            resp = self.http.get(self.config['url'], params=action)
-        except Exception as e:  # pragma: no cover
-            self.log.exception(e)
-            self.http = None
-            if not retries:
-                kwargs['_retries'] = 1
-                return self.send_action_via_http(action, **kwargs)
-            raise
-        else:
-            msg = Message.from_line(resp.content)
-            msg.orig = resp
-            return msg
-
-    def send_action_via_manager(self, action, multi: bool = True, **kwargs) -> asyncio.Future:
+    def send_action(self, action, as_list=False, **kwargs):
         """
             Send an action to the server via manager::
 
-            :param action: an Action or dict with action name and parameters to send
+            :param action: an Action or dict with action name and parameters to
+                           send
             :type action: Action or dict
-            :param multi: If action send multiple responses, retrieve all responses via future
-            :type multi: boolean
+            :param as_list: If action send multiple responses, retrieve all
+                            responses via future
+            :type as_list: boolean
             :return: a Future will receive the response
             :rtype: asyncio.Future
 
             :Example:
 
-
-                    >>> manager = Manager()
-                    >>> resp = manager.send_action({'Action': 'Status'})
+                    manager = Manager()
+                    resp = manager.send_action({'Action': 'Status'})
 
                 To retrieve answer in a coroutine:
 
                     manager = Manager()
-                    resp = yield from manager.send_action_via_manager(
+                    resp = yield from manager.send_action(
                         {'Action': 'Status'})
 
                 With a callback:
 
                     manager = Manager()
-                    future = manager.send_action_via_manager({'Action': 'Status'})
+                    future = manager.send_action(
+                        {'Action': 'Status'})
                     future.add_done_callback(handle_status_response)
 
-                See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for more
+                See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for
+                more
                 information on actions
         """
-        return self.protocol.send(Action(action, **kwargs), multi)
+        action.update(kwargs)
+        return self.protocol.send(action, as_list=as_list)
 
-    def send_action(self, action, **kwargs):
-        """Send an action to the server::
-
-            >>> manager = Manager()
-            >>> resp = manager.send_action({'Action': 'Status'})
-
-        Return a response :class:`Message`.
-
-        See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for more
-        information on actions
-        """
-        if 'callback' in kwargs:
-            callback = kwargs.pop('callback')
-            future = self.send_action_via_manager(action, **kwargs)
-            future.add_done_callback(callback)
-            return future
-        action.update(**kwargs)
-        return self.send_action_via_http(action)
-
-    def send_command(self, command):
+    def send_command(self, command, agi=False, as_list=False):
         """Send a command action to the server::
 
-            >>> manager = Manager()
-            >>> resp = manager.send_command('http show status')
+            manager = Manager()
+            resp = manager.send_command('http show status')
 
         Return a response :class:`Message`.
         See https://wiki.asterisk.org/wiki/display/AST/ManagerAction_Command
         """
-        action = Action({'Command': command, 'Action': 'Command'})
-        res = self.send_action(action)
-        return res
+        if agi:
+            action = Command({'Command': command, 'Action': 'AGI'},
+                             as_list=True)
+        else:
+            action = Action({'Command': command, 'Action': 'Command'},
+                            as_list=as_list)
+        return self.send_action(action)
 
     def connect(self, loop=None):
         """connect to the server"""
