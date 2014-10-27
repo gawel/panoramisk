@@ -1,11 +1,12 @@
 language: python
 install:
-- pip install tox coveralls
+- pip install tox coveralls coverage
 script:
 - tox
 - coverage report --show-missing
 after_success:
-- "! [ '$TOXENV' = 'flake8' ] && coveralls -d .coverage.$TOXENV"
+- "COVERAGE_FILE=.coverage coverage combine"
+- coveralls
 env:
 - TOXENV=py27
 - TOXENV=py33
