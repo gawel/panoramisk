@@ -1,0 +1,609 @@
+Event: Newchannel
+Privilege: call,all
+Channel: SIP/00000-0000095f
+ChannelState: 0
+ChannelStateDesc: Down
+CallerIDNum: 2001
+CallerIDName: Ludovic Gasc
+AccountCode: 
+Exten: *12
+Context: default
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: SIPURI
+Value: sip:00000@192.168.2.27:5060
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: SIPDOMAIN
+Value: yyyyyyyyyy.xxx
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: SIPCALLID
+Value: baecd088-e735-4b1e-8b13-fbc88b3d90ef
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: XIVO_USERID
+Value: 2
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: PICKUPMARK
+Value: 2001%default
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: TRANSFER_CONTEXT
+Value: default
+Uniqueid: 1413823936.3729
+
+Event: ChannelUpdate
+Privilege: system,all
+Channel: SIP/00000-0000095f
+Uniqueid: 1413823936.3729
+Channeltype: SIP
+SIPcallid: baecd088-e735-4b1e-8b13-fbc88b3d90ef
+SIPfullcontact: sip:00000@83.101.5.124:5060
+
+Event: Newstate
+Privilege: call,all
+Channel: SIP/00000-0000095f
+ChannelState: 4
+ChannelStateDesc: Ring
+CallerIDNum: 2001
+CallerIDName: Ludovic Gasc
+ConnectedLineNum: 
+ConnectedLineName: 
+Uniqueid: 1413823936.3729
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_START
+AccountCode: 
+CallerIDnum: 2001
+CallerIDname: Ludovic Gasc
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: *12
+Context: default
+Channel: SIP/00000-0000095f
+Application: 
+AppData: 
+EventTime: 2014-10-20 18:52:16
+AMAFlags: DOCUMENTATION
+UniqueID: 1413823936.3729
+LinkedID: 1413823936.3729
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 1
+Application: Answer
+AppData: 
+Uniqueid: 1413823936.3729
+
+Event: Newstate
+Privilege: call,all
+Channel: SIP/00000-0000095f
+ChannelState: 6
+ChannelStateDesc: Up
+CallerIDNum: 2001
+CallerIDName: Ludovic Gasc
+ConnectedLineNum: 
+ConnectedLineName: 
+Uniqueid: 1413823936.3729
+
+Event: CEL
+Privilege: call,all
+EventName: ANSWER
+AccountCode: 
+CallerIDnum: 2001
+CallerIDname: Ludovic Gasc
+CallerIDani: 2001
+CallerIDrdnis: 
+CallerIDdnid: *12
+Exten: *12
+Context: default
+Channel: SIP/00000-0000095f
+Application: Answer
+AppData: 
+EventTime: 2014-10-20 18:52:16
+AMAFlags: DOCUMENTATION
+UniqueID: 1413823936.3729
+LinkedID: 1413823936.3729
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 2001
+Context: default
+Hint: SIP/00000
+Status: 1
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *6662
+Context: default
+Hint: SIP/00000
+Status: 1
+
+Event: QueueMemberStatus
+Privilege: agent,all
+Queue: maisonvoyance-tous
+Location: Local/id-12@agentcallback
+MemberName: Agent/999
+StateInterface: SIP/00000
+Membership: dynamic
+Penalty: 0
+CallsTaken: 0
+LastCall: 0
+Status: 2
+Paused: 1
+Skills: agent-12
+
+Event: QueueMemberStatus
+Privilege: agent,all
+Queue: maisonvoyance-tous
+Location: Local/id-12@agentcallback
+MemberName: Agent/999
+StateInterface: SIP/00000
+Membership: dynamic
+Penalty: 0
+CallsTaken: 0
+LastCall: 0
+Status: 2
+Paused: 1
+Skills: agent-12
+
+Event: QueueMemberStatus
+Privilege: agent,all
+Queue: maisonvoyance-tous
+Location: Local/id-12@agentcallback
+MemberName: Agent/999
+StateInterface: SIP/00000
+Membership: dynamic
+Penalty: 0
+CallsTaken: 0
+LastCall: 0
+Status: 2
+Paused: 1
+Skills: agent-12
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 2
+Application: DumpChan
+AppData: 7
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 3
+Application: Verbose
+AppData: 3, "-= Pause/Unpause agent =-"
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 4
+Application: Verbose
+AppData: 3, "-= Peer name : 00000 =-"
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 5
+Application: Set
+AppData: EYEPEA_PEERNAME=SIP/00000
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: EYEPEA_PEERNAME
+Value: SIP/00000
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 6
+Application: AGI
+AppData: agi://127.0.0.1/get_agent_from_peer
+Uniqueid: 1413823936.3729
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/00000-0000095f
+CommandId: 849605471
+Command: GET VARIABLE "EYEPEA_PEERNAME"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/00000-0000095f
+CommandId: 849605471
+Command: GET VARIABLE "EYEPEA_PEERNAME"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/00000-0000095f
+CommandId: 435836313
+Command: SET VARIABLE "DEBUG EYEPEA_AGENT" "[u'Local/id-12@agentcallback']"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: DEBUG EYEPEA_AGENT
+Value: [u'Local/id-12@agentcallback']
+Uniqueid: 1413823936.3729
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/00000-0000095f
+CommandId: 435836313
+Command: SET VARIABLE "DEBUG EYEPEA_AGENT" "[u'Local/id-12@agentcallback']"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/00000-0000095f
+CommandId: 750822880
+Command: SET VARIABLE "EYEPEA_AGENT_INTERFACE" "Local/id-12@agentcallback"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: EYEPEA_AGENT_INTERFACE
+Value: Local/id-12@agentcallback
+Uniqueid: 1413823936.3729
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/00000-0000095f
+CommandId: 750822880
+Command: SET VARIABLE "EYEPEA_AGENT_INTERFACE" "Local/id-12@agentcallback"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/00000-0000095f
+CommandId: 364341601
+Command: VERBOSE "AGI handler 'get_agent_from_peer' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/00000-0000095f
+CommandId: 364341601
+Command: VERBOSE "AGI handler 'get_agent_from_peer' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 7
+Application: GotoIf
+AppData: 0?error
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 8
+Application: Verbose
+AppData: 3, "-= Peer name 00000 uses interface Local/id-12@agentcallback
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: DB_RESULT
+Value: true
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 9
+Application: GotoIf
+AppData: 1?unpause:pause
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 14
+Application: Verbose
+AppData: 3, "-= Unpausing agent Local/id-12@agentcallback =-"
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 15
+Application: UnpauseQueueMember
+AppData: ,Local/id-12@agentcallback
+Uniqueid: 1413823936.3729
+
+Event: QueueMemberPaused
+Privilege: agent,all
+Queue: maisonvoyance-tous
+Location: Local/id-12@agentcallback
+MemberName: Agent/999
+Paused: 0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: UPQMSTATUS
+Value: UNPAUSED
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 16
+Application: Set
+AppData: DB(pause_active/00000)=false
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 17
+Application: Goto
+AppData: hangup
+Uniqueid: 1413823936.3729
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Context: default
+Extension: *12
+Priority: 19
+Application: Hangup
+AppData: 16
+Uniqueid: 1413823936.3729
+
+Event: SoftHangupRequest
+Privilege: call,all
+Channel: SIP/00000-0000095f
+Uniqueid: 1413823936.3729
+Cause: 16
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: RTPAUDIOQOS
+Value: ssrc=143534956;themssrc=0;lp=0;rxjitter=0.000000;rxcount=0;txjitter=0.000000;txcount=0;rlp=0;rtt=0.000000
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: RTPAUDIOQOSJITTER
+Value: minrxjitter=0.000000;maxrxjitter=0.000000;avgrxjitter=0.000000;stdevrxjitter=0.000000;reported_minjitter=0.000000;reported_maxjitter=0.000000;reported_avgjitter=0.000000;reported_stdevjitter=0.000000;
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: RTPAUDIOQOSLOSS
+Value: minrxlost=0.000000;maxrxlost=0.000000;avgrxlost=0.000000;stdevrxlost=0.000000;reported_minlost=0.000000;reported_maxlost=0.000000;reported_avglost=0.000000;reported_stdevlost=0.000000;
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: RTPAUDIOQOSRTT
+Value: minrtt=0.000000;maxrtt=0.000000;avgrtt=0.000000;stdevrtt=0.000000;
+Uniqueid: 1413823936.3729
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/00000-0000095f
+Variable: RTPAUDIOQOS
+Value: ssrc=143534956;themssrc=0;lp=0;rxjitter=0.000000;rxcount=0;txjitter=0.000000;txcount=0;rlp=0;rtt=0.000000
+Uniqueid: 1413823936.3729
+
+Event: Hangup
+Privilege: call,all
+Channel: SIP/00000-0000095f
+Uniqueid: 1413823936.3729
+CallerIDNum: 2001
+CallerIDName: Ludovic Gasc
+ConnectedLineNum: <unknown>
+ConnectedLineName: <unknown>
+AccountCode: 
+Cause: 16
+Cause-txt: Normal Clearing
+
+Event: CEL
+Privilege: call,all
+EventName: HANGUP
+AccountCode: 
+CallerIDnum: 2001
+CallerIDname: Ludovic Gasc
+CallerIDani: 2001
+CallerIDrdnis: 
+CallerIDdnid: *12
+Exten: *12
+Context: default
+Channel: SIP/00000-0000095f
+Application: 
+AppData: 
+EventTime: 2014-10-20 18:52:16
+AMAFlags: DOCUMENTATION
+UniqueID: 1413823936.3729
+LinkedID: 1413823936.3729
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 16,dialplan/builtin,
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_END
+AccountCode: 
+CallerIDnum: 2001
+CallerIDname: Ludovic Gasc
+CallerIDani: 2001
+CallerIDrdnis: 
+CallerIDdnid: *12
+Exten: *12
+Context: default
+Channel: SIP/00000-0000095f
+Application: 
+AppData: 
+EventTime: 2014-10-20 18:52:16
+AMAFlags: DOCUMENTATION
+UniqueID: 1413823936.3729
+LinkedID: 1413823936.3729
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: CEL
+Privilege: call,all
+EventName: LINKEDID_END
+AccountCode: 
+CallerIDnum: 2001
+CallerIDname: Ludovic Gasc
+CallerIDani: 2001
+CallerIDrdnis: 
+CallerIDdnid: *12
+Exten: *12
+Context: default
+Channel: SIP/00000-0000095f
+Application: 
+AppData: 
+EventTime: 2014-10-20 18:52:16
+AMAFlags: DOCUMENTATION
+UniqueID: 1413823936.3729
+LinkedID: 1413823936.3729
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 2001
+Context: default
+Hint: SIP/00000
+Status: 0
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *6662
+Context: default
+Hint: SIP/00000
+Status: 0
+
+Event: QueueMemberStatus
+Privilege: agent,all
+Queue: maisonvoyance-tous
+Location: Local/id-12@agentcallback
+MemberName: Agent/999
+StateInterface: SIP/00000
+Membership: dynamic
+Penalty: 0
+CallsTaken: 0
+LastCall: 0
+Status: 1
+Paused: 0
+Skills: agent-12
+
+Event: QueueMemberStatus
+Privilege: agent,all
+Queue: xxxxxxxxxxxx-tous
+Location: Local/id-12@agentcallback
+MemberName: Agent/999
+StateInterface: SIP/00000
+Membership: dynamic
+Penalty: 0
+CallsTaken: 0
+LastCall: 0
+Status: 1
+Paused: 0
+Skills: agent-12
+
+Event: Registry
+Privilege: system,all
+ChannelType: SIP
+Username: 92717277
+Domain: xxxxxxxxx.xxx
+Status: Registered

@@ -1,0 +1,1350 @@
+ 
+Action: Ping
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/22
+
+Response: Success
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/22
+Ping: Pong
+Timestamp: 1409169929.412068
+
+Action: Ping
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/23
+
+Response: Success
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/23
+Ping: Pong
+Timestamp: 1409169939.419909
+
+Action: Ping
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/24
+
+Response: Success
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/24
+Ping: Pong
+Timestamp: 1409169949.427993
+
+Event: PeerStatus
+Privilege: system,all
+ChannelType: SIP
+Peer: SIP/hhhhh
+PeerStatus: Registered
+Address: 192.168.1.5:5060
+
+Event: QueueMemberStatus
+Privilege: agent,all
+Queue: general_queue
+Location: Local/id-1@agentcallback
+MemberName: Agent/401
+StateInterface: SIP/hhhhh
+Membership: dynamic
+Penalty: 0
+CallsTaken: 0
+LastCall: 0
+Status: 1
+Paused: 0
+Skills: agent-1
+
+Event: PeerStatus
+Privilege: system,all
+ChannelType: SIP
+Peer: SIP/999999
+PeerStatus: Registered
+Address: 192.168.1.5:5060
+
+Action: Ping
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/25
+
+Response: Success
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/25
+Ping: Pong
+Timestamp: 1409169959.432195
+
+Action: Ping
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/26
+
+Response: Success
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/26
+Ping: Pong
+Timestamp: 1409169969.445850
+
+Action: Ping
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/27
+
+Response: Success
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/27
+Ping: Pong
+Timestamp: 1409169979.455934
+
+Event: Newchannel
+Privilege: call,all
+Channel: SIP/999999-00000002
+ChannelState: 0
+ChannelStateDesc: Down
+CallerIDNum: 202
+CallerIDName: user 202
+AccountCode:
+Exten: *30402
+Context: default
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: SIPURI
+Value: sip:999999@192.168.1.5:5060
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: SIPDOMAIN
+Value: 10.174.0.1
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: SIPCALLID
+Value: fa2d0521-75ad-43a9-8dd9-a99a0dae3d26
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_USERID
+Value: 2
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: PICKUPMARK
+Value: 202%default
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: TRANSFER_CONTEXT
+Value: default
+Uniqueid: 1409169987.2
+
+Event: ChannelUpdate
+Privilege: system,all
+Channel: SIP/999999-00000002
+Uniqueid: 1409169987.2
+Channeltype: SIP
+SIPcallid: fa2d0521-75ad-43a9-8dd9-a99a0dae3d26
+SIPfullcontact: sip:999999@192.168.1.5:5060
+
+[218 bytes missing in capture file]Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: default
+Extension: *30402
+Priority: 1
+Application: Set
+AppData: XIVO_BASE_CONTEXT=default
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_BASE_CONTEXT
+Value: default
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: default
+Extension: *30402
+Priority: 2
+Application: Set
+AppData: XIVO_BASE_EXTEN=*30402
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_BASE_EXTEN
+Value: *30402
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: default
+Extension: *30402
+Priority: 3
+Application: Gosub
+AppData: agentstaticlogtoggle,s,1(402)
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: LOCAL(ARG1)
+Value: 402
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: LOCAL(ARGC)
+Value: 1
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogtoggle
+Extension: s
+Priority: 1
+Application: NoOp
+AppData:
+Uniqueid: 1409169987.2
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_START
+AccountCode:
+CallerIDnum: 202
+CallerIDname: user 202
+CallerIDani:
+CallerIDrdnis:
+CallerIDdnid:
+Exten: *30402
+Context: default
+Channel: SIP/999999-00000002
+Application:
+AppData:
+EventTime: 2014-08-27 21:06:27
+AMAFlags: DOCUMENTATION
+UniqueID: 1409169987.2
+LinkedID: 1409169987.2
+Userfield:
+Peer:
+PeerAccount:
+Extra:
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 202
+Context: default
+Hint: SIP/999999
+Status: 1
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *6662
+Context: default
+Hint: SIP/999999
+Status: 1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: xivo-pickup
+Extension: pickup
+Priority: 3
+Application: Wait
+AppData: 1
+Uniqueid: 1409169987.2
+
+Event: CEL
+Privilege: call,all
+EventName: ANSWER
+AccountCode:
+CallerIDnum: 202
+CallerIDname: user 202
+CallerIDani: 202
+CallerIDrdnis:
+CallerIDdnid: *30402
+Exten: pickup
+Context: xivo-pickup
+Channel: SIP/999999-00000002
+Application: Answer
+AppData:
+EventTime: 2014-08-27 21:06:27
+AMAFlags: DOCUMENTATION
+UniqueID: 1409169987.2
+LinkedID: 1409169987.2
+Userfield:
+Peer:
+PeerAccount:
+Extra:
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: xivo-pickup
+Extension: pickup
+Priority: 4
+Application: Set
+AppData: XIVO_PICKEDUP=1
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_PICKEDUP
+Value: 1
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: xivo-pickup
+Extension: pickup
+Priority: 5
+Application: Return
+AppData:
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: GOSUB_RETVAL
+Value:
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogtoggle
+Extension: s
+Priority: 4
+Application: AGI
+AppData: agi://127.0.0.1/agent_get_options,402
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1866797246
+Command: SET VARIABLE "XIVO_AGENTEXISTS" "0"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTEXISTS
+Value: 0
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1866797246
+Command: SET VARIABLE "XIVO_AGENTEXISTS" "0"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 928872635
+Command: SET VARIABLE "XIVO_AGENTEXISTS" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTEXISTS
+Value: 1
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 928872635
+Command: SET VARIABLE "XIVO_AGENTEXISTS" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 471755444
+Command: SET VARIABLE "XIVO_AGENTPASSWD" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTPASSWD
+Value:
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 471755444
+Command: SET VARIABLE "XIVO_AGENTPASSWD" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 943373659
+Command: SET VARIABLE "XIVO_AGENTID" "3"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTID
+Value: 3
+Uniqueid: 1409169987.2
+
+[1613 bytes missing in capture file]Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1220663899
+Command: SET VARIABLE "XIVO_AGENT_LOGIN_STATUS" "logged_out"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENT_LOGIN_STATUS
+Value: logged_out
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1220663899
+Command: SET VARIABLE "XIVO_AGENT_LOGIN_STATUS" "logged_out"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1760817301
+Command: VERBOSE "AGI handler 'agent_get_status' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1760817301
+Command: VERBOSE "AGI handler 'agent_get_status' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogtoggle
+Extension: s
+Priority: 7
+Application: Goto
+AppData: login_status_logged_out,1
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogtoggle
+Extension: login_status_logged_out
+Priority: 1
+Application: NoOp
+AppData:
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogtoggle
+Extension: login_status_logged_out
+Priority: 2
+Application: Gosub
+AppData: agentstaticlogin,s,1(402)
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: LOCAL(ARG1)
+Value: 402
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: LOCAL(ARGC)
+Value: 1
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1403387703
+Command: SET VARIABLE "XIVO_AGENTEXISTS" "0"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTEXISTS
+Value: 0
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1403387703
+Command: SET VARIABLE "XIVO_AGENTEXISTS" "0"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1033098297
+Command: SET VARIABLE "XIVO_AGENTEXISTS" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTEXISTS
+Value: 1
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1033098297
+Command: SET VARIABLE "XIVO_AGENTEXISTS" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1343196088
+Command: SET VARIABLE "XIVO_AGENTPASSWD" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTPASSWD
+Value:
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1343196088
+Command: SET VARIABLE "XIVO_AGENTPASSWD" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 897606607
+Command: SET VARIABLE "XIVO_AGENTID" "3"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTID
+Value: 3
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 897606607
+Command: SET VARIABLE "XIVO_AGENTID" "3"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 830831622
+Command: SET VARIABLE "XIVO_AGENTNUM" "402"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTNUM
+Value: 402
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 830831622
+Command: SET VARIABLE "XIVO_AGENTNUM" "402"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1329768506
+Command: VERBOSE "AGI handler 'agent_get_options' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1329768506
+Command: VERBOSE "AGI handler 'agent_get_options' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: s
+Priority: 7
+Application: GotoIf
+AppData: 0?error_no_such_agent,1
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: s
+Priority: 8
+Application: GosubIf
+AppData: 0?authenticate,1
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: s
+Priority: 9
+Application: AGI
+AppData: agi://127.0.0.1/agent_login,3,202,default
+Uniqueid: 1409169987.2
+
+Action: Ping
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/28
+
+Response: Success
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/28
+Ping: Pong
+Timestamp: 1409169989.456835
+
+Event: QueueMemberAdded
+Privilege: agent,all
+Queue: general_queue
+Location: Local/id-3@agentcallback
+MemberName: Agent/402
+StateInterface: SIP/999999
+Membership: dynamic
+Penalty: 0
+CallsTaken: 0
+LastCall: 0
+Status: 2
+Paused: 0
+
+Event: UserEvent
+Privilege: user,all
+UserEvent: AgentLogin
+Action: UserEvent
+ActionID: 2
+AgentID: 3
+AgentNumber: 402
+Extension: 202
+Context: default
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1580723124
+Command: SET VARIABLE "XIVO_AGENTSTATUS" "logged"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: XIVO_AGENTSTATUS
+Value: logged
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1580723124
+Command: SET VARIABLE "XIVO_AGENTSTATUS" "logged"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 574066156
+Command: VERBOSE "AGI handler 'agent_login' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 574066156
+Command: VERBOSE "AGI handler 'agent_login' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: s
+Priority: 10
+Application: Goto
+AppData: status_logged,1
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: status_logged
+Priority: 1
+Application: NoOp
+AppData:
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: status_logged
+Priority: 2
+Application: Playback
+AppData: agent-loginok
+Uniqueid: 1409169987.2
+
+Event: RTCPReceived
+Privilege: reporting,all
+From: 192.168.1.5:60377
+PT: 201(Receiver Report)
+ReceptionReports: 1
+SenderSSRC: 2314535167
+FractionLost: 255
+PacketsLost: 62857
+HighestSequence: 62911
+SequenceNumberCycles: 0
+IAJitter: 154953728
+LastSR: 0.0000000000
+DLSR: 0.0000(sec)
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: PLAYBACKSTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: status_logged
+Priority: 3
+Application: AGI
+AppData: agi://127.0.0.1/phone_progfunckey_devstate,agentstaticlogin,INUSE,*3
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 404007469
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 404007469
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 469538082
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***231***33)" "INUSE"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 469538082
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***231***33)" "INUSE"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1817837906
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1817837906
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: status_logged
+Priority: 4
+Application: AGI
+AppData: agi://127.0.0.1/phone_progfunckey_devstate,agentstaticlogin,INUSE,402
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1638740008
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1638740008
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 513441949
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***231*402)" "INUSE"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 513441949
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***231*402)" "INUSE"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1638230248
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1638230248
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: status_logged
+Priority: 5
+Application: AGI
+AppData: agi://127.0.0.1/phone_progfunckey_devstate,agentstaticlogoff,NOT_INUSE,*3
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 2095413575
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 2095413575
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 940331895
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***232***33)" "NOT_INUSE"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 940331895
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***232***33)" "NOT_INUSE"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1759701864
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1759701864
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: status_logged
+Priority: 6
+Application: AGI
+AppData: agi://127.0.0.1/phone_progfunckey_devstate,agentstaticlogoff,NOT_INUSE,402
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 268900170
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 268900170
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 364145573
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***232*402)" "NOT_INUSE"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 364145573
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***232*402)" "NOT_INUSE"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 449661018
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 449661018
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: status_logged
+Priority: 7
+Application: AGI
+AppData: agi://127.0.0.1/phone_progfunckey_devstate,agentstaticlogtoggle,INUSE,*3
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1650004488
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1650004488
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1560610405
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***230***33)" "INUSE"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1560610405
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***230***33)" "INUSE"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1767493288
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1767493288
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: status_logged
+Priority: 8
+Application: AGI
+AppData: agi://127.0.0.1/phone_progfunckey_devstate,agentstaticlogtoggle,INUSE,402
+Uniqueid: 1409169987.2
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 850973468
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 850973468
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1978695696
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***230*402)" "INUSE"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1978695696
+Command: SET VARIABLE "DEVICE_STATE(Custom:*7352***230*402)" "INUSE"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/999999-00000002
+CommandId: 1831807943
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/999999-00000002
+CommandId: 1831807943
+Command: VERBOSE "AGI handler 'phone_progfunckey_devstate' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1409169987.2
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Context: agentstaticlogin
+Extension: status_logged
+Priority: 9
+Application: Hangup
+AppData:
+Uniqueid: 1409169987.2
+
+Event: SoftHangupRequest
+Privilege: call,all
+Channel: SIP/999999-00000002
+Uniqueid: 1409169987.2
+Cause: 16
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: RTPAUDIOQOS
+Value: ssrc=2057792214;themssrc=1743037615;lp=0;rxjitter=2364.000000;rxcount=229;txjitter=0.019554;txcount=68;rlp=62857;rtt=0.000000
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: RTPAUDIOQOSJITTER
+Value: minrxjitter=0.000000;maxrxjitter=0.000000;avgrxjitter=0.000000;stdevrxjitter=0.000000;reported_minjitter=0.000000;reported_maxjitter=0.000000;reported_avgjitter=0.000000;reported_stdevjitter=0.000000;
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: RTPAUDIOQOSLOSS
+Value: minrxlost=0.000000;maxrxlost=0.000000;avgrxlost=0.000000;stdevrxlost=0.000000;reported_minlost=0.000000;reported_maxlost=0.000000;reported_avglost=0.000000;reported_stdevlost=0.000000;
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: RTPAUDIOQOSRTT
+Value: minrtt=0.000000;maxrtt=0.000000;avgrtt=0.000000;stdevrtt=0.000000;
+Uniqueid: 1409169987.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/999999-00000002
+Variable: RTPAUDIOQOS
+Value: ssrc=2057792214;themssrc=1743037615;lp=0;rxjitter=2364.000000;rxcount=229;txjitter=0.019554;txcount=68;rlp=62857;rtt=0.000000
+Uniqueid: 1409169987.2
+
+Event: CEL
+Privilege: call,all
+EventName: HANGUP
+AccountCode:
+CallerIDnum: 202
+CallerIDname: user 202
+CallerIDani: 202
+CallerIDrdnis:
+CallerIDdnid: *30402
+Exten: status_logged
+Context: agentstaticlogin
+Channel: SIP/999999-00000002
+Application:
+AppData:
+EventTime: 2014-08-27 21:06:32
+AMAFlags: DOCUMENTATION
+UniqueID: 1409169987.2
+LinkedID: 1409169987.2
+Userfield:
+Peer:
+PeerAccount:
+Extra: 16,dialplan/builtin,
+
+Event: QueueMemberStatus
+Privilege: agent,all
+Queue: general_queue
+Location: Local/id-3@agentcallback
+MemberName: Agent/402
+StateInterface: SIP/999999
+Membership: dynamic
+Penalty: 0
+CallsTaken: 0
+LastCall: 0
+Status: 1
+Paused: 0
+Skills: agent-3
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 202
+Context: default
+Hint: SIP/999999
+Status: 0
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *6662
+Context: default
+Hint: SIP/999999
+Status: 0
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_END
+AccountCode:
+CallerIDnum: 202
+CallerIDname: user 202
+CallerIDani: 202
+CallerIDrdnis:
+CallerIDdnid: *30402
+Exten: status_logged
+Context: agentstaticlogin
+Channel: SIP/999999-00000002
+Application:
+AppData:
+EventTime: 2014-08-27 21:06:32
+AMAFlags: DOCUMENTATION
+UniqueID: 1409169987.2
+LinkedID: 1409169987.2
+Userfield:
+Peer:
+PeerAccount:
+Extra:
+
+Event: CEL
+Privilege: call,all
+EventName: LINKEDID_END
+AccountCode:
+CallerIDnum: 202
+CallerIDname: user 202
+CallerIDani: 202
+CallerIDrdnis:
+CallerIDdnid: *30402
+Exten: status_logged
+Context: agentstaticlogin
+Channel: SIP/999999-00000002
+Application:
+AppData:
+EventTime: 2014-08-27 21:06:32
+AMAFlags: DOCUMENTATION
+UniqueID: 1409169987.2
+LinkedID: 1409169987.2
+Userfield:
+Peer:
+PeerAccount:
+Extra:
+
+Event: QueueMemberStatus
+Privilege: agent,all
+Queue: general_queue
+Location: Local/id-3@agentcallback
+MemberName: Agent/402
+StateInterface: SIP/999999
+Membership: dynamic
+Penalty: 0
+CallsTaken: 0
+LastCall: 0
+Status: 1
+Paused: 0
+Skills: agent-3
+
+Action: Ping
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/29
+
+Response: Success
+ActionID: b4856f7a-e61e-483b-84e6-12e7d26ea73d/1/29
+Ping: Pong
+Timestamp: 1409169999.470280
+
