@@ -3,11 +3,11 @@ install:
 - pip install tox coveralls
 script:
 - tox
+- coverage report --show-missing
 after_success:
-- coveralls
+- ! [ "$TOXENV" = "flake8" ] && coveralls -d .coverage.$TOXENV
 env:
 - TOXENV=py27
 - TOXENV=py33
 - TOXENV=py34
 - TOXENV=flake8
-- TOXENV=coverage
