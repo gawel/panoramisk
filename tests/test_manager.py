@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 from unittest import TestCase
 import os
-import panoramisk
 from panoramisk import testing
-
-try:  # pragma: no cover
-    import asyncio
-except ImportError:  # pragma: no cover
-    import trollius as asyncio  # NOQA
+from panoramisk import message
+from panoramisk.utils import asyncio
 
 try:
     from unittest import mock
@@ -19,7 +15,6 @@ class TestManager(TestCase):
 
     defaults = dict(
         async=False, testing=True,
-        # loop=mock.MagicMock(),
         loop=asyncio.get_event_loop()
     )
 
@@ -28,17 +23,7 @@ class TestManager(TestCase):
     def callFTU(self, stream=None, **config):
         if stream:
             config['stream'] = os.path.join(self.test_dir, stream)
-        manager = testing.Manager(**dict(
-            self.defaults,
-            **config))
-        if manager.loop:
-            protocol = testing.Connection()
-            protocol.factory = manager
-            protocol.connection_made(mock.MagicMock())
-            future = asyncio.Future()
-            future.set_result((mock.MagicMock(), protocol))
-            manager.protocol = protocol
-            manager.connection_made(future)
+        manager = testing.Manager(**config)
         return manager
 
     def test_connection(self):
@@ -65,7 +50,7 @@ class TestManager(TestCase):
         self.assertEqual(len(responses), 2)
 
     def test_close(self):
-        manager = self.callFTU(use_http=True, url='http://host')
+        manager = self.callFTU()
         manager.close()
 
     def test_events(self):
@@ -76,16 +61,16 @@ class TestManager(TestCase):
 
         manager = self.callFTU(use_http=True, url='http://host')
         manager.register_event('Peer*', callback)
-        event = panoramisk.Message.from_line('Event: PeerStatus',
-                                             manager.callbacks)
+        event = message.Message.from_line('Event: PeerStatus',
+                                          manager.callbacks)
         self.assertTrue(event.success)
         self.assertEqual(event['Event'], 'PeerStatus')
         self.assertIn('Event', event)
         manager.dispatch(event, event.matches)
         self.assertTrue(event is future.result())
 
-        event = panoramisk.Message.from_line('Event: NoPeerStatus',
-                                             manager.callbacks)
+        event = message.Message.from_line('Event: NoPeerStatus',
+                                          manager.callbacks)
         self.assertTrue(event is None)
 
 

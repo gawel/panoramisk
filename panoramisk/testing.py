@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import panoramisk
+from . import manager
+from . import utils
 
 
 try:
@@ -15,7 +16,7 @@ patch = mock.patch
 call = mock.call
 
 
-class Connection(panoramisk.Connection):
+class Connection(manager.Connection):
 
     debug_count = [0]
 
@@ -24,7 +25,7 @@ class Connection(panoramisk.Connection):
         self.transport = MagicMock()
 
     def send(self, data, as_list=False):
-        panoramisk.IdGenerator.reset(uid='transaction_uid')
+        utils.IdGenerator.reset(uid='transaction_uid')
         future = super(Connection, self).send(data, as_list=as_list)
         self.get_stream(future)
         return future
@@ -39,11 +40,26 @@ class Connection(panoramisk.Connection):
                 raise AssertionError("Future's result was never set")
 
 
-class Manager(panoramisk.Manager):
+class Manager(manager.Manager):
+
+    fixtures_dir = None
 
     def __init__(self, **config):
-        self.defaults['connection_class'] = Connection
+        self.defaults.update(
+            connection_class=Connection,
+            stream=None)
         super(Manager, self).__init__(**config)
-        self.stream = config.get('stream')
-        panoramisk.IdGenerator.reset(uid='transaction_uid')
-        panoramisk.EOL = '\n'
+
+        self.stream = self.config.get('stream')
+        self.loop = utils.asyncio.get_event_loop()
+
+        protocol = Connection()
+        protocol.factory = manager
+        protocol.connection_made(mock.MagicMock())
+        future = utils.asyncio.Future()
+        future.set_result((mock.MagicMock(), protocol))
+        self.protocol = protocol
+        self.connection_made(future)
+
+        utils.IdGenerator.reset(uid='transaction_uid')
+        utils.EOL = '\n'
