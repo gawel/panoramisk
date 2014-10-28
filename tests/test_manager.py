@@ -49,6 +49,14 @@ def test_asyncagi_get_variable(manager):
     assert response.result == '200 result=1 (SIP/000000)'
 
 
+def test_originate_sync(manager):
+    manager = manager(stream='originate_sync.yaml')
+    future = manager.send_action({'Action': 'Originate', 'Async': 'false'})
+    response = future.result()
+    assert response.success
+    assert response.message == 'Originate successfully queued'
+
+
 def test_close(manager):
     manager().close()
 

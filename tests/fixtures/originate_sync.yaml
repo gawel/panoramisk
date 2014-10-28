@@ -1,5 +1,5 @@
 Action: Originate
-ActionID: generated_action_id
+ActionID: action/transaction_uid/1/1
 Channel: Local/2540
 Exten: 2580
 Context: default
@@ -9,6 +9,6 @@ CallerID: Panoramisk tests
 Async: false
 
 Response: Success
-ActionID: generated_action_id
+ActionID: action/transaction_uid/1/1
 Message: Originate successfully queued
 

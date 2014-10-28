@@ -16,7 +16,7 @@ Panoramisk. The asterisk's druid
 <http://www.asterisk.org/community/documentation>`_'s `manager
 <https://wiki.asterisk.org/wiki/display/AST/The+Asterisk+Manager+TCP+IP+API>`_.
 
-It use the tcp manager server to listen to events and the http server (``/arawman``) to send actions.
+It use the tcp manager server to listen to events and send actions.
 
 See the api for more informations: https://panoramisk.readthedocs.org/
 
