@@ -37,6 +37,8 @@ class Message(object):
 
     """
 
+    quoted_keys = ['result']
+
     def __init__(self, content, headers=None):
         self.content = content
         self.headers = CaseInsensitiveDict(headers)
@@ -118,6 +120,8 @@ class Message(object):
             for mline in mlines:
                 if ': ' in mline:
                     k, v = mline.split(': ', 1)
+                    if k.lower() in cls.quoted_keys:
+                        v = utils.unquote(v).strip()
                     if k in headers:
                         o = headers.setdefault(k, [])
                         if not isinstance(o, list):
@@ -126,4 +130,5 @@ class Message(object):
                         headers[k] = o
                     else:
                         headers[k] = v
-            return cls(content, headers)
+            if 'Event' in headers or 'Response' in headers:
+                return cls(content, headers)

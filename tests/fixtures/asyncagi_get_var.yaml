@@ -2,7 +2,7 @@ Action: AGI
 ActionID: a0526db2-006b-40e7-8e1d-bc7e17a5515d/1/10
 Channel: SIP/000000-00000a53
 Command: GET VARIABLE endpoint
-CommandID: get-var-endpoint
+CommandID: command/transaction_uid/1/1
 
 Response: Success
 ActionID: a0526db2-006b-40e7-8e1d-bc7e17a5515d/1/10
@@ -28,5 +28,6 @@ Event: AsyncAGI
 Privilege: agi,all
 SubEvent: Exec
 Channel: SIP/000000-00000a53
-CommandID: get-var-endpoint
+CommandID: command/transaction_uid/1/1
 Result: 200%20result%3D1%20(SIP%2F000000)%0A
+

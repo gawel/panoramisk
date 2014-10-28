@@ -2,6 +2,12 @@
 import uuid
 
 try:  # pragma: no cover
+    from urllib.parse import unquote
+except ImportError:  # pragma: no cover
+    from urllib import unquote  # NOQA
+
+
+try:  # pragma: no cover
     import asyncio
     from asyncio.queues import Queue
 except ImportError:  # pragma: no cover

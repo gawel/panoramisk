@@ -42,6 +42,13 @@ def test_get_variable(manager):
     assert len(responses) == 2
 
 
+def test_asyncagi_get_variable(manager):
+    manager = manager(stream='asyncagi_get_var.yaml')
+    future = manager.send_action({'Command': 'GET VARIABLE endpoint'})
+    response = future.result()
+    assert response.result == '200 result=1 (SIP/000000)'
+
+
 def test_close(manager):
     manager().close()
 

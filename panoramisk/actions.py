@@ -45,18 +45,16 @@ class Action(dict):
             return True
         elif 'will follow' in headers.get('Message', ''):
             return True
-        elif headers.get('Event', '').endswith('Complete'):
-            return True
         elif self.as_list:
             return True
         return False
 
     @property
     def completed(self):
-        resp = self.responses[-1]
-        if resp.headers.get('Event', '').endswith('Complete'):
+        headers = self.responses[-1].headers
+        if headers.get('Event', '').endswith('Complete'):
             return True
-        elif resp.headers.get('SubEvent', '') == 'End':
+        elif headers.get('SubEvent', '') in ('End', 'Exec'):
             return True
         elif not self.multi:
             return True

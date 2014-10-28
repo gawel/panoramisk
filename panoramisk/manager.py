@@ -80,13 +80,11 @@ class Manager(object):
 
     .. code-block:: python
 
-        manager = Manager(
-            host='127.0.0.1',
-            port=5038,
-            ssl=False,
-            encoding='utf8',
-            loop=None,
-        )
+        >>> manager = Manager(
+        ...    host='127.0.0.1',
+        ...    port=5038,
+        ...    ssl=False,
+        ...    encoding='utf8')
     """
 
     defaults = dict(
@@ -231,7 +229,6 @@ class Manager(object):
         event.manager = self
         for pattern, regexp in self.patterns:
             match = regexp.match(event.headers.get('Event', ''))
-            print(pattern, regexp, match)
             if match is not None:
                 matches.append(pattern)
                 for callback in self.callbacks[pattern]:
