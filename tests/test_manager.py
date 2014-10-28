@@ -27,6 +27,18 @@ def test_ping(manager):
     assert 'ping' in future.result()
 
 
+def test_login_ok(manager):
+    manager = manager(username='xx', secret='xx', stream='login_ok.yaml')
+    assert manager.authenticated_future.result().success == 'Success'
+    assert manager.login(manager.authenticated_future) is True
+
+
+def test_login_failed(manager):
+    manager = manager(username='xx', secret='xx', stream='login_failed.yaml')
+    assert manager.authenticated_future.result().success is False
+    assert manager.login(manager.authenticated_future) is False
+
+
 def test_queue_status(manager):
     manager = manager(stream='queue_status.yaml')
     future = manager.send_action({'Action': 'QueueStatus',
@@ -44,7 +56,8 @@ def test_get_variable(manager):
 
 def test_asyncagi_get_variable(manager):
     manager = manager(stream='asyncagi_get_var.yaml')
-    future = manager.send_action({'Command': 'GET VARIABLE endpoint'})
+    future = manager.send_command({'Command': 'GET VARIABLE endpoint'},
+                                  agi=True)
     response = future.result()
     assert response.result == '200 result=1 (SIP/000000)'
 

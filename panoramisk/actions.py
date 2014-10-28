@@ -69,6 +69,8 @@ class Action(utils.CaseInsensitiveDict):
             return True
         elif resp.subevent in ('End', 'Exec'):
             return True
+        elif resp.response in ('Error', 'Fail'):
+            return True
         elif not self.multi:
             return True
         return False

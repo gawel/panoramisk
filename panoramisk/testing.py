@@ -27,12 +27,11 @@ class Connection(manager.Connection):
     def send(self, data, as_list=False):
         utils.IdGenerator.reset(uid='transaction_uid')
         future = super(Connection, self).send(data, as_list=as_list)
-        self.get_stream(future)
         if self.factory.stream is not None:
             with open(self.factory.stream, 'rb') as fd:
                 resp = fd.read()
             self.data_received(resp)
-            if not future.done():
+            if not future.done():  # pragma: no cover
                 print(self.responses)
                 raise AssertionError("Future's result was never set")
         return future

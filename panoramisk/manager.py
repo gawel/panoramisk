@@ -104,6 +104,7 @@ class Manager(object):
         self.protocol = None
         self.patterns = []
         self.authenticated = False
+        self.authenticated_future = None
 
     def connection_made(self, f):
         if getattr(self, 'protocol', None):
@@ -123,15 +124,19 @@ class Manager(object):
             self.protocol.encoding = self.encoding = self.config['encoding']
             self.responses = self.protocol.responses = {}
             if 'username' in self.config:
-                def login(future):
-                    resp = future.result()
-                    self.authenticated = resp.success
-                future = self.send_action({
+                self.authenticated = False
+                self.authenticated_future = self.send_action({
                     'Action': 'Login',
                     'Username': self.config['username'],
                     'Secret': self.config['secret']})
-                future.add_done_callback(login)
+                self.authenticated_future.add_done_callback(self.login)
             self.loop.call_later(10, self.ping)
+
+    def login(self, future):
+        self.authenticated_future = None
+        resp = future.result()
+        self.authenticated = bool(resp.success)
+        return self.authenticated
 
     def ping(self):  # pragma: no cover
         self.protocol.send({'Action': 'Ping'})
@@ -187,7 +192,7 @@ class Manager(object):
 
     def connect(self, loop=None):
         """connect to the server"""
-        if self.loop is None:
+        if self.loop is None:  # pragma: no cover
             self.loop = asyncio.get_event_loop()
         t = asyncio.Task(
             self.loop.create_connection(
