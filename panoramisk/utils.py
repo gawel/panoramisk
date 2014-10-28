@@ -19,7 +19,7 @@ EOL = '\r\n'
 
 
 class IdGenerator(object):
-    """Generate some uuid for actions::
+    """Generate some uuid for actions:
 
     .. code-block:: python
 
@@ -31,6 +31,7 @@ class IdGenerator(object):
     It increment counters at each calls:
 
     .. code-block:: python
+
         >>> print(g())
         mycounter/an_uuid4/1/1
         >>> print(g())
