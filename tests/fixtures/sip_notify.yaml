@@ -1,0 +1,13 @@
+Action: SIPnotify
+Channel: SIP/nnnnnn
+Variable: Content=</YealinkIPPhoneTextScreen>
+Variable: Content=<Text>This is a test for pushing text to a phone.</Text>
+Variable: Content=<Title>Push test</Title>
+Variable: Content=<YealinkIPPhoneTextScreen Beep=\"yes\" Timeout=\"0\">
+Variable: Content=<?xml version="1.0" encoding="UTF-8"?>
+Variable: Content-Type=application/xml
+Variable: Event=Yealink-xml
+
+Response: Success
+Message: Notify Sent
+

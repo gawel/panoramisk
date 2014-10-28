@@ -1,0 +1,14 @@
+Action: Originate
+ActionID: generated_action_id
+Channel: Local/2540
+Exten: 2580
+Context: default
+Priority: 1
+Timeout: 30000
+CallerID: Panoramisk tests
+Async: false
+
+Response: Success
+ActionID: generated_action_id
+Message: Originate successfully queued
+
