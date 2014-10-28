@@ -14,12 +14,6 @@
 .. autoclass:: Manager
    :members:
 
-.. autoclass:: Action
-   :members:
-
-.. autoclass:: Message
-   :members:
-
 .. toctree::
    :maxdepth: 2
 

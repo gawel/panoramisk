@@ -133,50 +133,43 @@ class Manager(object):
         self.loop.call_later(10, self.ping)
 
     def send_action(self, action, as_list=False, **kwargs):
-        """
-            Send an action to the server via manager::
+        """Send an :class:`~panoramisk.actions.Action` to the server:
 
-            :param action: an Action or dict with action name and parameters to
-                           send
-            :type action: Action or dict
-            :param as_list: If action send multiple responses, retrieve all
-                            responses via future
-            :type as_list: boolean
-            :return: a Future will receive the response
-            :rtype: asyncio.Future
+        :param action: an Action or dict with action name and parameters to
+                       send
+        :type action: Action or dict
+        :param as_list: If action send multiple responses, retrieve all
+                        responses via future
+        :type as_list: boolean
+        :return: a Future will receive the response
+        :rtype: asyncio.Future
 
-            :Example:
+        :Example:
 
-                    manager = Manager()
-                    resp = manager.send_action({'Action': 'Status'})
+            To retrieve answer in a coroutine:
 
-                To retrieve answer in a coroutine:
+                manager = Manager()
+                resp = yield from manager.send_action({'Action': 'Status'})
 
-                    manager = Manager()
-                    resp = yield from manager.send_action(
-                        {'Action': 'Status'})
+            With a callback:
 
-                With a callback:
+                manager = Manager()
+                future = manager.send_action({'Action': 'Status'})
+                future.add_done_callback(handle_status_response)
 
-                    manager = Manager()
-                    future = manager.send_action(
-                        {'Action': 'Status'})
-                    future.add_done_callback(handle_status_response)
-
-                See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for
-                more
-                information on actions
+        See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for
+        more information on actions
         """
         action.update(kwargs)
         return self.protocol.send(action, as_list=as_list)
 
     def send_command(self, command, agi=False, as_list=False):
-        """Send a command action to the server::
+        """Send a :class:`~panoramisk.actions.Command` to the server::
 
             manager = Manager()
             resp = manager.send_command('http show status')
 
-        Return a response :class:`Message`.
+        Return a response :class:`~panoramisk.message.Message`.
         See https://wiki.asterisk.org/wiki/display/AST/ManagerAction_Command
         """
         if agi:
@@ -201,7 +194,7 @@ class Manager(object):
         return t
 
     def register_event(self, pattern, callback):
-        """register an event. See :class:`Message`:
+        """register an event. See :class:`~panoramisk.message.Message`:
 
         .. code-block:: python
 
