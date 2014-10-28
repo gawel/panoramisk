@@ -1,0 +1,13 @@
+Asterisk Call Manager/1.3
+action: login
+username: nnnnnnnnn
+secret: yyyyyyyyyyyy
+events: on
+
+Response: Success
+Message: Authentication accepted
+
+Event: FullyBooted
+Privilege: system,all
+Status: Fully Booted
+

@@ -1,0 +1,9 @@
+Asterisk Call Manager/1.3
+action: login
+username: nnnnnnnnn
+secret: nnnnnnnnnn
+events: on
+
+Response: Error
+Message: Authentication failed
+
