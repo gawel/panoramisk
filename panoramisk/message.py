@@ -7,17 +7,13 @@ class Message(object):
     """Handle both Responses and Events with the same api:
 
     ..
-        >>> resp = Message('response', 'Response body',
-        ...                {'Response': 'Follows'})
-        >>> event = Message('event', '',
-        ...                {'Event': 'MeetmeEnd', 'Meetme': '4242'})
+        >>> resp = Message('Response body', {'Response': 'Follows'})
+        >>> event = Message('', {'Event': 'MeetmeEnd', 'Meetme': '4242'})
 
     Responses:
 
     .. code-block:: python
 
-        >>> print(resp.message_type)
-        response
         >>> bool(resp.success)
         True
         >>> resp.headers
@@ -32,10 +28,6 @@ class Message(object):
 
     .. code-block:: python
 
-        >>> print(event.message_type)
-        event
-        >>> print(event.name)
-        MeetmeEnd
         >>> print(event['meetme'])
         4242
         >>> print(event.meetme)
@@ -65,16 +57,16 @@ class Message(object):
 
         .. code-block:: python
 
-            >>> resp = Message('response', '', {'Response': 'Success'})
+            >>> resp = Message('', {'Response': 'Success'})
             >>> print(resp.success)
             Success
             >>> resp.headers['Response'] = 'Failed'
             >>> resp.success
             False
         """
-        if self.message_type == 'event':
+        if 'Event' in self.headers:
             return True
-        status = self.headers['response']
+        status = self.headers['Response']
         if status in ('Success', 'Follows'):
             return 'Success'
         return False
@@ -89,8 +81,9 @@ class Message(object):
         return value in self.headers
 
     def __repr__(self):
-        return '<{0} headers:{1} content:"{2}">'.format(
-            self.message_type.title(), self.headers, self.content)
+        return (
+            '<Message headers:{0.headers} content:"{0.content}">'
+        ).format(self)
 
     def iter_lines(self):
         """Iter over response body"""
@@ -103,7 +96,7 @@ class Message(object):
 
         .. code-block:: python
 
-            >>> resp = Message('response', '', {'Ping': 'Pong'})
+            >>> resp = Message('', {'Ping': 'Pong'})
             >>> print(resp.lheaders)
             {'ping': 'Pong'}
         """

@@ -196,7 +196,7 @@ class Manager(object):
         t.add_done_callback(self.connection_made)
         return t
 
-    def register_event(self, pattern, callback):
+    def register_event(self, pattern, callback=None):
         """register an event. See :class:`~panoramisk.message.Message`:
 
         .. code-block:: python
@@ -205,18 +205,37 @@ class Manager(object):
             ...     print(event, manager)
             >>> manager = Manager()
             >>> manager.register_event('Meetme*', callback)
+
+        You can also use the manager as a decorator:
+
+        .. code-block:: python
+
+            >>> manager = Manager()
+            >>> @manager.register_event('Meetme*')
+            ... def callback(event, manager):
+            ...     print(event, manager)
         """
-        self.patterns.append((pattern,
-                             re.compile(fnmatch.translate(pattern))))
-        self.callbacks[pattern].append(callback)
+        def register_event(callback):
+            self.patterns.append((pattern,
+                                 re.compile(fnmatch.translate(pattern))))
+            self.callbacks[pattern].append(callback)
+        if callback:
+            register_event(callback)
+        else:
+            return register_event
 
     def dispatch(self, event):
+        matches = []
         event.manager = self
-        for pattern, reobj in self.patterns:
-            if reobj.match(event.get('Event', '')):
+        for pattern, regexp in self.patterns:
+            match = regexp.match(event.headers.get('Event', ''))
+            print(pattern, regexp, match)
+            if match is not None:
+                matches.append(pattern)
                 for callback in self.callbacks[pattern]:
                     for callback in self.callbacks[pattern]:
                         callback(event, self)
+        return matches
 
     def close(self):
         """Close the connection"""
