@@ -1,0 +1,13 @@
+Action: Command
+ActionID: generated_id
+Command: core show channels
+
+Response: Follows
+Privilege: Command
+ActionID: generated_id
+Channel              Location             State   Application(Data)             
+0 active channels
+0 active calls
+2 calls processed
+--END COMMAND--
+
