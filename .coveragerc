@@ -1,6 +1,6 @@
 [run]
 include =
-    */panoramisk/__init__*
+    */panoramisk/panoramisk/*
 
 [report]
 exclude_lines =
