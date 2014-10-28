@@ -12,6 +12,23 @@ EOL = '\r\n'
 
 
 class IdGenerator(object):
+    """Generate some uuid for actions::
+
+    .. code-block:: python
+
+        >>> g = IdGenerator('mycounter')
+
+    ..
+        >>> IdGenerator.reset(uid='an_uuid4')
+
+    It increment counters at each calls:
+
+    .. code-block:: python
+        >>> print(g())
+        mycounter/an_uuid4/1/1
+        >>> print(g())
+        mycounter/an_uuid4/1/2
+    """
 
     instances = []
 
@@ -33,6 +50,8 @@ class IdGenerator(object):
 
     @classmethod
     def reset(cls, uid=None):
+        """Mostly used for unit testing. Allow to use a static uuid and reset
+        all counter"""
         for instance in cls.instances:
             if uid:
                 instance.uid = uid
