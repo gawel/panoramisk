@@ -6,6 +6,11 @@
 - Return AsyncAGI command result in a Future
 - Add two examples
 - Start internal refactoring
+- Remove arawman support
+- Remove external dependencies
+- Add support for multiple responses from Actions (QueueStatus)
+- Improved performance with Events pattern matching
+- Add mocked test wrapper
 
 
 0.4 (2014-05-30)
