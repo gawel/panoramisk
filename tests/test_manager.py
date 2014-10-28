@@ -5,18 +5,8 @@ from panoramisk import testing
 from panoramisk import message
 from panoramisk.utils import asyncio
 
-try:
-    from unittest import mock
-except ImportError:
-    import mock
-
 
 class TestManager(TestCase):
-
-    defaults = dict(
-        async=False, testing=True,
-        loop=asyncio.get_event_loop()
-    )
 
     test_dir = os.path.join(os.path.dirname(__file__), 'fixtures')
 
@@ -72,29 +62,3 @@ class TestManager(TestCase):
         event = message.Message.from_line('Event: NoPeerStatus',
                                           manager.callbacks)
         self.assertTrue(event is None)
-
-
-class TestProtocol(TestCase):
-
-    def callback(*args):
-        pass
-
-    def callFTU(self):
-        conn = testing.Connection()
-        manager = testing.Manager()
-        manager.register_event('Peer*', self.callback)
-        manager.loop = asyncio.get_event_loop()
-        conn.connection_made(mock.MagicMock())
-        conn.factory = manager
-        return conn
-
-    def test_received(self):
-        conn = self.callFTU()
-        conn.data_received(b'Event: None\r\n\r\n')
-        conn.data_received(b'Event: PeerStatus\r\nPeer: gawel\r\n\r\n')
-        conn.data_received(b'Response: Follows\r\nPeer: gawel\r\n\r\n')
-        conn.data_received(b'Response: Success\r\nPing: Pong\r\n\r\n')
-
-    def test_send(self):
-        conn = self.callFTU()
-        self.assertTrue(isinstance(conn.send({}), asyncio.Future))
