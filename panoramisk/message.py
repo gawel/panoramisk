@@ -105,7 +105,7 @@ class Message(object):
         return h
 
     @classmethod
-    def from_line(cls, line, patterns=None):
+    def from_line(cls, line):
             mlines = line.split(utils.EOL)
             headers = utils.CaseInsensitiveDict()
             content = ''

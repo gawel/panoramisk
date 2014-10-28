@@ -46,7 +46,7 @@ class Connection(asyncio.Protocol):
             line = line.strip()
             # Very verbose, uncomment only if necessary
             # self.log.debug('message received: "%s"', line)
-            message = Message.from_line(line, self.factory.patterns)
+            message = Message.from_line(line)
             self.log.debug('message interpreted: %r', message)
             if message is None:
                 continue
