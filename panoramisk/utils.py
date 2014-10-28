@@ -40,6 +40,3 @@ class IdGenerator(object):
 
     def __call__(self):
         return next(self.generator)
-
-
-
