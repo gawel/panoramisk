@@ -6,6 +6,7 @@ secret: nnnnnnnnnn
 events: on
 
 Response: Error
+ActionID: generated_id
 Message: Authentication failed
 ActionID: action/transaction_uid/1/1
 
