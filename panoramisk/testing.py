@@ -28,9 +28,6 @@ class Connection(manager.Connection):
         utils.IdGenerator.reset(uid='transaction_uid')
         future = super(Connection, self).send(data, as_list=as_list)
         self.get_stream(future)
-        return future
-
-    def get_stream(self, future):
         if self.factory.stream is not None:
             with open(self.factory.stream, 'rb') as fd:
                 resp = fd.read()
@@ -38,6 +35,7 @@ class Connection(manager.Connection):
             if not future.done():
                 print(self.responses)
                 raise AssertionError("Future's result was never set")
+        return future
 
 
 class Manager(manager.Manager):
