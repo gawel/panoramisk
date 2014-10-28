@@ -1,9 +1,11 @@
 Asterisk Call Manager/1.3
 action: login
+ActionID: generated_id
 username: nnnnnnnnn
 secret: nnnnnnnnnn
 events: on
 
 Response: Error
+ActionID: generated_id
 Message: Authentication failed
 
