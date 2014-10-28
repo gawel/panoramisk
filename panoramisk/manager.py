@@ -205,6 +205,7 @@ class Manager(object):
             ...     print(event, manager)
             >>> manager = Manager()
             >>> manager.register_event('Meetme*', callback)
+            <function callback at 0x...>
 
         You can also use the manager as a decorator:
 
@@ -215,14 +216,15 @@ class Manager(object):
             ... def callback(event, manager):
             ...     print(event, manager)
         """
-        def register_event(callback):
+        def _register_event(callback):
             self.patterns.append((pattern,
                                  re.compile(fnmatch.translate(pattern))))
             self.callbacks[pattern].append(callback)
-        if callback:
-            register_event(callback)
+            return callback
+        if callback is not None:
+            return _register_event(callback)
         else:
-            return register_event
+            return _register_event
 
     def dispatch(self, event):
         matches = []

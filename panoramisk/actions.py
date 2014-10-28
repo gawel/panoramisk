@@ -45,7 +45,7 @@ class Action(dict):
             return True
         elif 'will follow' in headers.get('Message', ''):
             return True
-        elif 'Complete' in headers.get('Event', ''):
+        elif headers.get('Event', '').endswith('Complete'):
             return True
         elif self.as_list:
             return True
