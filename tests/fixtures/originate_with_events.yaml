@@ -1,0 +1,6360 @@
+Action: Originate
+ActionID: generated_action_id
+Channel: Local/259
+Exten: 254
+Context: default
+Priority: 1
+Timeout: 30000
+CallerID: Panoramisk tests
+Async: false
+
+Response: Success
+ActionID: generated_action_id
+Message: Originate successfully queued
+
+Event: Newchannel
+Privilege: call,all
+Channel: Local/259@default-00000000;1
+ChannelState: 0
+ChannelStateDesc: Down
+CallerIDNum: 
+CallerIDName: 
+AccountCode: 
+Exten: 259
+Context: default
+Uniqueid: 1414510600.0
+
+Event: Newchannel
+Privilege: call,all
+Channel: Local/259@default-00000000;2
+ChannelState: 4
+ChannelStateDesc: Ring
+CallerIDNum: 
+CallerIDName: 
+AccountCode: 
+Exten: 259
+Context: default
+Uniqueid: 1414510600.1
+
+Event: NewAccountCode
+Privilege: call,all
+Channel: Local/259@default-00000000;1
+Uniqueid: 1414510600.0
+AccountCode: 
+OldAccountCode: 
+
+Event: NewCallerid
+Privilege: call,all
+Channel: Local/259@default-00000000;1
+CallerIDNum: 
+CallerIDName: Panoramisk tests
+Uniqueid: 1414510600.0
+CID-CallingPres: 0 (Presentation Allowed, Not Screened)
+
+Event: LocalBridge
+Privilege: call,all
+Channel1: Local/259@default-00000000;1
+Channel2: Local/259@default-00000000;2
+Uniqueid1: 1414510600.0
+Uniqueid2: 1414510600.1
+Context: default
+Exten: 259
+LocalOptimization: Yes
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_START
+AccountCode: 
+CallerIDnum: 
+CallerIDname: 
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: 259
+Context: default
+Channel: Local/259@default-00000000;1
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:40
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.0
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: default
+Extension: 259
+Priority: 1
+Application: Set
+AppData: XIVO_BASE_CONTEXT=default
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_BASE_CONTEXT
+Value: default
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: default
+Extension: 259
+Priority: 2
+Application: Set
+AppData: XIVO_BASE_EXTEN=259
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_BASE_EXTEN
+Value: 259
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: default
+Extension: 259
+Priority: 3
+Application: Gosub
+AppData: user,s,1(148,)
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG1)
+Value: 148
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARGC)
+Value: 2
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 1
+Application: Set
+AppData: XIVO_DSTID=148
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_DSTID
+Value: 148
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 2
+Application: Set
+AppData: XIVO_PRESUBR_GLOBAL_NAME=USER
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_PRESUBR_GLOBAL_NAME
+Value: USER
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 3
+Application: Set
+AppData: CC_EXTEN=259
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: CC_EXTEN
+Value: 259
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 4
+Application: Set
+AppData: CC_CONTEXT=default
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: CC_CONTEXT
+Value: default
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 5
+Application: Set
+AppData: XIVO_SRCNUM=
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_SRCNUM
+Value: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 6
+Application: Set
+AppData: XIVO_DSTNUM=259
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_DSTNUM
+Value: 259
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 7
+Application: Set
+AppData: XIVO_CONTEXT=default
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_CONTEXT
+Value: default
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 8
+Application: Set
+AppData: __XIVO_CALLORIGIN=intern
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: __XIVO_CALLORIGIN
+Value: intern
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 9
+Application: Set
+AppData: __XIVO_FWD_REFERER=user:148
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: __XIVO_FWD_REFERER
+Value: user:148
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 10
+Application: UserEvent
+AppData: User,CHANNEL: Local/259@default-00000000;2,XIVO_USERID: ,XIVO_SRCNUM: ,XIVO_CALLORIGIN: intern,XIVO_DSTID: 148
+Uniqueid: 1414510600.1
+
+Event: UserEvent
+Privilege: user,all
+UserEvent: User
+Uniqueid: 1414510600.1
+CHANNEL: Local/259@default-00000000;2
+XIVO_USERID: 
+XIVO_SRCNUM: 
+XIVO_CALLORIGIN: intern
+XIVO_DSTID: 148
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 11
+Application: GotoIf
+AppData: ?:noblindxfer
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 13
+Application: Set
+AppData: XIVO_FWD_REFERER_TYPE=user
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_REFERER_TYPE
+Value: user
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 14
+Application: Set
+AppData: XIVO_REAL_FROMGROUP=0
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_REAL_FROMGROUP
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 15
+Application: Set
+AppData: XIVO_REAL_FROMQUEUE=0
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_REAL_FROMQUEUE
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 16
+Application: AGI
+AppData: agi://127.0.0.1/incoming_user_set_features
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1294682027
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1294682027
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1770412716
+Command: GET VARIABLE "XIVO_DSTID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1770412716
+Command: GET VARIABLE "XIVO_DSTID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1141222454
+Command: GET VARIABLE "XIVO_CALLORIGIN"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1141222454
+Command: GET VARIABLE "XIVO_CALLORIGIN"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1039650251
+Command: GET VARIABLE "XIVO_SRCNUM"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1039650251
+Command: GET VARIABLE "XIVO_SRCNUM"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1141089268
+Command: GET VARIABLE "XIVO_DSTNUM"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1141089268
+Command: GET VARIABLE "XIVO_DSTNUM"
+ResultCode: 200
+Result: Success
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_START
+AccountCode: 
+CallerIDnum: 
+CallerIDname: 
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: 259
+Context: default
+Channel: Local/259@default-00000000;2
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:40
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.1
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 209411487
+Command: SET VARIABLE "XIVO_DST_USERNUM" "259"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_DST_USERNUM
+Value: 259
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 209411487
+Command: SET VARIABLE "XIVO_DST_USERNUM" "259"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1957362105
+Command: SET VARIABLE "XIVO_DST_FIRSTNAME" "S"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_DST_FIRSTNAME
+Value: S
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1957362105
+Command: SET VARIABLE "XIVO_DST_FIRSTNAME" "S"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1553996913
+Command: SET VARIABLE "XIVO_DST_LASTNAME" "F"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_DST_LASTNAME
+Value: F
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1553996913
+Command: SET VARIABLE "XIVO_DST_LASTNAME" "F"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 2009178668
+Command: SET VARIABLE "XIVO_DST_REDIRECTING_NAME" "S F"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_DST_REDIRECTING_NAME
+Value: S F
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 2009178668
+Command: SET VARIABLE "XIVO_DST_REDIRECTING_NAME" "S F"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 2123325799
+Command: SET VARIABLE "XIVO_DST_REDIRECTING_NUM" "259"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_DST_REDIRECTING_NUM
+Value: 259
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 2123325799
+Command: SET VARIABLE "XIVO_DST_REDIRECTING_NUM" "259"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 488565503
+Command: SET VARIABLE "XIVO_INTERFACE" "SIP/ddddd"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_INTERFACE
+Value: SIP/ddddd
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 488565503
+Command: SET VARIABLE "XIVO_INTERFACE" "SIP/ddddd"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 708553069
+Command: SET VARIABLE "XIVO_CALLOPTIONS" "hHt"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_CALLOPTIONS
+Value: hHt
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 708553069
+Command: SET VARIABLE "XIVO_CALLOPTIONS" "hHt"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 605519885
+Command: SET VARIABLE "XIVO_SIMULTCALLS" "5"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_SIMULTCALLS
+Value: 5
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 605519885
+Command: SET VARIABLE "XIVO_SIMULTCALLS" "5"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 347280486
+Command: SET VARIABLE "XIVO_RINGSECONDS" "30"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_RINGSECONDS
+Value: 30
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 347280486
+Command: SET VARIABLE "XIVO_RINGSECONDS" "30"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 290639273
+Command: SET VARIABLE "XIVO_ENABLEDND" "0"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_ENABLEDND
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 290639273
+Command: SET VARIABLE "XIVO_ENABLEDND" "0"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 2047330487
+Command: SET VARIABLE "XIVO_ENABLEVOICEMAIL" "0"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_ENABLEVOICEMAIL
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 2047330487
+Command: SET VARIABLE "XIVO_ENABLEVOICEMAIL" "0"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 569396204
+Command: SET VARIABLE "XIVO_MAILBOX" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_MAILBOX
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 569396204
+Command: SET VARIABLE "XIVO_MAILBOX" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1662112503
+Command: SET VARIABLE "XIVO_MAILBOX_CONTEXT" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_MAILBOX_CONTEXT
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1662112503
+Command: SET VARIABLE "XIVO_MAILBOX_CONTEXT" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 498094479
+Command: SET VARIABLE "XIVO_USEREMAIL" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_USEREMAIL
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 498094479
+Command: SET VARIABLE "XIVO_USEREMAIL" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 2085353353
+Command: SET VARIABLE "XIVO_ENABLEUNC" "0"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_ENABLEUNC
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 2085353353
+Command: SET VARIABLE "XIVO_ENABLEUNC" "0"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 969443263
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_UNC_ACTION
+Value: none
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 969443263
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 714502157
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_UNC_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 714502157
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 328446718
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_UNC_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 328446718
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 408178965
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_BUSY_ACTION
+Value: none
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 408178965
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 813286668
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ISDA" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_BUSY_ISDA
+Value: 1
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 813286668
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ISDA" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 219622065
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_BUSY_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 219622065
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 59543310
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_BUSY_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 59543310
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1649213707
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_NOANSWER_ACTION
+Value: none
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1649213707
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 314809633
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ISDA" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_NOANSWER_ISDA
+Value: 1
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 314809633
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ISDA" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 2010988581
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_NOANSWER_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 2010988581
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1782431266
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_NOANSWER_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1782431266
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1918196672
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_CONGESTION_ACTION
+Value: none
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1918196672
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 974641822
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ISDA" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_CONGESTION_ISDA
+Value: 1
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 974641822
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ISDA" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 454756922
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_CONGESTION_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 454756922
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1910964650
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_CONGESTION_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1910964650
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1342829434
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_CHANUNAVAIL_ACTION
+Value: none
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1342829434
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1835637638
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ISDA" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_CHANUNAVAIL_ISDA
+Value: 1
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1835637638
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ISDA" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 455217448
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 455217448
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1181126589
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1181126589
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1452730118
+Command: SET VARIABLE "CHANNEL(musicclass)" "default"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1452730118
+Command: SET VARIABLE "CHANNEL(musicclass)" "default"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 590815113
+Command: SET VARIABLE "XIVO_CALLRECORDFILE" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_CALLRECORDFILE
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 590815113
+Command: SET VARIABLE "XIVO_CALLRECORDFILE" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 873484241
+Command: SET VARIABLE "XIVO_USERPREPROCESS_SUBROUTINE" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_USERPREPROCESS_SUBROUTINE
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 873484241
+Command: SET VARIABLE "XIVO_USERPREPROCESS_SUBROUTINE" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1039737321
+Command: SET VARIABLE "XIVO_MOBILEPHONENUMBER" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_MOBILEPHONENUMBER
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1039737321
+Command: SET VARIABLE "XIVO_MOBILEPHONENUMBER" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1648843108
+Command: GET VARIABLE "XIVO_PATH"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1648843108
+Command: GET VARIABLE "XIVO_PATH"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1456131114
+Command: SET VARIABLE "XIVO_PATH" "user"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_PATH
+Value: user
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1456131114
+Command: SET VARIABLE "XIVO_PATH" "user"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1674315446
+Command: SET VARIABLE "XIVO_PATH_ID" "148"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_PATH_ID
+Value: 148
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1674315446
+Command: SET VARIABLE "XIVO_PATH_ID" "148"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1962439731
+Command: VERBOSE "AGI handler 'incoming_user_set_features' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1962439731
+Command: VERBOSE "AGI handler 'incoming_user_set_features' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 17
+Application: NoOp
+AppData: filename call recording: none
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 18
+Application: AGI
+AppData: agi://127.0.0.1/check_schedule
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1611665049
+Command: GET VARIABLE "XIVO_PATH"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1611665049
+Command: GET VARIABLE "XIVO_PATH"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1933457243
+Command: GET VARIABLE "XIVO_PATH_ID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1933457243
+Command: GET VARIABLE "XIVO_PATH_ID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 243126246
+Command: SET VARIABLE "XIVO_SCHEDULE_STATUS" "opened"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_SCHEDULE_STATUS
+Value: opened
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 243126246
+Command: SET VARIABLE "XIVO_SCHEDULE_STATUS" "opened"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 679953752
+Command: SET VARIABLE "XIVO_PATH" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_PATH
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 679953752
+Command: SET VARIABLE "XIVO_PATH" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 213595631
+Command: VERBOSE "AGI handler 'check_schedule' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 213595631
+Command: VERBOSE "AGI handler 'check_schedule' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 19
+Application: GotoIf
+AppData: 0?CLOSED,1
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 20
+Application: Gosub
+AppData: xivo-ring_type_set,s,1
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-ring_type_set
+Extension: s
+Priority: 1
+Application: SIPRemoveHeader
+AppData: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-ring_type_set
+Extension: s
+Priority: 2
+Application: AGI
+AppData: agi://127.0.0.1/getring
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 2079266821
+Command: GET VARIABLE "XIVO_DSTNUM"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 2079266821
+Command: GET VARIABLE "XIVO_DSTNUM"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1701189425
+Command: GET VARIABLE "XIVO_CONTEXT"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1701189425
+Command: GET VARIABLE "XIVO_CONTEXT"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1038234813
+Command: GET VARIABLE "XIVO_CALLORIGIN"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1038234813
+Command: GET VARIABLE "XIVO_CALLORIGIN"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 406408326
+Command: GET VARIABLE "XIVO_FWD_REFERER"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 406408326
+Command: GET VARIABLE "XIVO_FWD_REFERER"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 721632134
+Command: GET VARIABLE "XIVO_CALLFORWARDED"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 721632134
+Command: GET VARIABLE "XIVO_CALLFORWARDED"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 450975286
+Command: SET VARIABLE "XIVO_RINGTYPE" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_RINGTYPE
+Value: 
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 450975286
+Command: SET VARIABLE "XIVO_RINGTYPE" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1117157776
+Command: VERBOSE "Using the native phone ring tone" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1117157776
+Command: VERBOSE "Using the native phone ring tone" 1
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 44311958
+Command: VERBOSE "AGI handler 'getring' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 44311958
+Command: VERBOSE "AGI handler 'getring' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-ring_type_set
+Extension: s
+Priority: 3
+Application: GotoIf
+AppData: ?:exit
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-ring_type_set
+Extension: s
+Priority: 8
+Application: Return
+AppData: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 21
+Application: Gosub
+AppData: xivo-subroutine,s,1()
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-subroutine
+Extension: s
+Priority: 1
+Application: GotoIf
+AppData: ?:nosubroutine
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-subroutine
+Extension: s
+Priority: 4
+Application: Return
+AppData: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 22
+Application: Set
+AppData: XIVO_RINGSECONDS=30
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_RINGSECONDS
+Value: 30
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 23
+Application: Gosub
+AppData: xivo-user_rights_check,s,1
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-user_rights_check
+Extension: s
+Priority: 1
+Application: AGI
+AppData: agi://127.0.0.1/user_set_call_rights
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 735878980
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 735878980
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 1584201653
+Command: GET VARIABLE "XIVO_DSTNUM"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 1584201653
+Command: GET VARIABLE "XIVO_DSTNUM"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 195122677
+Command: GET VARIABLE "XIVO_OUTCALLID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 195122677
+Command: GET VARIABLE "XIVO_OUTCALLID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 253109698
+Command: SET VARIABLE "XIVO_AUTHORIZATION" "ALLOW"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: XIVO_AUTHORIZATION
+Value: ALLOW
+Uniqueid: 1414510600.1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 253109698
+Command: SET VARIABLE "XIVO_AUTHORIZATION" "ALLOW"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: Local/259@default-00000000;2
+CommandId: 275288411
+Command: VERBOSE "AGI handler 'user_set_call_rights' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+CommandId: 275288411
+Command: VERBOSE "AGI handler 'user_set_call_rights' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-user_rights_check
+Extension: s
+Priority: 2
+Application: GotoIf
+AppData: ALLOW?:error,1
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-user_rights_check
+Extension: s
+Priority: 3
+Application: GotoIf
+AppData: 1?allow,1
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-user_rights_check
+Extension: allow
+Priority: 1
+Application: NoOp
+AppData: User allowed to make call
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-user_rights_check
+Extension: allow
+Priority: 2
+Application: Return
+AppData: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 24
+Application: GotoIf
+AppData: 0?dial_from_queue,1
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 25
+Application: GotoIf
+AppData: 0?xivo-user_callfilter,s,1
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 26
+Application: GotoIf
+AppData: ?:28
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 28
+Application: GotoIf
+AppData: 0?DND,1
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 29
+Application: DumpChan
+AppData: 7
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 30
+Application: NoOp
+AppData: XIVO_ENABLEUNC: 0 XIVO_SRCNUM:  XIVO_FWD_USER_UNC_ACTIONARG: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 31
+Application: GotoIf
+AppData: 0?UNC,1
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 32
+Application: GotoIf
+AppData: 0?dial_from_group,1
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 33
+Application: GotoIf
+AppData: 0?BUSY,1
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 34
+Application: Set
+AppData: OUTBOUND_GROUP_ONCE=148@XIVO_USER
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: OUTBOUND_GROUP_ONCE
+Value: 148@XIVO_USER
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 35
+Application: Gosub
+AppData: xivo-connectedline,s,1(259,S F)
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG1)
+Value: 259
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG2)
+Value: S F
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARGC)
+Value: 2
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-connectedline
+Extension: s
+Priority: 1
+Application: NoOp
+AppData: Generic subroutine for connectedline
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-connectedline
+Extension: s
+Priority: 2
+Application: Set
+AppData: CONNECTEDLINE(all,i)=S F <259>
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-connectedline
+Extension: s
+Priority: 3
+Application: Return
+AppData: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 36
+Application: Gosub
+AppData: xivo-global-subroutine,s,1
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-global-subroutine
+Extension: s
+Priority: 1
+Application: GotoIf
+AppData: 1?:return
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-global-subroutine
+Extension: s
+Priority: 2
+Application: GotoIf
+AppData: USER?:return
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-global-subroutine
+Extension: s
+Priority: 3
+Application: GotoIf
+AppData: xivo-subrgbl-user?:return
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-global-subroutine
+Extension: s
+Priority: 4
+Application: GotoIf
+AppData: 1?:return
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-global-subroutine
+Extension: s
+Priority: 5
+Application: Gosub
+AppData: xivo-subrgbl-user,s,1
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 1
+Application: Verbose
+AppData: 3, "-= ALLOcloud preprocess subroutine groups =-"
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 2
+Application: Verbose
+AppData: 3, "-= Test if the user is busy =-"
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 3
+Application: Set
+AppData: COUNT_BUSY=NOT_INUSE
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: COUNT_BUSY
+Value: NOT_INUSE
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 4
+Application: GotoIf
+AppData: 1?return
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 9
+Application: Verbose
+AppData: 3, "-= Returning to the original call-flow =-"
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 10
+Application: Return
+AppData: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: xivo-global-subroutine
+Extension: s
+Priority: 6
+Application: Return
+AppData: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 37
+Application: Gosub
+AppData: originate-caller-id,s,1
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: originate-caller-id
+Extension: s
+Priority: 1
+Application: GotoIf
+AppData: 0?:name
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: originate-caller-id
+Extension: s
+Priority: 3
+Application: GotoIf
+AppData: 0?:end
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: originate-caller-id
+Extension: s
+Priority: 5
+Application: Return
+AppData: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.1
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Context: user
+Extension: s
+Priority: 38
+Application: Dial
+AppData: SIP/ddddd,30,hHt
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: DIALSTATUS
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: DIALEDPEERNUMBER
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: DIALEDPEERNAME
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: ANSWEREDTIME
+Value: 
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: DIALEDTIME
+Value: 
+Uniqueid: 1414510600.1
+
+Event: Newchannel
+Privilege: call,all
+Channel: SIP/ddddd-00000000
+ChannelState: 0
+ChannelStateDesc: Down
+CallerIDNum: 259
+CallerIDName: S F
+AccountCode: 
+Exten: 
+Context: default
+Uniqueid: 1414510601.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: SIPCALLID
+Value: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+Uniqueid: 1414510601.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_USERID
+Value: 148
+Uniqueid: 1414510601.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: PICKUPMARK
+Value: 259%default
+Uniqueid: 1414510601.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: TRANSFER_CONTEXT
+Value: default
+Uniqueid: 1414510601.2
+
+Event: ChannelUpdate
+Privilege: system,all
+Channel: SIP/ddddd-00000000
+Uniqueid: 1414510601.2
+Channeltype: SIP
+SIPcallid: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+SIPfullcontact: sip:ddddd@192.168.0.2:42526;rinstance=9ec5b250d716f66e;transport=UDP
+
+Event: ChannelUpdate
+Privilege: system,all
+Channel: SIP/ddddd-00000000
+Channeltype: SIP
+SIPcallid: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+SIPfullcontact: sip:ddddd@192.168.0.2:42526;rinstance=9ec5b250d716f66e;transport=UDP
+Peername: ddddd
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALEDPEERNUMBER
+Value: ddddd
+Uniqueid: 1414510601.2
+
+Event: Dial
+Privilege: call,all
+SubEvent: Begin
+Channel: Local/259@default-00000000;2
+Destination: SIP/ddddd-00000000
+CallerIDNum: <unknown>
+CallerIDName: Panoramisk tests
+ConnectedLineNum: 259
+ConnectedLineName: S F
+UniqueID: 1414510600.1
+DestUniqueID: 1414510601.2
+Dialstring: ddddd
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_START
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: default
+Channel: SIP/ddddd-00000000
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:41
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510601.2
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 259
+Context: default
+Hint: SIP/ddddd
+Status: 8
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *666148
+Context: default
+Hint: SIP/ddddd
+Status: 8
+
+Event: SIPRinging
+Privilege: system,all
+Peer: SIP/ddddd
+
+Event: Newstate
+Privilege: call,all
+Channel: SIP/ddddd-00000000
+ChannelState: 5
+ChannelStateDesc: Ringing
+CallerIDNum: 259
+CallerIDName: S F
+ConnectedLineNum: 
+ConnectedLineName: Panoramisk tests
+Uniqueid: 1414510601.2
+
+Event: Newstate
+Privilege: call,all
+Channel: Local/259@default-00000000;1
+ChannelState: 5
+ChannelStateDesc: Ringing
+CallerIDNum: 259
+CallerIDName: S F
+ConnectedLineNum: 
+ConnectedLineName: Panoramisk tests
+Uniqueid: 1414510600.0
+
+Event: ChannelUpdate
+Privilege: system,all
+Channel: SIP/ddddd-00000000
+Channeltype: SIP
+Uniqueid: 1414510601.2
+SIPcallid: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+SIPfullcontact: sip:ddddd@192.168.0.2:42526;rinstance=9ec5b250d716f66e;transport=UDP
+Peername: ddddd
+
+Event: Newstate
+Privilege: call,all
+Channel: SIP/ddddd-00000000
+ChannelState: 6
+ChannelStateDesc: Up
+CallerIDNum: 259
+CallerIDName: S F
+ConnectedLineNum: 
+ConnectedLineName: Panoramisk tests
+Uniqueid: 1414510601.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: DIALSTATUS
+Value: ANSWER
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: DIALEDPEERNAME
+Value: SIP/ddddd-00000000
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: DIALEDPEERNUMBER
+Value: ddddd
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: BRIDGEPEER
+Value: SIP/ddddd-00000000
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPEER
+Value: Local/259@default-00000000;2
+Uniqueid: 1414510601.2
+
+Event: Newstate
+Privilege: call,all
+Channel: Local/259@default-00000000;2
+ChannelState: 6
+ChannelStateDesc: Up
+CallerIDNum: 
+CallerIDName: Panoramisk tests
+ConnectedLineNum: 259
+ConnectedLineName: S F
+Uniqueid: 1414510600.1
+
+Event: NewAccountCode
+Privilege: call,all
+Channel: SIP/ddddd-00000000
+Uniqueid: 1414510601.2
+AccountCode: 
+OldAccountCode: 
+
+Event: Bridge
+Privilege: call,all
+Bridgestate: Link
+Bridgetype: core
+Channel1: Local/259@default-00000000;2
+Channel2: SIP/ddddd-00000000
+Uniqueid1: 1414510600.1
+Uniqueid2: 1414510601.2
+CallerID1: 
+CallerID2: 259
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: BRIDGEPEER
+Value: SIP/ddddd-00000000
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: BRIDGEPVTCALLID
+Value: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPEER
+Value: Local/259@default-00000000;2
+Uniqueid: 1414510601.2
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: BRIDGEPEER
+Value: SIP/ddddd-00000000
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: BRIDGEPVTCALLID
+Value: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPEER
+Value: Local/259@default-00000000;2
+Uniqueid: 1414510601.2
+
+Event: Newstate
+Privilege: call,all
+Channel: Local/259@default-00000000;1
+ChannelState: 6
+ChannelStateDesc: Up
+CallerIDNum: 259
+CallerIDName: S F
+ConnectedLineNum: 
+ConnectedLineName: Panoramisk tests
+Uniqueid: 1414510600.0
+
+Event: CEL
+Privilege: call,all
+EventName: ANSWER
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 259
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: default
+Channel: SIP/ddddd-00000000
+Application: AppDial
+AppData: (Outgoing Line)
+EventTime: 2014-10-28 16:36:49
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510601.2
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: default
+Extension: 254
+Priority: 1
+Application: Set
+AppData: XIVO_BASE_CONTEXT=default
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_BASE_CONTEXT
+Value: default
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: default
+Extension: 254
+Priority: 2
+Application: Set
+AppData: XIVO_BASE_EXTEN=254
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_BASE_EXTEN
+Value: 254
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: default
+Extension: 254
+Priority: 3
+Application: Gosub
+AppData: user,s,1(147,)
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: LOCAL(ARG1)
+Value: 147
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: LOCAL(ARGC)
+Value: 2
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 1
+Application: Set
+AppData: XIVO_DSTID=147
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_DSTID
+Value: 147
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 2
+Application: Set
+AppData: XIVO_PRESUBR_GLOBAL_NAME=USER
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_PRESUBR_GLOBAL_NAME
+Value: USER
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 3
+Application: Set
+AppData: CC_EXTEN=254
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: CC_EXTEN
+Value: 254
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 4
+Application: Set
+AppData: CC_CONTEXT=default
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: CC_CONTEXT
+Value: default
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 5
+Application: Set
+AppData: XIVO_SRCNUM=259
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_SRCNUM
+Value: 259
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 6
+Application: Set
+AppData: XIVO_DSTNUM=254
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_DSTNUM
+Value: 254
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 7
+Application: Set
+AppData: XIVO_CONTEXT=default
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_CONTEXT
+Value: default
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 8
+Application: Set
+AppData: __XIVO_CALLORIGIN=intern
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: __XIVO_CALLORIGIN
+Value: intern
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 9
+Application: Set
+AppData: __XIVO_FWD_REFERER=user:147
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: __XIVO_FWD_REFERER
+Value: user:147
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 10
+Application: UserEvent
+AppData: User,CHANNEL: Local/259@default-00000000;1,XIVO_USERID: ,XIVO_SRCNUM: 259,XIVO_CALLORIGIN: intern,XIVO_DSTID: 147
+Uniqueid: 1414510600.0
+
+Event: UserEvent
+Privilege: user,all
+UserEvent: User
+Uniqueid: 1414510600.0
+CHANNEL: Local/259@default-00000000;1
+XIVO_USERID: 
+XIVO_SRCNUM: 259
+XIVO_CALLORIGIN: intern
+XIVO_DSTID: 147
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 11
+Application: GotoIf
+AppData: ?:noblindxfer
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 13
+Application: Set
+AppData: XIVO_FWD_REFERER_TYPE=user
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_FWD_REFERER_TYPE
+Value: user
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 14
+Application: Set
+AppData: XIVO_REAL_FROMGROUP=0
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_REAL_FROMGROUP
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 15
+Application: Set
+AppData: XIVO_REAL_FROMQUEUE=0
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Variable: XIVO_REAL_FROMQUEUE
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;1
+Context: user
+Extension: s
+Priority: 16
+Application: AGI
+AppData: agi://127.0.0.1/incoming_user_set_features
+Uniqueid: 1414510600.0
+
+Event: Masquerade
+Privilege: call,all
+Clone: SIP/ddddd-00000000
+CloneState: Up
+Original: Local/259@default-00000000;1
+OriginalState: Up
+
+Event: Rename
+Privilege: call,all
+Channel: SIP/ddddd-00000000
+Newname: SIP/ddddd-00000000<MASQ>
+Uniqueid: 1414510601.2
+
+Event: Rename
+Privilege: call,all
+Channel: Local/259@default-00000000;1
+Newname: SIP/ddddd-00000000
+Uniqueid: 1414510600.0
+
+Event: Rename
+Privilege: call,all
+Channel: SIP/ddddd-00000000<MASQ>
+Newname: Local/259@default-00000000;1<ZOMBIE>
+Uniqueid: 1414510601.2
+
+Event: NewCallerid
+Privilege: call,all
+Channel: SIP/ddddd-00000000
+CallerIDNum: 259
+CallerIDName: S F
+Uniqueid: 1414510600.0
+CID-CallingPres: 0 (Presentation Allowed, Not Screened)
+
+Event: Bridge
+Privilege: call,all
+Bridgestate: Unlink
+Bridgetype: core
+Channel1: Local/259@default-00000000;2
+Channel2: Local/259@default-00000000;1<ZOMBIE>
+Uniqueid1: 1414510600.1
+Uniqueid2: 1414510601.2
+CallerID1: 
+CallerID2: 259
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: ANSWEREDTIME
+Value: 0
+Uniqueid: 1414510600.1
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: DIALEDTIME
+Value: 9
+Uniqueid: 1414510600.1
+
+Event: HangupRequest
+Privilege: call,all
+Channel: Local/259@default-00000000;2
+Uniqueid: 1414510600.1
+
+Event: Hangup
+Privilege: call,all
+Channel: Local/259@default-00000000;1<ZOMBIE>
+Uniqueid: 1414510601.2
+CallerIDNum: 259
+CallerIDName: S F
+ConnectedLineNum: <unknown>
+ConnectedLineName: Panoramisk tests
+AccountCode: 
+Cause: 16
+Cause-txt: Normal Clearing
+
+Event: CEL
+Privilege: call,all
+EventName: ANSWER
+AccountCode: 
+CallerIDnum: 
+CallerIDname: Panoramisk tests
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: user
+Channel: Local/259@default-00000000;2
+Application: Dial
+AppData: SIP/ddddd,30,hHt
+EventTime: 2014-10-28 16:36:49
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.1
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: Local/259@default-00000000;2
+Variable: DIALSTATUS
+Value: ANSWER
+Uniqueid: 1414510600.1
+
+Event: Dial
+Privilege: call,all
+SubEvent: End
+Channel: Local/259@default-00000000;2
+UniqueID: 1414510600.1
+DialStatus: ANSWER
+
+Event: SoftHangupRequest
+Privilege: call,all
+Channel: Local/259@default-00000000;2
+Uniqueid: 1414510600.1
+Cause: 16
+
+Event: Hangup
+Privilege: call,all
+Channel: Local/259@default-00000000;2
+Uniqueid: 1414510600.1
+CallerIDNum: <unknown>
+CallerIDName: Panoramisk tests
+ConnectedLineNum: 259
+ConnectedLineName: S F
+AccountCode: 
+Cause: 16
+Cause-txt: Normal Clearing
+
+Event: CEL
+Privilege: call,all
+EventName: BRIDGE_START
+AccountCode: 
+CallerIDnum: 
+CallerIDname: Panoramisk tests
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: user
+Channel: Local/259@default-00000000;2
+Application: Dial
+AppData: SIP/ddddd,30,hHt
+EventTime: 2014-10-28 16:36:49
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.1
+LinkedID: 1414510600.0
+Userfield: 
+Peer: SIP/ddddd-00000000
+PeerAccount: 
+Extra: 
+
+Event: CEL
+Privilege: call,all
+EventName: ANSWER
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: 259
+Context: default
+Channel: Local/259@default-00000000;1
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:49
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.0
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 259
+Context: default
+Hint: SIP/ddddd
+Status: 1
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *666148
+Context: default
+Hint: SIP/ddddd
+Status: 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 285624360
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 285624360
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1018946091
+Command: GET VARIABLE "XIVO_DSTID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1018946091
+Command: GET VARIABLE "XIVO_DSTID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1101081066
+Command: GET VARIABLE "XIVO_CALLORIGIN"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1101081066
+Command: GET VARIABLE "XIVO_CALLORIGIN"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1047468209
+Command: GET VARIABLE "XIVO_SRCNUM"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1047468209
+Command: GET VARIABLE "XIVO_SRCNUM"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1232065858
+Command: GET VARIABLE "XIVO_DSTNUM"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1232065858
+Command: GET VARIABLE "XIVO_DSTNUM"
+ResultCode: 200
+Result: Success
+
+Event: CEL
+Privilege: call,all
+EventName: HANGUP
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 259
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: 
+Context: user
+Channel: Local/259@default-00000000;1<ZOMBIE>
+Application: AppDial
+AppData: (Outgoing Line)
+EventTime: 2014-10-28 16:36:49
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510601.2
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 16,,
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_END
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 259
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: 
+Context: user
+Channel: Local/259@default-00000000;1<ZOMBIE>
+Application: AppDial
+AppData: (Outgoing Line)
+EventTime: 2014-10-28 16:36:49
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510601.2
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: CEL
+Privilege: call,all
+EventName: HANGUP
+AccountCode: 
+CallerIDnum: 
+CallerIDname: Panoramisk tests
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: user
+Channel: Local/259@default-00000000;2
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:49
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.1
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 16,,ANSWER
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_END
+AccountCode: 
+CallerIDnum: 
+CallerIDname: Panoramisk tests
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: user
+Channel: Local/259@default-00000000;2
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:49
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.1
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 2086254126
+Command: SET VARIABLE "XIVO_DST_USERNUM" "254"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_DST_USERNUM
+Value: 254
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 2086254126
+Command: SET VARIABLE "XIVO_DST_USERNUM" "254"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1935713048
+Command: SET VARIABLE "XIVO_DST_FIRSTNAME" "L"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_DST_FIRSTNAME
+Value: L
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1935713048
+Command: SET VARIABLE "XIVO_DST_FIRSTNAME" "L"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1550146534
+Command: SET VARIABLE "XIVO_DST_LASTNAME" "G"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_DST_LASTNAME
+Value: G
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1550146534
+Command: SET VARIABLE "XIVO_DST_LASTNAME" "G"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 612125112
+Command: SET VARIABLE "XIVO_DST_REDIRECTING_NAME" "L G"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_DST_REDIRECTING_NAME
+Value: L G
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 612125112
+Command: SET VARIABLE "XIVO_DST_REDIRECTING_NAME" "L G"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 522862848
+Command: SET VARIABLE "XIVO_DST_REDIRECTING_NUM" "254"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_DST_REDIRECTING_NUM
+Value: 254
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 522862848
+Command: SET VARIABLE "XIVO_DST_REDIRECTING_NUM" "254"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1855626964
+Command: SET VARIABLE "XIVO_INTERFACE" "SIP/uuuuu"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_INTERFACE
+Value: SIP/uuuuu
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1855626964
+Command: SET VARIABLE "XIVO_INTERFACE" "SIP/uuuuu"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 539888559
+Command: SET VARIABLE "XIVO_CALLOPTIONS" "hHtT"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_CALLOPTIONS
+Value: hHtT
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 539888559
+Command: SET VARIABLE "XIVO_CALLOPTIONS" "hHtT"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1678689466
+Command: SET VARIABLE "XIVO_SIMULTCALLS" "5"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_SIMULTCALLS
+Value: 5
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1678689466
+Command: SET VARIABLE "XIVO_SIMULTCALLS" "5"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 460905162
+Command: SET VARIABLE "XIVO_RINGSECONDS" "30"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_RINGSECONDS
+Value: 30
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 460905162
+Command: SET VARIABLE "XIVO_RINGSECONDS" "30"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 96555723
+Command: SET VARIABLE "XIVO_ENABLEDND" "0"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_ENABLEDND
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 96555723
+Command: SET VARIABLE "XIVO_ENABLEDND" "0"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1174643013
+Command: SET VARIABLE "XIVO_ENABLEVOICEMAIL" "0"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_ENABLEVOICEMAIL
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1174643013
+Command: SET VARIABLE "XIVO_ENABLEVOICEMAIL" "0"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 714604477
+Command: SET VARIABLE "XIVO_MAILBOX" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_MAILBOX
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 714604477
+Command: SET VARIABLE "XIVO_MAILBOX" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 56976057
+Command: SET VARIABLE "XIVO_MAILBOX_CONTEXT" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_MAILBOX_CONTEXT
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 56976057
+Command: SET VARIABLE "XIVO_MAILBOX_CONTEXT" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1163065498
+Command: SET VARIABLE "XIVO_USEREMAIL" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_USEREMAIL
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1163065498
+Command: SET VARIABLE "XIVO_USEREMAIL" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 363454558
+Command: SET VARIABLE "XIVO_ENABLEUNC" "0"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_ENABLEUNC
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 363454558
+Command: SET VARIABLE "XIVO_ENABLEUNC" "0"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1301637522
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_UNC_ACTION
+Value: none
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1301637522
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1050105169
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_UNC_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1050105169
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1741007012
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_UNC_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1741007012
+Command: SET VARIABLE "XIVO_FWD_USER_UNC_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 322250224
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_BUSY_ACTION
+Value: none
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 322250224
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1279828525
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ISDA" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_BUSY_ISDA
+Value: 1
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1279828525
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ISDA" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1939376719
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_BUSY_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1939376719
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 2028455323
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_BUSY_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 2028455323
+Command: SET VARIABLE "XIVO_FWD_USER_BUSY_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 511622874
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_NOANSWER_ACTION
+Value: none
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 511622874
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1889424603
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ISDA" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_NOANSWER_ISDA
+Value: 1
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1889424603
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ISDA" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 459357547
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_NOANSWER_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 459357547
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 703471586
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_NOANSWER_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 703471586
+Command: SET VARIABLE "XIVO_FWD_USER_NOANSWER_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1561213152
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_CONGESTION_ACTION
+Value: none
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1561213152
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 2138230449
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ISDA" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_CONGESTION_ISDA
+Value: 1
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 2138230449
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ISDA" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1969255075
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_CONGESTION_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1969255075
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 307198792
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_CONGESTION_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 307198792
+Command: SET VARIABLE "XIVO_FWD_USER_CONGESTION_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1964803695
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTION" "none"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_CHANUNAVAIL_ACTION
+Value: none
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1964803695
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTION" "none"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1629533389
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ISDA" "1"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_CHANUNAVAIL_ISDA
+Value: 1
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1629533389
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ISDA" "1"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 750551155
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG1" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG1
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 750551155
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG1" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1493427405
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG2" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG2
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1493427405
+Command: SET VARIABLE "XIVO_FWD_USER_CHANUNAVAIL_ACTIONARG2" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 371352294
+Command: SET VARIABLE "CHANNEL(musicclass)" "default"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 371352294
+Command: SET VARIABLE "CHANNEL(musicclass)" "default"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1488827366
+Command: SET VARIABLE "XIVO_CALLRECORDFILE" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_CALLRECORDFILE
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1488827366
+Command: SET VARIABLE "XIVO_CALLRECORDFILE" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 728323017
+Command: SET VARIABLE "XIVO_USERPREPROCESS_SUBROUTINE" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_USERPREPROCESS_SUBROUTINE
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 728323017
+Command: SET VARIABLE "XIVO_USERPREPROCESS_SUBROUTINE" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1695395554
+Command: SET VARIABLE "XIVO_MOBILEPHONENUMBER" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_MOBILEPHONENUMBER
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1695395554
+Command: SET VARIABLE "XIVO_MOBILEPHONENUMBER" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1505356270
+Command: GET VARIABLE "XIVO_PATH"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1505356270
+Command: GET VARIABLE "XIVO_PATH"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 322112498
+Command: SET VARIABLE "XIVO_PATH" "user"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_PATH
+Value: user
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 322112498
+Command: SET VARIABLE "XIVO_PATH" "user"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 134630649
+Command: SET VARIABLE "XIVO_PATH_ID" "147"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_PATH_ID
+Value: 147
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 134630649
+Command: SET VARIABLE "XIVO_PATH_ID" "147"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1289750731
+Command: VERBOSE "AGI handler 'incoming_user_set_features' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1289750731
+Command: VERBOSE "AGI handler 'incoming_user_set_features' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 17
+Application: NoOp
+AppData: filename call recording: none
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 18
+Application: AGI
+AppData: agi://127.0.0.1/check_schedule
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 580837644
+Command: GET VARIABLE "XIVO_PATH"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 580837644
+Command: GET VARIABLE "XIVO_PATH"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 126748224
+Command: GET VARIABLE "XIVO_PATH_ID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 126748224
+Command: GET VARIABLE "XIVO_PATH_ID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 529861623
+Command: SET VARIABLE "XIVO_SCHEDULE_STATUS" "opened"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_SCHEDULE_STATUS
+Value: opened
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 529861623
+Command: SET VARIABLE "XIVO_SCHEDULE_STATUS" "opened"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 247671395
+Command: SET VARIABLE "XIVO_PATH" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_PATH
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 247671395
+Command: SET VARIABLE "XIVO_PATH" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1521265820
+Command: VERBOSE "AGI handler 'check_schedule' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1521265820
+Command: VERBOSE "AGI handler 'check_schedule' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 19
+Application: GotoIf
+AppData: 0?CLOSED,1
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 20
+Application: Gosub
+AppData: xivo-ring_type_set,s,1
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-ring_type_set
+Extension: s
+Priority: 1
+Application: SIPRemoveHeader
+AppData: 
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-ring_type_set
+Extension: s
+Priority: 2
+Application: AGI
+AppData: agi://127.0.0.1/getring
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 856664788
+Command: GET VARIABLE "XIVO_DSTNUM"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 856664788
+Command: GET VARIABLE "XIVO_DSTNUM"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1364230963
+Command: GET VARIABLE "XIVO_CONTEXT"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1364230963
+Command: GET VARIABLE "XIVO_CONTEXT"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 614123106
+Command: GET VARIABLE "XIVO_CALLORIGIN"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 614123106
+Command: GET VARIABLE "XIVO_CALLORIGIN"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 761458624
+Command: GET VARIABLE "XIVO_FWD_REFERER"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 761458624
+Command: GET VARIABLE "XIVO_FWD_REFERER"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1662038702
+Command: GET VARIABLE "XIVO_CALLFORWARDED"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1662038702
+Command: GET VARIABLE "XIVO_CALLFORWARDED"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 2048818366
+Command: SET VARIABLE "XIVO_RINGTYPE" ""
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_RINGTYPE
+Value: 
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 2048818366
+Command: SET VARIABLE "XIVO_RINGTYPE" ""
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1199810507
+Command: VERBOSE "Using the native phone ring tone" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1199810507
+Command: VERBOSE "Using the native phone ring tone" 1
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1443535372
+Command: VERBOSE "AGI handler 'getring' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1443535372
+Command: VERBOSE "AGI handler 'getring' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-ring_type_set
+Extension: s
+Priority: 3
+Application: GotoIf
+AppData: ?:exit
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-ring_type_set
+Extension: s
+Priority: 8
+Application: Return
+AppData: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 21
+Application: Gosub
+AppData: xivo-subroutine,s,1()
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-subroutine
+Extension: s
+Priority: 1
+Application: GotoIf
+AppData: ?:nosubroutine
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-subroutine
+Extension: s
+Priority: 4
+Application: Return
+AppData: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 22
+Application: Set
+AppData: XIVO_RINGSECONDS=30
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_RINGSECONDS
+Value: 30
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 23
+Application: Gosub
+AppData: xivo-user_rights_check,s,1
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-user_rights_check
+Extension: s
+Priority: 1
+Application: AGI
+AppData: agi://127.0.0.1/user_set_call_rights
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1429765793
+Command: GET VARIABLE "XIVO_USERID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1429765793
+Command: GET VARIABLE "XIVO_USERID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 786282626
+Command: GET VARIABLE "XIVO_DSTNUM"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 786282626
+Command: GET VARIABLE "XIVO_DSTNUM"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 647842738
+Command: GET VARIABLE "XIVO_OUTCALLID"
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 647842738
+Command: GET VARIABLE "XIVO_OUTCALLID"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1467594794
+Command: SET VARIABLE "XIVO_AUTHORIZATION" "ALLOW"
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: XIVO_AUTHORIZATION
+Value: ALLOW
+Uniqueid: 1414510600.0
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1467594794
+Command: SET VARIABLE "XIVO_AUTHORIZATION" "ALLOW"
+ResultCode: 200
+Result: Success
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/ddddd-00000000
+CommandId: 1574737600
+Command: VERBOSE "AGI handler 'user_set_call_rights' successfully executed" 1
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+CommandId: 1574737600
+Command: VERBOSE "AGI handler 'user_set_call_rights' successfully executed" 1
+ResultCode: 200
+Result: Success
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: AGISTATUS
+Value: SUCCESS
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-user_rights_check
+Extension: s
+Priority: 2
+Application: GotoIf
+AppData: ALLOW?:error,1
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-user_rights_check
+Extension: s
+Priority: 3
+Application: GotoIf
+AppData: 1?allow,1
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-user_rights_check
+Extension: allow
+Priority: 1
+Application: NoOp
+AppData: User allowed to make call
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-user_rights_check
+Extension: allow
+Priority: 2
+Application: Return
+AppData: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 24
+Application: GotoIf
+AppData: 0?dial_from_queue,1
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 25
+Application: GotoIf
+AppData: 0?xivo-user_callfilter,s,1
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 26
+Application: GotoIf
+AppData: ?:28
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 28
+Application: GotoIf
+AppData: 0?DND,1
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 29
+Application: DumpChan
+AppData: 7
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 30
+Application: NoOp
+AppData: XIVO_ENABLEUNC: 0 XIVO_SRCNUM: 259 XIVO_FWD_USER_UNC_ACTIONARG: 
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 31
+Application: GotoIf
+AppData: 0?UNC,1
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 32
+Application: GotoIf
+AppData: 0?dial_from_group,1
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 33
+Application: GotoIf
+AppData: 0?BUSY,1
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 34
+Application: Set
+AppData: OUTBOUND_GROUP_ONCE=147@XIVO_USER
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: OUTBOUND_GROUP_ONCE
+Value: 147@XIVO_USER
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 35
+Application: Gosub
+AppData: xivo-connectedline,s,1(254,L G)
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG1)
+Value: 254
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG2)
+Value: L G
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARGC)
+Value: 2
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-connectedline
+Extension: s
+Priority: 1
+Application: NoOp
+AppData: Generic subroutine for connectedline
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-connectedline
+Extension: s
+Priority: 2
+Application: Set
+AppData: CONNECTEDLINE(all,i)=L G <254>
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-connectedline
+Extension: s
+Priority: 3
+Application: Return
+AppData: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 36
+Application: Gosub
+AppData: xivo-global-subroutine,s,1
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-global-subroutine
+Extension: s
+Priority: 1
+Application: GotoIf
+AppData: 1?:return
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-global-subroutine
+Extension: s
+Priority: 2
+Application: GotoIf
+AppData: USER?:return
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-global-subroutine
+Extension: s
+Priority: 3
+Application: GotoIf
+AppData: xivo-subrgbl-user?:return
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-global-subroutine
+Extension: s
+Priority: 4
+Application: GotoIf
+AppData: 1?:return
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-global-subroutine
+Extension: s
+Priority: 5
+Application: Gosub
+AppData: xivo-subrgbl-user,s,1
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 1
+Application: Verbose
+AppData: 3, "-= ALLOcloud preprocess subroutine groups =-"
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 2
+Application: Verbose
+AppData: 3, "-= Test if the user is busy =-"
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 3
+Application: Set
+AppData: COUNT_BUSY=NOT_INUSE
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: COUNT_BUSY
+Value: NOT_INUSE
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 4
+Application: GotoIf
+AppData: 1?return
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 9
+Application: Verbose
+AppData: 3, "-= Returning to the original call-flow =-"
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-subrgbl-user
+Extension: s
+Priority: 10
+Application: Return
+AppData: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: xivo-global-subroutine
+Extension: s
+Priority: 6
+Application: Return
+AppData: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 37
+Application: Gosub
+AppData: originate-caller-id,s,1
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG1)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARG2)
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: LOCAL(ARGC)
+Value: 0
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: originate-caller-id
+Extension: s
+Priority: 1
+Application: GotoIf
+AppData: 0?:name
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: originate-caller-id
+Extension: s
+Priority: 3
+Application: GotoIf
+AppData: 0?:end
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: originate-caller-id
+Extension: s
+Priority: 5
+Application: Return
+AppData: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: GOSUB_RETVAL
+Value: 
+Uniqueid: 1414510600.0
+
+Event: Newexten
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Context: user
+Extension: s
+Priority: 38
+Application: Dial
+AppData: SIP/uuuuu,30,hHtT
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALSTATUS
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALEDPEERNUMBER
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALEDPEERNAME
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: ANSWEREDTIME
+Value: 
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALEDTIME
+Value: 
+Uniqueid: 1414510600.0
+
+Event: Newchannel
+Privilege: call,all
+Channel: SIP/uuuuu-00000001
+ChannelState: 0
+ChannelStateDesc: Down
+CallerIDNum: 254
+CallerIDName: L G
+AccountCode: 
+Exten: 
+Context: default
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: SIPCALLID
+Value: 414b3fd56f10332d23de4bda18636dc0@192.168.0.1:5060
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: XIVO_USERID
+Value: 147
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: PICKUPMARK
+Value: 254%default
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: TRANSFER_CONTEXT
+Value: default
+Uniqueid: 1414510609.3
+
+Event: ChannelUpdate
+Privilege: system,all
+Channel: SIP/uuuuu-00000001
+Uniqueid: 1414510609.3
+Channeltype: SIP
+SIPcallid: 414b3fd56f10332d23de4bda18636dc0@192.168.0.1:5060
+SIPfullcontact: sip:uuuuu@192.168.0.2:5060
+
+Event: ChannelUpdate
+Privilege: system,all
+Channel: SIP/uuuuu-00000001
+Channeltype: SIP
+SIPcallid: 414b3fd56f10332d23de4bda18636dc0@192.168.0.1:5060
+SIPfullcontact: sip:uuuuu@192.168.0.2:5060
+Peername: uuuuu
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: DIALEDPEERNUMBER
+Value: uuuuu
+Uniqueid: 1414510609.3
+
+Event: Dial
+Privilege: call,all
+SubEvent: Begin
+Channel: SIP/ddddd-00000000
+Destination: SIP/uuuuu-00000001
+CallerIDNum: 259
+CallerIDName: S F
+ConnectedLineNum: 254
+ConnectedLineName: L G
+UniqueID: 1414510600.0
+DestUniqueID: 1414510609.3
+Dialstring: uuuuu
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_START
+AccountCode: 
+CallerIDnum: 254
+CallerIDname: L G
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: default
+Channel: SIP/uuuuu-00000001
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:49
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510609.3
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 254
+Context: default
+Hint: SIP/uuuuu
+Status: 8
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *666147
+Context: default
+Hint: SIP/uuuuu
+Status: 8
+
+Event: SIPRinging
+Privilege: system,all
+Peer: SIP/uuuuu
+
+Event: Newstate
+Privilege: call,all
+Channel: SIP/uuuuu-00000001
+ChannelState: 5
+ChannelStateDesc: Ringing
+CallerIDNum: 254
+CallerIDName: L G
+ConnectedLineNum: 259
+ConnectedLineName: S F
+Uniqueid: 1414510609.3
+
+Event: ChannelUpdate
+Privilege: system,all
+Channel: SIP/uuuuu-00000001
+Channeltype: SIP
+Uniqueid: 1414510609.3
+SIPcallid: 414b3fd56f10332d23de4bda18636dc0@192.168.0.1:5060
+SIPfullcontact: sip:uuuuu@192.168.2.27:5060
+Peername: uuuuu
+
+Event: Newstate
+Privilege: call,all
+Channel: SIP/uuuuu-00000001
+ChannelState: 6
+ChannelStateDesc: Up
+CallerIDNum: 254
+CallerIDName: L G
+ConnectedLineNum: 259
+ConnectedLineName: S F
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALSTATUS
+Value: ANSWER
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALEDPEERNAME
+Value: SIP/uuuuu-00000001
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALEDPEERNUMBER
+Value: uuuuu
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPEER
+Value: SIP/uuuuu-00000001
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: BRIDGEPEER
+Value: SIP/ddddd-00000000
+Uniqueid: 1414510609.3
+
+Event: NewAccountCode
+Privilege: call,all
+Channel: SIP/uuuuu-00000001
+Uniqueid: 1414510609.3
+AccountCode: 
+OldAccountCode: 
+
+Event: Bridge
+Privilege: call,all
+Bridgestate: Link
+Bridgetype: core
+Channel1: SIP/ddddd-00000000
+Channel2: SIP/uuuuu-00000001
+Uniqueid1: 1414510600.0
+Uniqueid2: 1414510609.3
+CallerID1: 259
+CallerID2: 254
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPEER
+Value: SIP/uuuuu-00000001
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPVTCALLID
+Value: 414b3fd56f10332d23de4bda18636dc0@192.168.0.1:5060
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: BRIDGEPEER
+Value: SIP/ddddd-00000000
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: BRIDGEPVTCALLID
+Value: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPEER
+Value: SIP/uuuuu-00000001
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPVTCALLID
+Value: 414b3fd56f10332d23de4bda18636dc0@192.168.0.1:5060
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: BRIDGEPEER
+Value: SIP/ddddd-00000000
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: BRIDGEPVTCALLID
+Value: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+Uniqueid: 1414510609.3
+
+Event: CEL
+Privilege: call,all
+EventName: ANSWER
+AccountCode: 
+CallerIDnum: 254
+CallerIDname: L G
+CallerIDani: 254
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: default
+Channel: SIP/uuuuu-00000001
+Application: AppDial
+AppData: (Outgoing Line)
+EventTime: 2014-10-28 16:36:53
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510609.3
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: CEL
+Privilege: call,all
+EventName: BRIDGE_START
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: user
+Channel: SIP/ddddd-00000000
+Application: Dial
+AppData: SIP/uuuuu,30,hHtT
+EventTime: 2014-10-28 16:36:53
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.0
+LinkedID: 1414510600.0
+Userfield: 
+Peer: SIP/uuuuu-00000001
+PeerAccount: 
+Extra: 
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 254
+Context: default
+Hint: SIP/uuuuu
+Status: 1
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *666147
+Context: default
+Hint: SIP/uuuuu
+Status: 1
+
+Event: Bridge
+Privilege: call,all
+Bridgestate: Unlink
+Bridgetype: core
+Channel1: SIP/ddddd-00000000
+Channel2: SIP/uuuuu-00000001
+Uniqueid1: 1414510600.0
+Uniqueid2: 1414510609.3
+CallerID1: 259
+CallerID2: 254
+
+Event: Bridge
+Privilege: call,all
+Bridgestate: Link
+Bridgetype: core
+Channel1: SIP/ddddd-00000000
+Channel2: SIP/uuuuu-00000001
+Uniqueid1: 1414510600.0
+Uniqueid2: 1414510609.3
+CallerID1: 259
+CallerID2: 254
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPEER
+Value: SIP/uuuuu-00000001
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPVTCALLID
+Value: 414b3fd56f10332d23de4bda18636dc0@192.168.0.1:5060
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: BRIDGEPEER
+Value: SIP/ddddd-00000000
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: BRIDGEPVTCALLID
+Value: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPEER
+Value: SIP/uuuuu-00000001
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: BRIDGEPVTCALLID
+Value: 414b3fd56f10332d23de4bda18636dc0@192.168.0.1:5060
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: BRIDGEPEER
+Value: SIP/ddddd-00000000
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: BRIDGEPVTCALLID
+Value: 417341300e78b1ef0389221173d5bf6f@192.168.0.1:5060
+Uniqueid: 1414510609.3
+
+Event: RTCPReceived
+Privilege: reporting,all
+From: 192.168.0.2:58873
+PT: 200(Sender Report)
+ReceptionReports: 1
+SenderSSRC: 16777217
+FractionLost: 1
+PacketsLost: 1
+HighestSequence: 36085
+SequenceNumberCycles: 0
+IAJitter: 0
+LastSR: 0.0000000000
+DLSR: 0.0000(sec)
+
+Event: RTCPSent
+Privilege: reporting,all
+To: 192.168.0.2:58873
+OurSSRC: 842807399
+SentNTP: 1414510614.1545428992
+SentRTP: 32160
+SentPackets: 201
+SentOctets: 32160
+ReportBlock:
+FractionLost: 0
+CumulativeLoss: 0
+IAJitter: 0.0084
+TheirLastSR: 915837296
+DLSR: 0.3830 (sec)
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: RTPAUDIOQOS
+Value: ssrc=1171868064;themssrc=0;lp=0;rxjitter=0.000000;rxcount=0;txjitter=0.000000;txcount=227;rlp=0;rtt=0.000000
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSBRIDGED
+Value: ssrc=1171868064;themssrc=0;lp=0;rxjitter=0.000000;rxcount=0;txjitter=0.000000;txcount=227;rlp=0;rtt=0.000000
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: RTPAUDIOQOSJITTER
+Value: minrxjitter=0.000000;maxrxjitter=0.000000;avgrxjitter=0.000000;stdevrxjitter=0.000000;reported_minjitter=0.000000;reported_maxjitter=0.000000;reported_avgjitter=0.000000;reported_stdevjitter=0.000000;
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSJITTERBRIDGED
+Value: minrxjitter=0.000000;maxrxjitter=0.000000;avgrxjitter=0.000000;stdevrxjitter=0.000000;reported_minjitter=0.000000;reported_maxjitter=0.000000;reported_avgjitter=0.000000;reported_stdevjitter=0.000000;
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: RTPAUDIOQOSLOSS
+Value: minrxlost=0.000000;maxrxlost=0.000000;avgrxlost=0.000000;stdevrxlost=0.000000;reported_minlost=0.000000;reported_maxlost=0.000000;reported_avglost=0.000000;reported_stdevlost=0.000000;
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSLOSSBRIDGED
+Value: minrxlost=0.000000;maxrxlost=0.000000;avgrxlost=0.000000;stdevrxlost=0.000000;reported_minlost=0.000000;reported_maxlost=0.000000;reported_avglost=0.000000;reported_stdevlost=0.000000;
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: RTPAUDIOQOSRTT
+Value: minrtt=0.000000;maxrtt=0.000000;avgrtt=0.000000;stdevrtt=0.000000;
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSRTTBRIDGED
+Value: minrtt=0.000000;maxrtt=0.000000;avgrtt=0.000000;stdevrtt=0.000000;
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOS
+Value: ssrc=842807399;themssrc=1853077823;lp=0;rxjitter=0.000000;rxcount=425;txjitter=0.009670;txcount=201;rlp=1;rtt=0.000000
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: RTPAUDIOQOSBRIDGED
+Value: ssrc=842807399;themssrc=1853077823;lp=0;rxjitter=0.000000;rxcount=425;txjitter=0.009670;txcount=201;rlp=1;rtt=0.000000
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSJITTER
+Value: minrxjitter=0.000000;maxrxjitter=0.000000;avgrxjitter=0.000000;stdevrxjitter=0.000000;reported_minjitter=0.000000;reported_maxjitter=0.000000;reported_avgjitter=0.000000;reported_stdevjitter=0.000000;
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: RTPAUDIOQOSJITTERBRIDGED
+Value: minrxjitter=0.000000;maxrxjitter=0.000000;avgrxjitter=0.000000;stdevrxjitter=0.000000;reported_minjitter=0.000000;reported_maxjitter=0.000000;reported_avgjitter=0.000000;reported_stdevjitter=0.000000;
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSLOSS
+Value: minrxlost=0.000000;maxrxlost=0.000000;avgrxlost=0.000000;stdevrxlost=0.000000;reported_minlost=0.000000;reported_maxlost=0.000000;reported_avglost=0.000000;reported_stdevlost=0.000000;
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: RTPAUDIOQOSLOSSBRIDGED
+Value: minrxlost=0.000000;maxrxlost=0.000000;avgrxlost=0.000000;stdevrxlost=0.000000;reported_minlost=0.000000;reported_maxlost=0.000000;reported_avglost=0.000000;reported_stdevlost=0.000000;
+Uniqueid: 1414510609.3
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSRTT
+Value: minrtt=0.000000;maxrtt=0.000000;avgrtt=0.000000;stdevrtt=0.000000;
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/uuuuu-00000001
+Variable: RTPAUDIOQOSRTTBRIDGED
+Value: minrtt=0.000000;maxrtt=0.000000;avgrtt=0.000000;stdevrtt=0.000000;
+Uniqueid: 1414510609.3
+
+Event: HangupRequest
+Privilege: call,all
+Channel: SIP/uuuuu-00000001
+Uniqueid: 1414510609.3
+
+Event: Bridge
+Privilege: call,all
+Bridgestate: Unlink
+Bridgetype: core
+Channel1: SIP/ddddd-00000000
+Channel2: SIP/uuuuu-00000001
+Uniqueid1: 1414510600.0
+Uniqueid2: 1414510609.3
+CallerID1: 259
+CallerID2: 254
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: ANSWEREDTIME
+Value: 5
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALEDTIME
+Value: 9
+Uniqueid: 1414510600.0
+
+Event: CEL
+Privilege: call,all
+EventName: BRIDGE_END
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: user
+Channel: SIP/ddddd-00000000
+Application: Dial
+AppData: SIP/uuuuu,30,hHtT
+EventTime: 2014-10-28 16:36:58
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.0
+LinkedID: 1414510600.0
+Userfield: 
+Peer: SIP/uuuuu-00000001
+PeerAccount: 
+Extra: 
+
+Event: Hangup
+Privilege: call,all
+Channel: SIP/uuuuu-00000001
+Uniqueid: 1414510609.3
+CallerIDNum: 254
+CallerIDName: L G
+ConnectedLineNum: 259
+ConnectedLineName: S F
+AccountCode: 
+Cause: 16
+Cause-txt: Normal Clearing
+
+Event: CEL
+Privilege: call,all
+EventName: HANGUP
+AccountCode: 
+CallerIDnum: 254
+CallerIDname: L G
+CallerIDani: 254
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: 
+Context: user
+Channel: SIP/uuuuu-00000001
+Application: AppDial
+AppData: (Outgoing Line)
+EventTime: 2014-10-28 16:36:58
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510609.3
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 16,SIP/uuuuu-00000001,
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_END
+AccountCode: 
+CallerIDnum: 254
+CallerIDname: L G
+CallerIDani: 254
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: 
+Context: user
+Channel: SIP/uuuuu-00000001
+Application: AppDial
+AppData: (Outgoing Line)
+EventTime: 2014-10-28 16:36:58
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510609.3
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 254
+Context: default
+Hint: SIP/uuuuu
+Status: 0
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *666147
+Context: default
+Hint: SIP/uuuuu
+Status: 0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: DIALSTATUS
+Value: ANSWER
+Uniqueid: 1414510600.0
+
+Event: Dial
+Privilege: call,all
+SubEvent: End
+Channel: SIP/ddddd-00000000
+UniqueID: 1414510600.0
+DialStatus: ANSWER
+
+Event: SoftHangupRequest
+Privilege: call,all
+Channel: SIP/ddddd-00000000
+Uniqueid: 1414510600.0
+Cause: 16
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOS
+Value: ssrc=842807399;themssrc=1853077823;lp=0;rxjitter=0.000000;rxcount=425;txjitter=0.009670;txcount=201;rlp=1;rtt=0.000000
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSJITTER
+Value: minrxjitter=0.000000;maxrxjitter=0.000000;avgrxjitter=0.000000;stdevrxjitter=0.000000;reported_minjitter=0.000000;reported_maxjitter=0.000000;reported_avgjitter=0.000000;reported_stdevjitter=0.000000;
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSLOSS
+Value: minrxlost=0.000000;maxrxlost=0.000000;avgrxlost=0.000000;stdevrxlost=0.000000;reported_minlost=0.000000;reported_maxlost=0.000000;reported_avglost=0.000000;reported_stdevlost=0.000000;
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOSRTT
+Value: minrtt=0.000000;maxrtt=0.000000;avgrtt=0.000000;stdevrtt=0.000000;
+Uniqueid: 1414510600.0
+
+Event: VarSet
+Privilege: dialplan,all
+Channel: SIP/ddddd-00000000
+Variable: RTPAUDIOQOS
+Value: ssrc=842807399;themssrc=1853077823;lp=0;rxjitter=0.000000;rxcount=425;txjitter=0.009670;txcount=201;rlp=1;rtt=0.000000
+Uniqueid: 1414510600.0
+
+Event: Hangup
+Privilege: call,all
+Channel: SIP/ddddd-00000000
+Uniqueid: 1414510600.0
+CallerIDNum: 259
+CallerIDName: S F
+ConnectedLineNum: 254
+ConnectedLineName: L G
+AccountCode: 
+Cause: 16
+Cause-txt: Normal Clearing
+
+Event: CEL
+Privilege: call,all
+EventName: HANGUP
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: user
+Channel: SIP/ddddd-00000000
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:58
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.0
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 16,SIP/uuuuu-00000001,ANSWER
+
+Event: CEL
+Privilege: call,all
+EventName: CHAN_END
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: user
+Channel: SIP/ddddd-00000000
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:58
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.0
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: CEL
+Privilege: call,all
+EventName: LINKEDID_END
+AccountCode: 
+CallerIDnum: 259
+CallerIDname: S F
+CallerIDani: 
+CallerIDrdnis: 
+CallerIDdnid: 
+Exten: s
+Context: user
+Channel: SIP/ddddd-00000000
+Application: 
+AppData: 
+EventTime: 2014-10-28 16:36:58
+AMAFlags: DOCUMENTATION
+UniqueID: 1414510600.0
+LinkedID: 1414510600.0
+Userfield: 
+Peer: 
+PeerAccount: 
+Extra: 
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: 259
+Context: default
+Hint: SIP/ddddd
+Status: 0
+
+Event: ExtensionStatus
+Privilege: call,all
+Exten: *666148
+Context: default
+Hint: SIP/ddddd
+Status: 0
