@@ -15,6 +15,14 @@ class Action(utils.CaseInsensitiveDict):
         >>> print(action) # doctest: +NORMALIZE_WHITESPACE
         Action: Status
         ActionID: action/myuuid/1/1
+
+        >>> action = Action({'Action': 'SIPnotify',
+        ...                  'Variable': ['1', '2']})
+        >>> print(action) # doctest: +NORMALIZE_WHITESPACE
+        Action: SIPnotify
+        ActionID: action/myuuid/1/2
+        Variable: 1
+        Variable: 2
     """
 
     action_id_generator = utils.IdGenerator('action')
@@ -34,7 +42,12 @@ class Action(utils.CaseInsensitiveDict):
     action_id = id
 
     def __str__(self):
-        action = [': '.join(i) for i in sorted(self.items())]
+        action = []
+        for k, v in sorted(self.items()):
+            if isinstance(v, (list, tuple)):
+                action.extend(['%s: %s' % (k, i) for i in v])
+            else:
+                action.append('%s: %s' % (k, v))
         action.append(utils.EOL)
         return utils.EOL.join(action)
 
