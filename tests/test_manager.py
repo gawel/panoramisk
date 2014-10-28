@@ -24,7 +24,7 @@ def test_connection(manager):
 def test_ping(manager):
     manager = manager(stream='ping.yaml')
     future = manager.send_action({'Action': 'Ping'})
-    assert 'ping' in future.result().lheaders
+    assert 'ping' in future.result()
 
 
 def test_queue_status(manager):

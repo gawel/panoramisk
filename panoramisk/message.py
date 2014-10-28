@@ -2,12 +2,12 @@
 from . import utils
 
 
-class Message(object):
+class Message(utils.CaseInsensitiveDict):
     """Handle both Responses and Events with the same api:
 
     ..
-        >>> resp = Message('Response body', {'Response': 'Follows'})
-        >>> event = Message('', {'Event': 'MeetmeEnd', 'Meetme': '4242'})
+        >>> resp = Message({'Response': 'Follows'}, 'Response body')
+        >>> event = Message({'Event': 'MeetmeEnd', 'Meetme': '4242'})
 
     Responses:
 
@@ -15,8 +15,8 @@ class Message(object):
 
         >>> bool(resp.success)
         True
-        >>> resp.headers
-        {'Response': 'Follows'}
+        >>> resp
+        <Message Response='Follows' content='Response body'>
         >>> print(resp.content)
         Response body
         >>> for line in resp.iter_lines():
@@ -31,25 +31,23 @@ class Message(object):
         4242
         >>> print(event.meetme)
         4242
-        >>> print(event.unknown_header)
-        None
+        >>> event.unknown_header
+        ''
 
     """
 
     quoted_keys = ['result']
 
-    def __init__(self, content, headers=None):
-        self.content = content
-        self.headers = utils.CaseInsensitiveDict(headers)
-        self.manager = self.name = None,
-        self.orig = None
+    def __init__(self, headers, content=''):
+        super(Message, self).__init__(headers, content=content)
+        self.manager = None,
 
     @property
     def id(self):
-        if 'commandid' in self.headers:
-            return self.headers['commandid']
-        elif 'actionid' in self.headers:
-            return self.headers['actionid']
+        if 'commandid' in self:
+            return self['commandid']
+        elif 'actionid' in self:
+            return self['actionid']
         return None
 
     @property
@@ -58,58 +56,33 @@ class Message(object):
 
         .. code-block:: python
 
-            >>> resp = Message('', {'Response': 'Success'})
+            >>> resp = Message({'Response': 'Success'})
             >>> print(resp.success)
             Success
-            >>> resp.headers['Response'] = 'Failed'
+            >>> resp['Response'] = 'Failed'
             >>> resp.success
             False
         """
-        if 'Event' in self.headers:
+        if 'event' in self:
             return True
-        status = self.headers['Response']
+        status = self['response']
         if status in ('Success', 'Follows'):
             return 'Success'
         return False
 
-    def __getitem__(self, attr):
-        return self.headers[attr]
-
-    def __getattr__(self, attr):
-        return self.headers.get(attr, None)
-
-    def __contains__(self, value):
-        return value in self.headers
-
     def __repr__(self):
-        return (
-            '<Message headers:{0.headers} content:"{0.content}">'
-        ).format(self)
+        message = ' '.join(['%s=%r' % i for i in sorted(self.items())])
+        return '<Message {0}>'.format(message)
 
     def iter_lines(self):
         """Iter over response body"""
         for line in self.content.split('\n'):
             yield line
 
-    @property
-    def lheaders(self):
-        """return headers with lower keys:
-
-        .. code-block:: python
-
-            >>> resp = Message('', {'Ping': 'Pong'})
-            >>> print(resp.lheaders)
-            {'ping': 'Pong'}
-        """
-        h = {}
-        for k, v in self.headers.items():
-            h[k.lower()] = v
-        return h
-
     @classmethod
     def from_line(cls, line):
             mlines = line.split(utils.EOL)
-            headers = utils.CaseInsensitiveDict()
+            headers = {}
             content = ''
             has_body = ('Response: Follows', 'Response: Fail')
             if mlines[0].startswith(has_body):
@@ -130,4 +103,4 @@ class Message(object):
                     else:
                         headers[k] = v
             if 'Event' in headers or 'Response' in headers:
-                return cls(content, headers)
+                return cls(headers, content)

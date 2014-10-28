@@ -81,17 +81,20 @@ class CaseInsensitiveDict(collections.MutableMapping):
         # key alongside the value.
         self._store[key.lower()] = (key, value)
 
+    def __contains__(self, key):
+        return key.lower() in self._store
+
+    def __getattr__(self, attr):
+        return self.get(attr, '')
+
     def __getitem__(self, key):
         return self._store[key.lower()][1]
 
     def __delitem__(self, key):
-        del self._store[key.lower()]
+        raise NotImplementedError()
 
     def __iter__(self):
-        return (casedkey for casedkey, mappedvalue in self._store.values())
+        return (key for key, value in self._store.values())
 
     def __len__(self):
         return len(self._store)
-
-    def __repr__(self):
-        return repr(dict(self.items()))

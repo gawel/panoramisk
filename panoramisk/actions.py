@@ -3,7 +3,7 @@ from .utils import asyncio
 from . import utils
 
 
-class Action(dict):
+class Action(utils.CaseInsensitiveDict):
     """Dict like object to handle actions. Generate action ids for you:
 
     ..
@@ -22,14 +22,14 @@ class Action(dict):
     def __init__(self, *args, **kwargs):
         self.as_list = kwargs.pop('as_list', False)
         super(Action, self).__init__(*args, **kwargs)
-        if 'ActionID' not in self:
+        if 'actionid' not in self:
             self['ActionID'] = self.action_id_generator()
         self.responses = []
         self.future = asyncio.Future()
 
     @property
     def id(self):
-        return self['ActionID']
+        return self.actionid
 
     action_id = id
 
@@ -40,10 +40,10 @@ class Action(dict):
 
     @property
     def multi(self):
-        headers = self.responses[0].headers
-        if headers.get('SubEvent', '') == 'Start':
+        resp = self.responses[0]
+        if resp.subevent == 'Start':
             return True
-        elif 'will follow' in headers.get('Message', ''):
+        elif 'will follow' in resp.message:
             return True
         elif self.as_list:
             return True
@@ -51,10 +51,10 @@ class Action(dict):
 
     @property
     def completed(self):
-        headers = self.responses[-1].headers
-        if headers.get('Event', '').endswith('Complete'):
+        resp = self.responses[-1]
+        if resp.event.endswith('Complete'):
             return True
-        elif headers.get('SubEvent', '') in ('End', 'Exec'):
+        elif resp.subevent in ('End', 'Exec'):
             return True
         elif not self.multi:
             return True
@@ -90,11 +90,11 @@ class Command(Action):
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
-        if 'Action' not in self:
+        if 'action' not in self:
             self['Action'] = 'AGI'
-        if 'CommandID' not in self:
+        if 'commandid' not in self:
             self['CommandID'] = self.command_id_generator()
 
     @property
     def id(self):
-        return self['CommandID']
+        return self.commandid

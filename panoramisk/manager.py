@@ -228,7 +228,7 @@ class Manager(object):
         matches = []
         event.manager = self
         for pattern, regexp in self.patterns:
-            match = regexp.match(event.headers.get('Event', ''))
+            match = regexp.match(event.event)
             if match is not None:
                 matches.append(pattern)
                 for callback in self.callbacks[pattern]:
