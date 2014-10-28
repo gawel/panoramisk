@@ -1,0 +1,32 @@
+Action: AGI
+ActionID: a0526db2-006b-40e7-8e1d-bc7e17a5515d/1/10
+Channel: SIP/000000-00000a53
+Command: GET VARIABLE endpoint
+CommandID: get-var-endpoint
+
+Response: Success
+ActionID: a0526db2-006b-40e7-8e1d-bc7e17a5515d/1/10
+Message: Added AGI command to queue
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: Start
+Channel: SIP/000000-00000a53
+CommandId: 2095882815
+Command: GET VARIABLE endpoint
+
+Event: AGIExec
+Privilege: agi,all
+SubEvent: End
+Channel: SIP/000000-00000a53
+CommandId: 2095882815
+Command: GET VARIABLE endpoint
+ResultCode: 200
+Result: Success
+
+Event: AsyncAGI
+Privilege: agi,all
+SubEvent: Exec
+Channel: SIP/000000-00000a53
+CommandID: get-var-endpoint
+Result: 200%20result%3D1%20(SIP%2F000000)%0A
