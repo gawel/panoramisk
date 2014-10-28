@@ -103,6 +103,7 @@ class Manager(object):
         self.callbacks = defaultdict(list)
         self.protocol = None
         self.patterns = []
+        self.authenticated = False
 
     def connection_made(self, f):
         if getattr(self, 'protocol', None):
@@ -122,11 +123,14 @@ class Manager(object):
             self.protocol.encoding = self.encoding = self.config['encoding']
             self.responses = self.protocol.responses = {}
             if 'username' in self.config:
-                action = actions.Action({
+                def login(future):
+                    resp = future.result()
+                    self.authenticated = resp.success
+                future = self.send_action({
                     'Action': 'Login',
                     'Username': self.config['username'],
                     'Secret': self.config['secret']})
-                self.protocol.send(action)
+                future.add_done_callback(login)
             self.loop.call_later(10, self.ping)
 
     def ping(self):  # pragma: no cover
@@ -175,7 +179,7 @@ class Manager(object):
         """
         if agi:
             action = actions.Command({'Command': command, 'Action': 'AGI'},
-                                     as_list=True)
+                                     as_list=as_list)
         else:
             action = actions.Action({'Command': command, 'Action': 'Command'},
                                     as_list=as_list)
