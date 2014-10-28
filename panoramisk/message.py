@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from requests.structures import CaseInsensitiveDict
 from . import utils
 
 
@@ -41,7 +40,7 @@ class Message(object):
 
     def __init__(self, content, headers=None):
         self.content = content
-        self.headers = CaseInsensitiveDict(headers)
+        self.headers = utils.CaseInsensitiveDict(headers)
         self.manager = self.name = None,
         self.orig = None
 
@@ -108,9 +107,9 @@ class Message(object):
         return h
 
     @classmethod
-    def from_line(cls, line, patterns=None):
+    def from_line(cls, line):
             mlines = line.split(utils.EOL)
-            headers = CaseInsensitiveDict()
+            headers = utils.CaseInsensitiveDict()
             content = ''
             has_body = ('Response: Follows', 'Response: Fail')
             if mlines[0].startswith(has_body):

@@ -7,7 +7,7 @@ from setuptools import find_packages
 
 version = '0.5.dev0'
 
-install_requires = ['requests']
+install_requires = []
 test_requires = [
     'pytest', 'coverage<3.99', 'coveralls'
 ]
