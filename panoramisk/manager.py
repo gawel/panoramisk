@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
+import re
+import fnmatch
 from .message import Message
 from .utils import asyncio
 from . import actions
@@ -44,7 +46,7 @@ class Connection(asyncio.Protocol):
             line = line.strip()
             # Very verbose, uncomment only if necessary
             # self.log.debug('message received: "%s"', line)
-            message = Message.from_line(line, self.factory.callbacks)
+            message = Message.from_line(line, self.factory.patterns)
             self.log.debug('message interpreted: %r', message)
             if message is None:
                 continue
@@ -54,8 +56,8 @@ class Connection(asyncio.Protocol):
                 if response.add_message(message):
                     # completed; dequeue
                     self.responses.pop(response.id)
-            elif message.message_type == 'event':
-                self.factory.dispatch(message, message.matches)
+            elif 'Event' in message:
+                self.factory.dispatch(message)
 
     def connection_lost(self, exc):  # pragma: no cover
         if not self.closed:
@@ -102,6 +104,7 @@ class Manager(object):
         self.log = config.get('log', logging.getLogger(__name__))
         self.callbacks = defaultdict(list)
         self.protocol = None
+        self.patterns = []
 
     def connection_made(self, f):
         if getattr(self, 'protocol', None):
@@ -210,14 +213,17 @@ class Manager(object):
             >>> manager = Manager()
             >>> manager.register_event('Meetme*', callback)
         """
+        self.patterns.append((pattern,
+                             re.compile(fnmatch.translate(pattern))))
         self.callbacks[pattern].append(callback)
 
-    def dispatch(self, event, matches):
+    def dispatch(self, event):
         event.manager = self
-        for pattern in matches:
-            for callback in self.callbacks[pattern]:
+        for pattern, reobj in self.patterns:
+            if reobj.match(event.get('Event', '')):
                 for callback in self.callbacks[pattern]:
-                    callback(event, self)
+                    for callback in self.callbacks[pattern]:
+                        callback(event, self)
 
     def close(self):
         """Close the connection"""

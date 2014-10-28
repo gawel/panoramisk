@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from requests.structures import CaseInsensitiveDict
-from fnmatch import fnmatch
 from . import utils
 
 
@@ -46,14 +45,10 @@ class Message(object):
 
     """
 
-    def __init__(self, message_type, content, headers=None, matches=None):
-        self.message_type = message_type
+    def __init__(self, content, headers=None):
         self.content = content
         self.headers = CaseInsensitiveDict(headers)
         self.manager = self.name = None,
-        self.matches = matches
-        if self.message_type == 'event':
-            self.name = self.headers['event']
         self.orig = None
 
     @property
@@ -122,25 +117,11 @@ class Message(object):
             mlines = line.split(utils.EOL)
             headers = CaseInsensitiveDict()
             content = ''
-            if mlines[0].startswith('Event: '):
-                message_type = 'event'
-                name = mlines[0].split(': ', 1)[1]
-                matches = []
-                for pattern in patterns:
-                    if fnmatch(name, pattern):
-                        matches.append(pattern)
-                if not matches and \
-                   'ActionID: ' not in line and \
-                   '\nCommand' not in line:
-                    return
-            else:
-                message_type = 'response'
-                matches = []
-                has_body = ('Response: Follows', 'Response: Fail')
-                if mlines[0].startswith(has_body):
+            has_body = ('Response: Follows', 'Response: Fail')
+            if mlines[0].startswith(has_body):
+                content = mlines.pop()
+                while not content and mlines:
                     content = mlines.pop()
-                    while not content and mlines:
-                        content = mlines.pop()
             for mline in mlines:
                 if ': ' in mline:
                     k, v = mline.split(': ', 1)
@@ -152,4 +133,4 @@ class Message(object):
                         headers[k] = o
                     else:
                         headers[k] = v
-            return cls(message_type, content, headers, matches=matches)
+            return cls(content, headers)
