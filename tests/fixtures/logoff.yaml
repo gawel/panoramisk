@@ -1,7 +1,8 @@
+
 action: logoff
-ActionID: generated_id
+ActionID: action/transaction_uid/1/1
 
 Response: Goodbye
-ActionID: generated_id
+ActionID: action/transaction_uid/1/1
 Message: Thanks for all the fish.
 
