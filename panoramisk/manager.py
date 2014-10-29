@@ -148,10 +148,9 @@ class Manager(object):
         :param action: an Action or dict with action name and parameters to
                        send
         :type action: Action or dict
-        :param as_list: If action send multiple responses, retrieve all
-                        responses via future
+        :param as_list: If True, the action Future will retrieve all responses
         :type as_list: boolean
-        :return: a Future will receive the response
+        :return: a Future that will receive the response
         :rtype: asyncio.Future
 
         :Example:
@@ -159,12 +158,15 @@ class Manager(object):
             To retrieve answer in a coroutine:
 
                 manager = Manager()
+
                 resp = yield from manager.send_action({'Action': 'Status'})
 
             With a callback:
 
                 manager = Manager()
+
                 future = manager.send_action({'Action': 'Status'})
+
                 future.add_done_callback(handle_status_response)
 
         See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for
