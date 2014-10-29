@@ -130,7 +130,7 @@ class Manager(object):
         resp = manager.send_agi_command('GET VARIABLE async_agi_server')
 
         Return a response :class:`~panoramisk.message.Message`.
-        See https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
+See https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
         """
         action = actions.Command({'Command': command, 'Action': 'AGI'},
                                  as_list=as_list)
