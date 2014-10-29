@@ -4,13 +4,14 @@
 - AMI command results tracking fixed
 - Return AMI command result with multiple events in a Future
 - Return AsyncAGI command result in a Future
-- Add two examples
+- Add several examples
 - Start internal refactoring
 - Remove arawman support
 - Remove external dependencies
-- Add support for multiple responses from Actions (QueueStatus)
+- Add support for multiple responses from Actions (example: QueueStatus)
 - Improved performance with Events pattern matching
 - Add mocked test wrapper
+- Add coroutine support for Events dispatching
 
 
 0.4 (2014-05-30)

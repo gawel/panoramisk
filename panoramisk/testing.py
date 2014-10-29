@@ -7,8 +7,8 @@ from . import utils
 
 try:
     from unittest import mock
-except ImportError:
-    import mock
+except ImportError:  # pragma: no cover
+    import mock  # NOQA
 
 
 MagicMock = mock.MagicMock

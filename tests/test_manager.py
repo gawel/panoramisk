@@ -99,3 +99,17 @@ def test_events(manager):
     event = message.Message.from_line('Event: NoPeerStatus')
     matches = manager.dispatch(event)
     assert matches == []
+
+def test_coroutine_events_handler(manager):
+    @asyncio.coroutine
+    def callback(event, manager):
+        yield # to create quickly a coroutine generator, don't do that on production code
+
+    manager = manager()
+    manager.register_event('Peer*', callback)
+    event = message.Message.from_line('Event: PeerStatus')
+    assert event.success is True
+    assert event['Event'] == 'PeerStatus'
+    assert 'Event' in event
+    matches = manager.dispatch(event)
+    assert matches == ['Peer*']

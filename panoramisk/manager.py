@@ -243,8 +243,10 @@ class Manager(object):
             if match is not None:
                 matches.append(pattern)
                 for callback in self.callbacks[pattern]:
-                    for callback in self.callbacks[pattern]:
-                        callback(event, self)
+                    ret = callback(event, self)
+                    if (asyncio.iscoroutine(ret) or
+                            isinstance(ret, asyncio.Future)):
+                        asyncio.async(ret, loop=self.loop)
         return matches
 
     def close(self):
