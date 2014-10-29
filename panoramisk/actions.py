@@ -95,7 +95,7 @@ class Command(Action):
 
         >>> command = Command({'Command' : 'Do something'})
         >>> print(command) # doctest: +NORMALIZE_WHITESPACE
-        Action: AGI
+        Action: Command
         ActionID: action/myuuid/1/1
         Command: Do something
         CommandID: command/myuuid/1/1
