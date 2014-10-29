@@ -53,17 +53,17 @@ def test_queue_status(manager):
     assert len(responses) == 9
 
 
-def test_get_variable(manager):
-    manager = manager(stream='get_variable.yaml')
-    future = manager.send_action({'Command': 'GET VARIABLE "PEERNAME"'})
+def test_command_core_show_version(manager):
+    manager = manager(stream='command_core_show_version.yaml')
+    future = manager.send_command('core show version')
     responses = future.result()
-    assert len(responses) == 2
+    assert len(responses) == 4
+    # @todo: in responses['content'], you retrieve only '--END COMMAND--' instead of the result of the command
 
 
 def test_asyncagi_get_variable(manager):
     manager = manager(stream='asyncagi_get_var.yaml')
-    future = manager.send_command({'Command': 'GET VARIABLE endpoint'},
-                                  agi=True)
+    future = manager.send_agi_command('GET VARIABLE endpoint')
     response = future.result()
     assert response.result == '200 result=1 (SIP/000000)'
 

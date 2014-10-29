@@ -110,21 +110,30 @@ class Manager(object):
         action.update(kwargs)
         return self.protocol.send(action, as_list=as_list)
 
-    def send_command(self, command, agi=False, as_list=False):
+    def send_command(self, command, as_list=False):
         """Send a :class:`~panoramisk.actions.Command` to the server::
 
-            manager = Manager()
-            resp = manager.send_command('http show status')
+        manager = Manager()
+        resp = manager.send_command('http show status')
 
         Return a response :class:`~panoramisk.message.Message`.
         See https://wiki.asterisk.org/wiki/display/AST/ManagerAction_Command
         """
-        if agi:
-            action = actions.Command({'Command': command, 'Action': 'AGI'},
-                                     as_list=as_list)
-        else:
-            action = actions.Action({'Command': command, 'Action': 'Command'},
-                                    as_list=as_list)
+        action = actions.Action({'Command': command, 'Action': 'Command'},
+                                as_list=as_list)
+        return self.send_action(action)
+
+    def send_agi_command(self, command, as_list=False):
+        """Send a :class:`~panoramisk.actions.Command` to the server::
+
+        manager = Manager()
+        resp = manager.send_agi_command('GET VARIABLE async_agi_server')
+
+        Return a response :class:`~panoramisk.message.Message`.
+        See https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
+        """
+        action = actions.Command({'Command': command, 'Action': 'AGI'},
+                                 as_list=as_list)
         return self.send_action(action)
 
     def connect(self, loop=None):

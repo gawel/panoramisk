@@ -1,0 +1,11 @@
+action: command
+command: core show version
+actionid: action/transaction_uid/1/1
+
+Response: Follows
+Privilege: Command
+ActionID: action/transaction_uid/1/1
+Asterisk 11.11.0+xivo.14.15~20140724.155259.ed5592b-wheezy built by root @ wheezy-farm on a x86_64 running Linux on 2014-08-06 19:30:37 UTC
+--END COMMAND--
+
+

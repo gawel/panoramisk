@@ -13,6 +13,7 @@
 - Add mocked test wrapper
 - Add coroutine support for Events dispatching
 - Invert event callback signature to create Manager methods to handle events
+- Support of commands and AGI commands (WIP)
 
 0.4 (2014-05-30)
 ================

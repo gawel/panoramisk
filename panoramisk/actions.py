@@ -106,7 +106,7 @@ class Command(Action):
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
         if 'action' not in self:
-            self['Action'] = 'AGI'
+            self['Action'] = 'Command'
         if 'commandid' not in self:
             self['CommandID'] = self.command_id_generator()
 
