@@ -178,7 +178,7 @@ class Manager(object):
             if match is not None:
                 matches.append(pattern)
                 for callback in self.callbacks[pattern]:
-                    ret = callback(event, self)
+                    ret = callback(self, event)
                     if (asyncio.iscoroutine(ret) or
                             isinstance(ret, asyncio.Future)):
                         asyncio.async(ret, loop=self.loop)

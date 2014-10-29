@@ -83,7 +83,7 @@ def test_close(manager):
 def test_events(manager):
     future = asyncio.Future()
 
-    def callback(event, manager):
+    def callback(manager, event):
         future.set_result(event)
 
     manager = manager()
@@ -102,7 +102,7 @@ def test_events(manager):
 
 def test_coroutine_events_handler(manager):
     @asyncio.coroutine
-    def callback(event, manager):
+    def callback(manager, event):
         yield # to create quickly a coroutine generator, don't do that on production code
 
     manager = manager()

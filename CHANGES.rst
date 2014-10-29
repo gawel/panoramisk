@@ -12,7 +12,7 @@
 - Improved performance with Events pattern matching
 - Add mocked test wrapper
 - Add coroutine support for Events dispatching
-
+- Invert event callback signature to create Manager methods to handle events
 
 0.4 (2014-05-30)
 ================
