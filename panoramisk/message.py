@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
+import re
+
 from . import utils
+
+
+AGI_RESULT_REGEX = re.compile(r'(?P<status_code>\d{3})(?: result=(?P<result>[0-9]+)?(?: \(?(?P<value>.*)\))?)|(?:-.*)')
 
 
 class Message(utils.CaseInsensitiveDict):
@@ -78,6 +83,19 @@ class Message(utils.CaseInsensitiveDict):
         """Iter over response body"""
         for line in self.content.split('\n'):
             yield line
+
+    def parsed_result(self):
+        """Get parsed result of AGI command"""
+        if 'Result'in self:
+            m = AGI_RESULT_REGEX.match(self['Result'])
+            if m:
+                d = m.groupdict()
+                d['status_code'] = int(d['status_code'])
+                return d
+            else:
+                raise ValueError
+        else:
+            raise ValueError
 
     @classmethod
     def from_line(cls, line):
