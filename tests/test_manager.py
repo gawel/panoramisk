@@ -63,7 +63,7 @@ def test_command_core_show_version(manager):
 
 def test_asyncagi_get_variable(manager):
     manager = manager(stream='asyncagi_get_var.yaml')
-    future = manager.send_agi_command('GET VARIABLE endpoint')
+    future = manager.send_agi_command('SIP/000000-00000a53', 'GET VARIABLE endpoint')
     response = future.result()
     assert response.result == '200 result=1 (SIP/000000)'
 

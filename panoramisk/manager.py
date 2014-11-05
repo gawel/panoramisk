@@ -82,7 +82,7 @@ class Manager(object):
 
         :param action: an Action or dict with action name and parameters to
                        send
-        :type action: Action or dict
+        :type action: Action or dict or Command
         :param as_list: If True, the action Future will retrieve all responses
         :type as_list: boolean
         :return: a Future that will receive the response
@@ -123,16 +123,30 @@ class Manager(object):
                                 as_list=as_list)
         return self.send_action(action)
 
-    def send_agi_command(self, command, as_list=False):
+    def send_agi_command(self, channel, command, as_list=False):
         """Send a :class:`~panoramisk.actions.Command` to the server::
 
-        manager = Manager()
-        resp = manager.send_agi_command('GET VARIABLE async_agi_server')
+        :param channel: Channel name where to launch command. Ex: 'SIP/000000-00000a53'
+        :type channel: String
+        :param command: command to launch. Ex: 'GET VARIABLE async_agi_server'
+        :type command: String
+        :param as_list: If True, the action Future will retrieve all responses
+        :type as_list: boolean
+        :return: a Future that will receive the response
+        :rtype: asyncio.Future
 
-        Return a response :class:`~panoramisk.message.Message`.
+        :Example:
+
+            manager = Manager()
+            resp = manager.send_agi_command('SIP/000000-00000a53',
+                                            'GET VARIABLE async_agi_server')
+
+            Return a response :class:`~panoramisk.message.Message`.
 See https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
         """
-        action = actions.Command({'Command': command, 'Action': 'AGI'},
+        action = actions.Command({'Action': 'AGI',
+                                  'Channel': channel,
+                                  'Command': command},
                                  as_list=as_list)
         return self.send_action(action)
 
