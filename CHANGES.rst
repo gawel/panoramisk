@@ -1,4 +1,4 @@
-0.6 (unreleased)
+0.6 (2014-11-16)
 ================
 
 - Avoid failure when factory is not already set
