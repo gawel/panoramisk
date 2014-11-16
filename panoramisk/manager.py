@@ -28,6 +28,7 @@ class Manager(object):
         ssl=False,
         encoding='utf8',
         connection_class=Connection,
+        save_stream=None,
         loop=None,
     )
 
@@ -38,6 +39,7 @@ class Manager(object):
         self.callbacks = defaultdict(list)
         self.protocol = None
         self.patterns = []
+        self.save_stream = self.config.get('save_stream')
         self.authenticated = False
         self.authenticated_future = None
 
