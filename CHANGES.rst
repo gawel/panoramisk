@@ -1,7 +1,7 @@
 0.6 (unreleased)
 ================
 
-- Nothing changed yet.
+- Avoid failure when factory is not already set
 
 
 0.5 (2014-11-16)
