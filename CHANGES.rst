@@ -1,4 +1,4 @@
-0.5 (unreleased)
+0.5 (2014-11-16)
 ================
 
 - AMI command results tracking fixed
