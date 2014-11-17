@@ -17,7 +17,7 @@
 - Return AMI command result with multiple events in a Future
 - Return AsyncAGI command result in a Future
 - Add several examples
-- Start internal refactoring
+- Internal refactoring
 - Remove arawman support
 - Remove external dependencies
 - Add support for multiple responses from Actions (example: QueueStatus)
