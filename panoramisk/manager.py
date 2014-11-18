@@ -182,8 +182,8 @@ See https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
 
             >>> manager = Manager()
             >>> @manager.register_event('Meetme*')
-            ... def callback(event, manager):
-            ...     print(event, manager)
+            ... def callback(manager, event):
+            ...     print(manager, event)
         """
         def _register_event(callback):
             self.patterns.append((pattern,
