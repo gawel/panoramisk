@@ -58,18 +58,30 @@ def test_command_core_show_version(manager):
     future = manager.send_command('core show version')
     responses = future.result()
     assert len(responses) == 4
-    # @todo: in responses['content'], you retrieve only '--END COMMAND--' instead of the result of the command
+    # @todo: in responses['content'],
+    # you retrieve only '--END COMMAND--' instead of the result of the command
 
 
 def test_asyncagi_get_variable(manager):
     manager = manager(stream='asyncagi_get_var.yaml')
-    future = manager.send_agi_command('SIP/000000-00000a53', 'GET VARIABLE endpoint')
+    future = manager.send_agi_command(
+        'SIP/000000-00000a53', 'GET VARIABLE endpoint')
     response = future.result()
     assert response.result == '200 result=1 (SIP/000000)'
     pretty_result = response.parsed_result()
     assert pretty_result['status_code'] == 200
     assert pretty_result['result'] == '1'
     assert pretty_result['value'] == 'SIP/000000'
+
+
+def test_asyncagi_get_variable_on_dead_channel(manager):
+    manager = manager(stream='asyncagi_channel_does_not_exist.yaml')
+    future = manager.send_agi_command(
+        'SIP/eeeeee-00000014', 'GET VARIABLE DIALSTATUS')
+    response = future.result()
+
+    assert response.response == 'Error'
+    assert response.message == 'Channel SIP/eeeeee-00000014 does not exist.'
 
 
 def test_originate_sync(manager):
@@ -104,10 +116,12 @@ def test_events(manager):
     matches = manager.dispatch(event)
     assert matches == []
 
+
 def test_coroutine_events_handler(manager):
     @asyncio.coroutine
     def callback(manager, event):
-        yield # to create quickly a coroutine generator, don't do that on production code
+        yield  # to create quickly a coroutine generator, don't do that on
+               # production code
 
     manager = manager()
     manager.register_event('Peer*', callback)

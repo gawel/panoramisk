@@ -28,6 +28,8 @@ class Connection(asyncio.Protocol):
             data = klass(data, as_list=as_list)
         self.transport.write(str(data).encode('utf8'))
         self.responses[data.id] = data
+        if data.action_id:
+            self.responses[data.action_id] = data
         return data.future
 
     def data_received(self, data):
@@ -53,10 +55,14 @@ class Connection(asyncio.Protocol):
                 continue
 
             response = self.responses.get(message.id)
+            if response is None and message.action_id:
+                response = self.responses.get(message.action_id)
             if response is not None:
                 if response.add_message(message):
                     # completed; dequeue
                     self.responses.pop(response.id)
+                    if response.action_id:
+                        self.responses.pop(response.action_id, None)
             elif 'Event' in message:
                 self.factory.dispatch(message)
 

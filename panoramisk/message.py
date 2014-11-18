@@ -57,6 +57,12 @@ class Message(utils.CaseInsensitiveDict):
         return None
 
     @property
+    def action_id(self):
+        if 'actionid' in self:
+            return self['actionid']
+        return None
+
+    @property
     def success(self):
         """return True if a response status is Success or Follows:
 

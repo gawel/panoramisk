@@ -1,11 +1,11 @@
 Action: AGI
-ActionID: action/1ebd75d6-68eb-4f97-b537-e15570ae0691/1/11
+ActionID: action/transaction_uid/1/1
 Channel: SIP/eeeeee-00000014
 Command: GET VARIABLE DIALSTATUS
-CommandID: command/a8d9362c-535e-4a05-abf5-56c9acb1c798/1/5
+CommandID: command/transaction_uid/1/1
 
 
 Response: Error
-ActionID: action/1ebd75d6-68eb-4f97-b537-e15570ae0691/1/11
+ActionID: action/transaction_uid/1/1
 Message: Channel SIP/eeeeee-00000014 does not exist.
 

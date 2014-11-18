@@ -113,3 +113,7 @@ class Command(Action):
     @property
     def id(self):
         return self.commandid
+
+    @property
+    def action_id(self):
+        return self.actionid or None
