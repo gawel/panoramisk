@@ -52,7 +52,7 @@ class Manager(object):
             self.log.exception(e)
             self.loop.call_later(2, self.connect)
         else:
-            self.log.info('Manager connected')
+            self.log.debug('Manager connected')
             self.protocol = protocol
             self.protocol.queue = utils.Queue(loop=self.loop)
             self.protocol.factory = self

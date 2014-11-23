@@ -1,5 +1,5 @@
 
-action: logoff
+Action: logoff
 ActionID: action/transaction_uid/1/1
 
 Response: Goodbye

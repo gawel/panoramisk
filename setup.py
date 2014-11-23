@@ -54,4 +54,8 @@ setup(
     extras_require={
         'test': test_requires,
     },
+    entry_points='''
+    [console_scripts]
+    panoramisk = panoramisk.scripts:main
+    '''
 )

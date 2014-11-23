@@ -1,4 +1,6 @@
 [run]
+omit =
+    */panoramisk/scripts.py
 include =
     */panoramisk/panoramisk/*
 
