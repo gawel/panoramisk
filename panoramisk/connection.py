@@ -15,7 +15,6 @@ class Connection(asyncio.Protocol):
         self.closed = False
         self.queue = utils.Queue()
         self.responses = {}
-        self.commands = {}
         self.factory = None
         self.log = logging.getLogger(__name__)
 
@@ -57,18 +56,20 @@ class Connection(asyncio.Protocol):
             self.log.debug('message interpreted: %r', message)
             if message is None:
                 continue
+            self.handle_message(message)
 
-            response = self.responses.get(message.id)
-            if response is None and message.action_id:
-                response = self.responses.get(message.action_id)
-            if response is not None:
-                if response.add_message(message):
-                    # completed; dequeue
-                    self.responses.pop(response.id)
-                    if response.action_id:
-                        self.responses.pop(response.action_id, None)
-            elif 'Event' in message:
-                self.factory.dispatch(message)
+    def handle_message(self, message):
+        response = self.responses.get(message.id)
+        if response is None and message.action_id:
+            response = self.responses.get(message.action_id)
+        if response is not None:
+            if response.add_message(message):
+                # completed; dequeue
+                self.responses.pop(response.id)
+                if response.action_id:
+                    self.responses.pop(response.action_id, None)
+        elif 'Event' in message:
+            self.factory.dispatch(message)
 
     def connection_lost(self, exc):  # pragma: no cover
         if not self.closed:

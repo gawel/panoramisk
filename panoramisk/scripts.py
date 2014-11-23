@@ -2,12 +2,9 @@
 import sys
 import argparse
 import logging
-from .manager import Manager
-
-try:
-    from configparser import ConfigParser
-except ImportError:
-    from ConfigParser import ConfigParser
+from . import utils
+from .call_manager import Manager
+from .call_manager import Call
 
 try:
     import yaml
@@ -31,9 +28,7 @@ def main(argv=None):
                         default='-',
                         help='Stream output file (Default to STDOUT)')
     args = parser.parse_args(argv or sys.argv[1:])
-    config = ConfigParser()
-    config.readfp(args.config)
-    config = dict(config.items('asterisk'))
+    config = utils.config(args.config)
     config['save_stream'] = args.output
     manager = Manager(**config)
     task = manager.connect()
@@ -45,13 +40,25 @@ def main(argv=None):
     def done(future):
         result = future.result()
         log.info('Got result: %r\n', result)
+        if isinstance(result, Call):
+            while not result.queue.empty():
+                print(result.queue.get_nowait())
+
+            def show(f=None):
+                if f:
+                    print(f.result())
+                f = utils.asyncio.Task(result.queue.get())
+                f.add_done_callback(show)
+            show()
 
     def send_action(f):
         if args.input:
             action = yaml.load(args.input)
-            if action.get('Action').lower() == 'agi':
+            if action.get('Action').lower() == 'originate':
+                future = manager.send_originate(action)
+            elif action.get('Action').lower() == 'agi':
                 future = manager.send_agi_command(action)
-            if 'commandid' in [k.lower() for k in action.keys()]:
+            elif 'commandid' in [k.lower() for k in action.keys()]:
                 future = manager.send_command(action)
             else:
                 future = manager.send_action(action)

@@ -1,7 +1,8 @@
 from pprint import pprint
 import asyncio
+import sys
 
-from panoramisk import Manager
+from panoramisk.call_manager import Manager
 
 
 # logging.basicConfig(level=logging.DEBUG)
@@ -10,15 +11,25 @@ loop = asyncio.get_event_loop()
 
 @asyncio.coroutine
 def originate():
-    manager = Manager(loop=asyncio.get_event_loop(), host='127.0.0.1', username='user', secret='password')
+    manager = Manager.from_config(sys.argv[1])
     yield from manager.connect()
-    result = yield from manager.send_action({'Action': 'Originate',
-                                             'Channel': 'SIP/gawel',
-                                             'WaitTime': 20,
-                                             'CallerID': 'gawel',
-                                             'Exten': '0299999999',
-                                             'Context': 'default',
-                                             'Priority': 1,})
-    pprint(result)
+    call = yield from manager.send_originate({
+        'Action': 'Originate',
+        'Channel': 'Local/gpasgrimaud@bearstech',
+        'WaitTime': 20,
+        'CallerID': 'gawel',
+        'Exten': '4260',
+        'Context': 'bearstech',
+        'Priority': 1,})
+    print(call)
+    while not call.queue.empty():
+        event = call.queue.get_nowait()
+        print(event)
+    while True:
+        event = yield from call.queue.get()
+        print(event)
+        if event.event.lower() == 'hangup' and event.cause in ('0', '17'):
+            break
+    manager.clean_originate(call)
 
 loop.run_until_complete(originate())

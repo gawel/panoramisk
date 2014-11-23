@@ -15,6 +15,11 @@ except ImportError:  # pragma: no cover
     import trollius as asyncio  # NOQA
     from trollius.queues import Queue  # NOQA
 
+try:
+    from configparser import ConfigParser
+except ImportError:  # pragma: no cover
+    from ConfigParser import ConfigParser  # NOQA
+
 EOL = '\r\n'
 
 
@@ -97,3 +102,12 @@ class CaseInsensitiveDict(collections.MutableMapping):
 
     def __len__(self):
         return len(self._store)
+
+
+def config(filename_or_fd, section='asterisk'):
+    config = ConfigParser()
+    if hasattr(filename_or_fd, 'read'):
+        config.readfp(filename_or_fd)
+    else:
+        config.read(filename_or_fd)
+    return dict(config.items(section))

@@ -131,3 +131,19 @@ def test_coroutine_events_handler(manager):
     assert 'Event' in event
     matches = manager.dispatch(event)
     assert matches == ['Peer*']
+
+
+def test_from_config(tmpdir):
+    f = tmpdir.mkdir("config").join("config.ini")
+    f.write('''
+[asterisk]
+host = 127.0.0.1
+user= username
+secret = mysecret
+    ''')
+    manager = testing.Manager.from_config(str(f))
+    assert manager.config['secret'] == 'mysecret'
+
+    with open(str(f)) as fd:
+        manager = testing.Manager.from_config(fd)
+    assert manager.config['secret'] == 'mysecret'

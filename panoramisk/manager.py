@@ -213,3 +213,7 @@ See https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
         """Close the connection"""
         if getattr(self, 'protocol', None):
             self.protocol.close()
+
+    @classmethod
+    def from_config(cls, filename_or_fd, section='asterisk'):
+        return cls(**utils.config(filename_or_fd, section=section))
