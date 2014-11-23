@@ -92,16 +92,16 @@ class Message(utils.CaseInsensitiveDict):
 
     def parsed_result(self):
         """Get parsed result of AGI command"""
-        if 'Result'in self:
+        if 'Result' in self:
             m = AGI_RESULT_REGEX.match(self['Result'])
             if m:
                 d = m.groupdict()
                 d['status_code'] = int(d['status_code'])
                 return d
             else:
-                raise ValueError
+                raise ValueError('Can\'t parse result in %r' % self)
         else:
-            raise ValueError
+            raise ValueError('No result in %r' % self)
 
     @classmethod
     def from_line(cls, line):
