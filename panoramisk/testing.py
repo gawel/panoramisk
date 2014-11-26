@@ -29,8 +29,10 @@ class Connection(manager.Connection):
         future = super(Connection, self).send(data, as_list=as_list)
         if self.factory.stream is not None:
             with open(self.factory.stream, 'rb') as fd:
-                resp = fd.read()
-            self.data_received(resp)
+                for resp in fd.read().split(b'\n\n'):
+                    self.data_received(resp + b'\n\n')
+                    if future.done():
+                        break
             if not future.done():  # pragma: no cover
                 print(self.responses)
                 raise AssertionError("Future's result was never set")

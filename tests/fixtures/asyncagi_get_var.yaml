@@ -1,11 +1,11 @@
 Action: AGI
-ActionID: a0526db2-006b-40e7-8e1d-bc7e17a5515d/1/10
+ActionID: action/transaction_uid/1/1
 Channel: SIP/000000-00000a53
 Command: GET VARIABLE endpoint
 CommandID: command/transaction_uid/1/1
 
 Response: Success
-ActionID: a0526db2-006b-40e7-8e1d-bc7e17a5515d/1/10
+ActionID: action/transaction_uid/1/1
 Message: Added AGI command to queue
 
 Event: AGIExec

@@ -4,7 +4,9 @@ import re
 from . import utils
 
 
-AGI_RESULT_REGEX = re.compile(r'(?P<status_code>\d{3})(?: result=(?P<result>[0-9]+)?(?: \(?(?P<value>.*)\))?)|(?:-.*)')
+AGI_RESULT_REGEX = re.compile(
+    r'(?P<status_code>\d{3})'
+    r'(?: result=(?P<result>[0-9]+)?(?: \(?(?P<value>.*)\))?)|(?:-.*)')
 
 
 class Message(utils.CaseInsensitiveDict):

@@ -37,10 +37,10 @@ class Connection(asyncio.Protocol):
         if getattr(self.factory, 'save_stream', None):  # pragma: no cover
             stream = self.factory.save_stream
             if hasattr(stream, 'write'):
-                stream.write(data)
+                stream.write(data.encode(encoding))
             else:
                 with open(stream, 'a+') as fd:
-                    fd.write(data)
+                    fd.write(data.encode(encoding))
         # Very verbose, uncomment only if necessary
         # self.log.debug('data received: "%s"', data)
         if not self.queue.empty():

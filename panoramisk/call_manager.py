@@ -3,6 +3,7 @@ from . import manager
 from . import utils
 from . import actions
 from datetime import datetime
+from functools import partial
 
 
 class Call(object):
@@ -13,8 +14,9 @@ class Call(object):
         self.queue = utils.Queue()
         self.created_at = datetime.now()
 
-    def append(self, event):
-        self.queue.put_nowait(event)
+    def append(self, *events):
+        for e in events:
+            self.queue.put_nowait(e)
 
 
 class Manager(manager.Manager):
@@ -26,16 +28,22 @@ class Manager(manager.Manager):
         self.calls = {}
         self.register_event('*', self.handle_calls)
 
+    def set_result(self, future, result):
+        event = result.result()[-1]
+        uniqueid = event.uniqueid.split('.', 1)[0]
+        call = self.calls_queues[uniqueid]
+        call.action_id = event.action_id
+        future.set_result(call)
+
     def send_originate(self, action):
         action['Async'] = 'true'
         action = actions.Action(action)
         future = utils.asyncio.Future()
-        self.calls[action.action_id] = future
-        self.send_action(action)
+        self.send_action(action).add_done_callback(
+            partial(self.set_result, future))
         return future
 
     def clean_originate(self, call):
-        self.calls.pop(call.action_id, None)
         self.calls_queues.pop(call.uniqueid, None)
 
     def handle_calls(self, manager, event):
@@ -44,6 +52,3 @@ class Manager(manager.Manager):
             uniqueid = uniqueid.split('.', 1)[0]
             call = self.calls_queues.setdefault(uniqueid, Call(uniqueid))
             call.append(event)
-            if event.event == 'OriginateResponse':
-                call.action_id = event.action_id
-                self.calls[event.action_id].set_result(call)

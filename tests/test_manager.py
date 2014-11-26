@@ -66,7 +66,7 @@ def test_asyncagi_get_variable(manager):
     manager = manager(stream='asyncagi_get_var.yaml')
     future = manager.send_agi_command(
         'SIP/000000-00000a53', 'GET VARIABLE endpoint')
-    response = future.result()
+    response = future.result()[-1]
     assert response.result == '200 result=1 (SIP/000000)'
     pretty_result = response.parsed_result()
     assert pretty_result['status_code'] == 200

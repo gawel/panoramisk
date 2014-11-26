@@ -54,9 +54,14 @@ class Action(utils.CaseInsensitiveDict):
     @property
     def multi(self):
         resp = self.responses[0]
+        message = resp.message.lower()
         if resp.subevent == 'Start':
             return True
-        elif 'will follow' in resp.message:
+        elif 'will follow' in message:
+            return True
+        elif message.startswith('added') and message.endswith('to queue'):
+            return True
+        elif message.endswith('successfully queued'):
             return True
         elif self.as_list:
             return True
@@ -69,7 +74,7 @@ class Action(utils.CaseInsensitiveDict):
             return True
         elif resp.subevent in ('End', 'Exec'):
             return True
-        elif resp.response in ('Error', 'Fail'):
+        elif resp.response in ('Success', 'Error', 'Fail'):
             return True
         elif not self.multi:
             return True
@@ -77,11 +82,14 @@ class Action(utils.CaseInsensitiveDict):
 
     def add_message(self, message):
         self.responses.append(message)
+        multi = self.multi
         if self.completed:
-            if self.multi:
+            if multi and len(self.responses) > 1:
                 self.future.set_result(self.responses)
-            else:
+            elif not multi:
                 self.future.set_result(self.responses[0])
+            else:
+                return False
             return True
 
 
