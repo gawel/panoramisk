@@ -54,14 +54,14 @@ class Action(utils.CaseInsensitiveDict):
     @property
     def multi(self):
         resp = self.responses[0]
-        message = resp.message.lower()
+        msg = resp.message.lower()
         if resp.subevent == 'Start':
             return True
-        elif 'will follow' in message:
+        elif 'will follow' in msg:
             return True
-        elif message.startswith('added') and message.endswith('to queue'):
+        elif msg.startswith('added') and msg.endswith('to queue'):
             return True
-        elif message.endswith('successfully queued'):
+        elif msg.endswith('successfully queued') and self.async != 'false':
             return True
         elif self.as_list:
             return True
