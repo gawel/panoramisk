@@ -24,3 +24,6 @@ Source: https://github.com/gawel/panoramisk/
 
 For basic usage, you have some examples in `examples/
 <https://github.com/gawel/panoramisk/tree/master/examples>`_ folder.
+
+You can find some help on irc: irc://irc.freenode.net/panoramisk (`www
+<https://kiwiirc.com/client/irc.freenode.net/?nick=panoramisk|?&theme=basic#panoramisk>`_)
