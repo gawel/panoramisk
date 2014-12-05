@@ -70,7 +70,7 @@ def test_asyncagi_get_variable(manager):
     assert response.result == '200 result=1 (SIP/000000)'
     pretty_result = response.parsed_result()
     assert pretty_result['status_code'] == 200
-    assert pretty_result['result'] == '1'
+    assert pretty_result['result'] == 1
     assert pretty_result['value'] == 'SIP/000000'
 
 
