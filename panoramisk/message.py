@@ -2,11 +2,7 @@
 import re
 
 from . import utils
-
-
-AGI_RESULT_REGEX = re.compile(
-    r'(?P<status_code>\d{3})'
-    r'(?: result=(?P<result>\-?[0-9]+)?(?: \(?(?P<value>.*)\))?)|(?:-.*)')
+from .fast_agi import parse_agi_result
 
 
 class Message(utils.CaseInsensitiveDict):
@@ -95,15 +91,7 @@ class Message(utils.CaseInsensitiveDict):
     def parsed_result(self):
         """Get parsed result of AGI command"""
         if 'Result' in self:
-            m = AGI_RESULT_REGEX.match(self['Result'])
-            if m:
-                d = m.groupdict()
-                d['status_code'] = int(d['status_code'])
-                if 'result' in d:
-                    d['result'] = int(d['result'])
-                return d
-            else:
-                raise ValueError('Can\'t parse result in %r' % self)
+            return parse_agi_result(self['Result'])
         else:
             raise ValueError('No result in %r' % self)
 
