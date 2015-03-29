@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
-
 from . import utils
 from .fast_agi import parse_agi_result
 
