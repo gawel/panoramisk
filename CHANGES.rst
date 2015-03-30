@@ -1,14 +1,13 @@
 0.7 (unreleased)
 ================
 
-- Nothing changed yet.
-
+- Add FastAGI server, implemented with high-level AsyncIO API (Streams)
+- Finish AsyncAGI commands support (WIP)
 
 0.6 (2014-11-16)
 ================
 
 - Avoid failure when factory is not already set
-
 
 0.5 (2014-11-16)
 ================
@@ -25,7 +24,8 @@
 - Add mocked test wrapper
 - Add coroutine support for Events dispatching
 - Invert event callback signature to create Manager methods to handle events
-- Support of commands and AGI commands (WIP)
+- Support of AMI commands
+- Support of AsyncAGI commands (Not finished)
 
 0.4 (2014-05-30)
 ================
