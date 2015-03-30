@@ -23,8 +23,8 @@ except ImportError:  # pragma: no cover
 
 EOL = '\r\n'
 AGI_RESULT_REGEX = re.compile(
-    r'(?P<status_code>\d{3})'
-    r'(?: result=(?P<result>\-?[0-9]+)?(?: \(?(?P<value>.*)\))?)|(?:-.*)')
+    r'(?P<status_code>\d{3})(?: result=(?P<result>\-?[0-9]+)?'
+    r'(?: \(?(?P<value>.*)\))?)|(?P<message>.*)')
 
 
 def parse_agi_result(result):
