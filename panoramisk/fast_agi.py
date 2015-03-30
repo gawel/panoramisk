@@ -1,63 +1,44 @@
-import asyncio
-from collections import OrderedDict
 import logging
-import re
+from collections import OrderedDict
+from panoramisk.utils import asyncio
+from panoramisk.utils import parse_agi_result
 
-LOG = logging.getLogger(__name__)
-
-AGI_RESULT_REGEX = re.compile(
-    r'(?P<status_code>\d{3})'
-    r'(?: result=(?P<result>\-?[0-9]+)?(?: \(?(?P<value>.*)\))?)|(?:-.*)')
-
-
-def parse_agi_result(result):
-    m = AGI_RESULT_REGEX.match(result)
-    if m:
-        d = m.groupdict()
-        d['status_code'] = int(d['status_code'])
-        if 'result' in d:
-            d['result'] = int(d['result'])
-        return d
-    else:
-        raise ValueError('Can\'t parse result in %r' % result)
+log = logging.getLogger(__name__)
 
 
 class Request:
-    def __init__(self, app, headers, reader, writer):
-        self.app = app
+    def __init__(self, headers, reader, writer, encoding='utf8'):
         self.headers = headers
         self.reader = reader
         self.writer = writer
+        self.encoding = encoding
 
     @asyncio.coroutine
     def send_command(self, command):
         command += '\n'
-        self.writer.write(command.encode(self.app.default_encoding))
+        self.writer.write(command.encode(self.encoding))
         yield from self.writer.drain()
         response = yield from self.reader.readline()
-        return parse_agi_result(response.decode(self.app.default_encoding))
+        return parse_agi_result(response.decode(self.encoding))
 
 
-class Application(dict):
+class Application(OrderedDict):
 
     def __init__(self, default_encoding='utf-8', loop=None):
+        super(Application, self).__init__()
         self.default_encoding = default_encoding
         if loop is None:
             loop = asyncio.get_event_loop()
         self.loop = loop
-        self._route = OrderedDict()
-        super().__init__(self)
 
     def add_route(self, path, endpoint):
-
         assert callable(endpoint), endpoint
         if not asyncio.iscoroutinefunction(endpoint):
             endpoint = asyncio.coroutine(endpoint)
-        self._route[path] = endpoint
+        self[path] = endpoint
 
     @asyncio.coroutine
     def handler(self, reader, writer):
-        # print(config)
         buffer = b''
         while b'\n\n' not in buffer:
             buffer += yield from reader.read(100)
@@ -66,12 +47,18 @@ class Application(dict):
         for line in lines:
             k, v = line.split(': ', 1)
             headers[k] = v
-        LOG.debug("Received %r from %r", headers, writer.get_extra_info('peername'))
+        log.debug("Received %r from %r",
+                  headers, writer.get_extra_info('peername'))
 
         if headers['agi_network_script'] in self._route:
-            request = Request(app=self, headers=headers, reader=reader, writer=writer)
-            yield from self._route[headers['agi_network_script']](request)
+            request = Request(headers=headers,
+                              reader=reader, writer=writer,
+                              encoding=self.default_encoding)
+            try:
+                yield from self[headers['agi_network_script']](request)
+            except Exception as e:
+                log.exception(e)
         else:
-            LOG.error('No endpoints for this request')
-        LOG.debug("Close the client socket")
+            log.error('No endpoints for this request')
+        log.debug("Closing client socket")
         writer.close()

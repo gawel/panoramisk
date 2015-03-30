@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from . import utils
-from .fast_agi import parse_agi_result
+from panoramisk import utils
 
 
 class Message(utils.CaseInsensitiveDict):
@@ -89,7 +88,7 @@ class Message(utils.CaseInsensitiveDict):
     def parsed_result(self):
         """Get parsed result of AGI command"""
         if 'Result' in self:
-            return parse_agi_result(self['Result'])
+            return utils.parse_agi_result(self['Result'])
         else:
             raise ValueError('No result in %r' % self)
 

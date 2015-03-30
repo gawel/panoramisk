@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 import uuid
 import collections
 
@@ -21,6 +22,21 @@ except ImportError:  # pragma: no cover
     from ConfigParser import ConfigParser  # NOQA
 
 EOL = '\r\n'
+AGI_RESULT_REGEX = re.compile(
+    r'(?P<status_code>\d{3})'
+    r'(?: result=(?P<result>\-?[0-9]+)?(?: \(?(?P<value>.*)\))?)|(?:-.*)')
+
+
+def parse_agi_result(result):
+    m = AGI_RESULT_REGEX.match(result)
+    if m:
+        d = m.groupdict()
+        d['status_code'] = int(d['status_code'])
+        if 'result' in d:
+            d['result'] = int(d['result'])
+        return d
+    else:
+        raise ValueError('Can\'t parse result in %r' % result)
 
 
 class IdGenerator(object):
