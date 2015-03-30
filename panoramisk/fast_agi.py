@@ -49,8 +49,11 @@ class Application(dict):
         for line in lines:
             k, v = line.split(': ', 1)
             headers[k] = v
-        log.debug("Received %r from %r",
-                  headers, writer.get_extra_info('peername'))
+        log.info('Received FastAGI request from %r for "%s" endpoint',
+                 writer.get_extra_info('peername'),
+                 headers['agi_network_script'])
+        log.debug("Asterisk Headers: %r",
+                  headers)
 
         if headers['agi_network_script'] in self._route:
             request = Request(app=self,
