@@ -23,7 +23,7 @@ class Request:
         return parse_agi_result(response.decode(self.encoding))
 
 
-class Application(OrderedDict):
+class Application(dict):
 
     def __init__(self, default_encoding='utf-8', loop=None):
         super(Application, self).__init__()
