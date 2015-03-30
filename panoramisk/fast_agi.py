@@ -20,7 +20,7 @@ class Request:
         self.writer.write(command.encode(self.encoding))
         yield from self.writer.drain()
         response = yield from self.reader.readline()
-        return parse_agi_result(response.decode(self.encoding))
+        return parse_agi_result(response.decode(self.encoding)[:-1])
 
 
 class Application(dict):
@@ -58,7 +58,7 @@ class Application(dict):
                               reader=reader, writer=writer,
                               encoding=self.default_encoding)
             try:
-                yield from self[headers['agi_network_script']](request)
+                yield from self._route[headers['agi_network_script']](request)
             except Exception as e:
                 log.exception(e)
         else:
