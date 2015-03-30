@@ -128,7 +128,8 @@ class Manager(object):
     def send_agi_command(self, channel, command, as_list=False):
         """Send a :class:`~panoramisk.actions.Command` to the server::
 
-        :param channel: Channel name where to launch command. Ex: 'SIP/000000-00000a53'
+        :param channel: Channel name where to launch command.
+                        Ex: 'SIP/000000-00000a53'
         :type channel: String
         :param command: command to launch. Ex: 'GET VARIABLE async_agi_server'
         :type command: String
