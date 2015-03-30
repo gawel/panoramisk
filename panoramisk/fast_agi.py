@@ -49,7 +49,7 @@ class Application(dict):
         for line in lines:
             k, v = line.split(': ', 1)
             headers[k] = v
-        log.info('Received FastAGI request from %r for "%s" endpoint',
+        log.info('Received FastAGI request from %r for "%s" route',
                  writer.get_extra_info('peername'),
                  headers['agi_network_script'])
         log.debug("Asterisk Headers: %r",
