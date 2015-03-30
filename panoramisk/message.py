@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from panoramisk import utils
+from . import utils
 
 
 class Message(utils.CaseInsensitiveDict):

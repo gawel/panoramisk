@@ -1,13 +1,14 @@
 import logging
 from collections import OrderedDict
-from panoramisk.utils import asyncio
-from panoramisk.utils import parse_agi_result
+from .utils import asyncio
+from .utils import parse_agi_result
 
 log = logging.getLogger(__name__)
 
 
 class Request:
-    def __init__(self, headers, reader, writer, encoding='utf8'):
+    def __init__(self, app, headers, reader, writer, encoding='utf-8'):
+        self.app = app
         self.headers = headers
         self.reader = reader
         self.writer = writer
@@ -30,12 +31,13 @@ class Application(OrderedDict):
         if loop is None:
             loop = asyncio.get_event_loop()
         self.loop = loop
+        self._route = OrderedDict()
 
     def add_route(self, path, endpoint):
         assert callable(endpoint), endpoint
         if not asyncio.iscoroutinefunction(endpoint):
             endpoint = asyncio.coroutine(endpoint)
-        self[path] = endpoint
+        self._route[path] = endpoint
 
     @asyncio.coroutine
     def handler(self, reader, writer):
@@ -51,7 +53,8 @@ class Application(OrderedDict):
                   headers, writer.get_extra_info('peername'))
 
         if headers['agi_network_script'] in self._route:
-            request = Request(headers=headers,
+            request = Request(app=self,
+                              headers=headers,
                               reader=reader, writer=writer,
                               encoding=self.default_encoding)
             try:
