@@ -65,6 +65,6 @@ class Application(dict):
             except Exception as e:
                 log.exception(e)
         else:
-            log.error('No endpoints for this request')
+            log.error('No route for the request "%s"', headers['agi_network_script'])
         log.debug("Closing client socket")
         writer.close()
