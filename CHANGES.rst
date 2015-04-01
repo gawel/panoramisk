@@ -2,6 +2,7 @@
 ================
 
 - Add FastAGI server, implemented with high-level AsyncIO API (Streams)
+- Add events parameter for Manager, to disable AMI events reception (Useful for performance reasons)
 - Finish AsyncAGI commands support (WIP)
 
 0.6 (2014-11-16)

@@ -25,6 +25,7 @@ class Manager(object):
     defaults = dict(
         host='127.0.0.1',
         port=5038,
+        events='on',
         ssl=False,
         encoding='utf8',
         connection_class=Connection,
@@ -65,7 +66,8 @@ class Manager(object):
                 self.authenticated_future = self.send_action({
                     'Action': 'Login',
                     'Username': self.config['username'],
-                    'Secret': self.config['secret']})
+                    'Secret': self.config['secret'],
+                    'Events': self.config['events']})
                 self.authenticated_future.add_done_callback(self.login)
             self.loop.call_later(10, self.ping)
 
