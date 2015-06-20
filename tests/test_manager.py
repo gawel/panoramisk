@@ -147,3 +147,10 @@ secret = mysecret
     with open(str(f)) as fd:
         manager = testing.Manager.from_config(fd)
     assert manager.config['secret'] == 'mysecret'
+
+
+def test_pinger(manager):
+    manager = manager()
+    assert isinstance(manager.pinger, asyncio.TimerHandle)
+    manager.close()
+    assert manager.pinger is None
