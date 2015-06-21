@@ -43,6 +43,7 @@ class Manager(object):
         self.save_stream = self.config.get('save_stream')
         self.authenticated = False
         self.authenticated_future = None
+        self.pinger = None
 
     def connection_made(self, f):
         if getattr(self, 'protocol', None):
@@ -69,7 +70,7 @@ class Manager(object):
                     'Secret': self.config['secret'],
                     'Events': self.config['events']})
                 self.authenticated_future.add_done_callback(self.login)
-            self.loop.call_later(10, self.ping)
+            self.pinger = self.loop.call_later(10, self.ping)
 
     def login(self, future):
         self.authenticated_future = None
@@ -78,8 +79,8 @@ class Manager(object):
         return self.authenticated
 
     def ping(self):  # pragma: no cover
+        self.pinger = self.loop.call_later(10, self.ping)
         self.protocol.send({'Action': 'Ping'})
-        self.loop.call_later(10, self.ping)
 
     def send_action(self, action, as_list=False, **kwargs):
         """Send an :class:`~panoramisk.actions.Action` to the server:
@@ -214,6 +215,9 @@ See https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
 
     def close(self):
         """Close the connection"""
+        if self.pinger:
+            self.pinger.cancel()
+            self.pinger = None
         if getattr(self, 'protocol', None):
             self.protocol.close()
 
