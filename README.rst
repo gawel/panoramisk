@@ -63,9 +63,3 @@ Install, upgrade and uninstall panoramisk with these commands::
     $ pip install panoramisk
     $ pip install --upgrade panoramisk
     $ pip uninstall panoramisk
-
-
-License
--------
-
-Panoramisk is licensed under MIT, see MIT-LICENSE.txt.
