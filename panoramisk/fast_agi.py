@@ -16,6 +16,22 @@ class Request:
 
     @asyncio.coroutine
     def send_command(self, command):
+        """Send a command for FastAGI request:
+
+        :param command: Command to launch on FastAGI request. Ex: 'EXEC StartMusicOnHolds'
+        :type command: String
+
+        :Example:
+
+        ::
+
+            @asyncio.coroutine
+            def call_waiting(request):
+                yield from request.send_command('ANSWER')
+                yield from request.send_command('EXEC StartMusicOnHold')
+                yield from request.send_command('EXEC Wait 10')
+
+        """
         command += '\n'
         self.writer.write(command.encode(self.encoding))
         yield from self.writer.drain()
@@ -24,6 +40,12 @@ class Request:
 
 
 class Application(dict):
+    """Main object:
+
+    .. code-block:: python
+
+        >>> fa_app = Application()
+    """
 
     def __init__(self, default_encoding='utf-8', loop=None):
         super(Application, self).__init__()
@@ -34,6 +56,24 @@ class Application(dict):
         self._route = OrderedDict()
 
     def add_route(self, path, endpoint):
+        """Add a route for FastAGI requests:
+
+        :param path: URI to answer. Ex: 'calls/start'
+        :type path: String
+        :param endpoint: command to launch. Ex: start
+        :type endpoint: callable
+
+        :Example:
+
+        ::
+
+            def start(request):
+                print('Receive a FastAGI request')
+
+            fa_app = Application()
+            fa_app.add_route('calls/start', start)
+
+        """
         assert callable(endpoint), endpoint
         if path in self._route:
             raise ValueError('A route already exists.')
@@ -42,12 +82,45 @@ class Application(dict):
         self._route[path] = endpoint
 
     def del_route(self, path):
+        """Delete a route for FastAGI requests:
+
+        :param path: URI to answer. Ex: 'calls/start'
+        :type path: String
+
+        :Example:
+
+        ::
+
+            def start(request):
+                print('Receive a FastAGI request')
+
+            fa_app = Application()
+            fa_app.add_route('calls/start', start)
+            fa_app.del_route('calls/start')
+
+        """
         if path not in self._route:
             raise ValueError('This route doesn\'t exist.')
         del(self._route[path])
 
     @asyncio.coroutine
     def handler(self, reader, writer):
+        """AsyncIO coroutine handler to launch socket listening.
+
+        :Example:
+
+        ::
+
+            def start(request):
+                print('Receive a FastAGI request')
+
+            fa_app = Application()
+            fa_app.add_route('calls/start', start)
+            coro = asyncio.start_server(fa_app.handler, '0.0.0.0', 4574)
+            server = loop.run_until_complete(coro)
+
+        See https://docs.python.org/3/library/asyncio-stream.html
+        """
         buffer = b''
         while b'\n\n' not in buffer:
             buffer += yield from reader.read(100)

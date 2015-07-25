@@ -34,6 +34,14 @@ Launch: ``rasterisk -x 'manager reload'``
 .. toctree::
    :maxdepth: 2
 
+.. automodule:: panoramisk.fast_agi
+
+.. autoclass:: Application
+   :members:
+
+.. toctree::
+   :maxdepth: 2
+
 =======
 CHANGES
 =======
