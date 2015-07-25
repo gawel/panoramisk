@@ -95,19 +95,16 @@ class Manager(object):
 
         :Example:
 
-            To retrieve answer in a coroutine:
+        To retrieve answer in a coroutine::
 
-                manager = Manager()
+            manager = Manager()
+            resp = yield from manager.send_action({'Action': 'Status'})
 
-                resp = yield from manager.send_action({'Action': 'Status'})
+        With a callback::
 
-            With a callback:
-
-                manager = Manager()
-
-                future = manager.send_action({'Action': 'Status'})
-
-                future.add_done_callback(handle_status_response)
+            manager = Manager()
+            future = manager.send_action({'Action': 'Status'})
+            future.add_done_callback(handle_status_response)
 
         See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for
         more information on actions
@@ -118,8 +115,8 @@ class Manager(object):
     def send_command(self, command, as_list=False):
         """Send a :class:`~panoramisk.actions.Command` to the server::
 
-        manager = Manager()
-        resp = manager.send_command('http show status')
+            manager = Manager()
+            resp = manager.send_command('http show status')
 
         Return a response :class:`~panoramisk.message.Message`.
         See https://wiki.asterisk.org/wiki/display/AST/ManagerAction_Command
@@ -129,10 +126,9 @@ class Manager(object):
         return self.send_action(action)
 
     def send_agi_command(self, channel, command, as_list=False):
-        """Send a :class:`~panoramisk.actions.Command` to the server::
+        """Send a :class:`~panoramisk.actions.Command` to the server:
 
-        :param channel: Channel name where to launch command.
-                        Ex: 'SIP/000000-00000a53'
+        :param channel: Channel name where to launch command. Ex: 'SIP/000000-00000a53'
         :type channel: String
         :param command: command to launch. Ex: 'GET VARIABLE async_agi_server'
         :type command: String
@@ -143,12 +139,15 @@ class Manager(object):
 
         :Example:
 
+        ::
+
             manager = Manager()
             resp = manager.send_agi_command('SIP/000000-00000a53',
                                             'GET VARIABLE async_agi_server')
 
-            Return a response :class:`~panoramisk.message.Message`.
-See https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
+
+        Return a response :class:`~panoramisk.message.Message`.
+        See https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
         """
         action = actions.Command({'Action': 'AGI',
                                   'Channel': channel,
