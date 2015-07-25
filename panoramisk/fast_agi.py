@@ -41,6 +41,11 @@ class Application(dict):
             endpoint = asyncio.coroutine(endpoint)
         self._route[path] = endpoint
 
+    def del_route(self, path):
+        if path not in self._route:
+            raise ValueError('This route doesn\'t exist.')
+        del(self._route[path])
+
     @asyncio.coroutine
     def handler(self, reader, writer):
         buffer = b''
