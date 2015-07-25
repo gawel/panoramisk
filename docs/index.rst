@@ -5,6 +5,23 @@
 
 .. include:: ../README.rst
 
+=========================
+How to configure Asterisk
+=========================
+
+In ``/etc/asterisk/manager.conf``, add:
+
+::
+
+    [username]
+    secret=password
+    deny=0.0.0.0/0.0.0.0
+    permit=127.0.0.1/255.255.255.255
+    read = all
+    write = all
+
+Launch: ``rasterisk -x 'manager reload'``
+
 =====================
 :mod:`panoramisk` api
 =====================
@@ -17,9 +34,9 @@
 .. toctree::
    :maxdepth: 2
 
-========
+=======
 CHANGES
-========
+=======
 
 .. include:: ../CHANGES.rst
 

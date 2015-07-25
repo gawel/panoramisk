@@ -18,7 +18,7 @@ Panoramisk. The asterisk's druid
 
 It use the tcp manager server to listen to events and send actions.
 
-See the api for more informations: https://panoramisk.readthedocs.org/
+See the api for more information: https://panoramisk.readthedocs.org/
 
 Source: https://github.com/gawel/panoramisk/
 
