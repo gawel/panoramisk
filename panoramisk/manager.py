@@ -155,7 +155,7 @@ class Manager(object):
                                  as_list=as_list)
         return self.send_action(action)
 
-    def connect(self, loop=None):
+    def connect(self):
         """connect to the server"""
         if self.loop is None:  # pragma: no cover
             self.loop = asyncio.get_event_loop()
