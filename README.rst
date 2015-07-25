@@ -38,9 +38,9 @@ You can find some help on IRC: irc://irc.freenode.net/panoramisk (`www
 Running the Tests
 -----------------
 
-Running your test with:
+Running your test with::
 
-    py.test tests/ docs/
+    $ py.test tests/ docs/
 
 
 Source code
