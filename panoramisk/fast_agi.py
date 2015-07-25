@@ -35,6 +35,8 @@ class Application(dict):
 
     def add_route(self, path, endpoint):
         assert callable(endpoint), endpoint
+        if path in self._route:
+            raise ValueError('A route already exists.')
         if not asyncio.iscoroutinefunction(endpoint):
             endpoint = asyncio.coroutine(endpoint)
         self._route[path] = endpoint
