@@ -55,6 +55,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=install_requires,
+    tests_require=test_requires,
     extras_require={
         'test': test_requires,
     },
