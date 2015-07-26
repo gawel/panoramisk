@@ -1,13 +1,9 @@
-from pprint import pprint
-import asyncio
 import sys
-
+import asyncio
 from panoramisk.call_manager import Manager
 
-
-# logging.basicConfig(level=logging.DEBUG)
-
 loop = asyncio.get_event_loop()
+
 
 @asyncio.coroutine
 def originate():
@@ -20,7 +16,7 @@ def originate():
         'CallerID': 'gawel',
         'Exten': '4260',
         'Context': 'bearstech',
-        'Priority': 1,})
+        'Priority': 1})
     print(call)
     while not call.queue.empty():
         event = call.queue.get_nowait()

@@ -1,13 +1,9 @@
-import logging
-from pprint import pprint
 import asyncio
-
 from panoramisk import Manager
-
-
-# logging.basicConfig(level=logging.DEBUG)
+from pprint import pprint
 
 loop = asyncio.get_event_loop()
+
 
 @asyncio.coroutine
 def queue_status():
