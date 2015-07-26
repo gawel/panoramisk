@@ -9,7 +9,7 @@ version = '0.7.dev0'
 
 install_requires = []
 test_requires = [
-    'pytest', 'coverage<3.99', 'coveralls'
+    'pytest', 'pytest-asyncio', 'coverage<3.99', 'coveralls'
 ]
 
 if sys.version_info[:2] < (3, 0):
@@ -46,7 +46,7 @@ setup(
         'Topic :: Communications :: Telephony',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    keywords='asyncio asterisk voip',
+    keywords=['asyncio', 'asterisk', 'voip'],
     author='Gael Pasgrimaud',
     author_email='gael@gawel.org',
     url='https://github.com/gawel/panoramisk/',
