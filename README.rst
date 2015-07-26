@@ -40,6 +40,7 @@ Running the Tests
 
 Running your test with::
 
+    $ python setup.py test
     $ py.test tests/ docs/
 
 
