@@ -1,29 +1,65 @@
 ================================
-Panoramisk. The asterisk's druid
+Panoramisk. The Asterisk's druid
 ================================
 
-.. image:: https://travis-ci.org/gawel/panoramisk.png?branch=master
-  :target: https://travis-ci.org/gawel/panoramisk
-.. image:: https://coveralls.io/repos/gawel/panoramisk/badge.png?branch=master
-  :target: https://coveralls.io/r/gawel/panoramisk?branch=master
-.. image:: https://pypip.in/v/panoramisk/badge.png
-   :target: https://crate.io/packages/panoramisk/
-.. image:: https://pypip.in/d/panoramisk/badge.png
-   :target: https://crate.io/packages/panoramisk/
+.. image:: https://travis-ci.org/gawel/panoramisk.png?branch=master&style=flat-square
+        :target: https://travis-ci.org/gawel/panoramisk
 
-`panoramisk` is a library based on python's `asyncio
-<http://docs.python.org/dev/library/asyncio.html>`_ to play with `asterisk
+.. image:: https://img.shields.io/coveralls/gawel/panoramisk/master.svg
+        :target: https://coveralls.io/r/gawel/panoramisk?branch=master
+
+.. image:: https://img.shields.io/pypi/v/panoramisk.svg?style=flat-square
+        :target: https://pypi.python.org/pypi/panoramisk
+
+.. image:: https://img.shields.io/pypi/dw/panoramisk.svg?style=flat-square
+        :target: https://pypi.python.org/pypi/panoramisk
+
+.. image:: https://img.shields.io/github/issues/gawel/panoramisk.svg?style=flat-square
+        :target: https://github.com/gawel/panoramisk/issues
+
+.. image:: https://img.shields.io/github/license/gawel/panoramisk.svg?style=flat-square
+        :target: https://github.com/gawel/panoramisk/blob/master/LICENSE
+
+
+`Panoramisk` is a library based on python's `Asyncio
+<http://docs.python.org/dev/library/asyncio.html>`_ to play with `Asterisk
 <http://www.asterisk.org/community/documentation>`_'s `manager
 <https://wiki.asterisk.org/wiki/display/AST/The+Asterisk+Manager+TCP+IP+API>`_.
 
-It use the tcp manager server to listen to events and send actions.
-
-See the api for more information: https://panoramisk.readthedocs.org/
-
-Source: https://github.com/gawel/panoramisk/
+It uses the TCP manager server to listen to events and send actions.
 
 For basic usage, you have some examples in `examples/
 <https://github.com/gawel/panoramisk/tree/master/examples>`_ folder.
 
-You can find some help on irc: irc://irc.freenode.net/panoramisk (`www
+You can find some help on IRC: irc://irc.freenode.net/panoramisk (`www
 <https://kiwiirc.com/client/irc.freenode.net/?nick=panoramisk|?&theme=basic#panoramisk>`_)
+
+
+Running the Tests
+-----------------
+
+Running your test with::
+
+    $ py.test tests/ docs/
+
+
+Source code
+-----------
+
+Find us on Github at https://github.com/gawel/panoramisk/
+
+
+Documentation
+-------------
+
+Check out the documentation on Read the Docs: https://panoramisk.readthedocs.org/
+
+
+Installation
+------------
+
+Install, upgrade and uninstall panoramisk with these commands::
+
+    $ pip install panoramisk
+    $ pip install --upgrade panoramisk
+    $ pip uninstall panoramisk
