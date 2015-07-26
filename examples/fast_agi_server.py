@@ -1,12 +1,9 @@
 from pprint import pprint
 import asyncio
-
 from panoramisk import fast_agi
 
-
-# logging.basicConfig(level=logging.DEBUG)
-
 loop = asyncio.get_event_loop()
+
 
 @asyncio.coroutine
 def call_waiting(request):
