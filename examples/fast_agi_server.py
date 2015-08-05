@@ -7,6 +7,7 @@ loop = asyncio.get_event_loop()
 
 @asyncio.coroutine
 def call_waiting(request):
+    pprint(['AGI variables:', request.headers])
     pprint((yield from request.send_command('ANSWER')))
     pprint((yield from request.send_command('EXEC StartMusicOnHold')))
     pprint((yield from request.send_command('EXEC Wait 30')))

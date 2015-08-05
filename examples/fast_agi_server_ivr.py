@@ -7,6 +7,8 @@ loop = asyncio.get_event_loop()
 
 @asyncio.coroutine
 def call_waiting(request):
+    pprint(['AGI variables:', request.headers])
+
     pprint((yield from request.send_command('ANSWER')))
     pprint((yield from request.send_command('SAY DIGITS 1 \"\"')))
 
