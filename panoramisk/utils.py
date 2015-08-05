@@ -67,7 +67,7 @@ def agi_code_check(code, response, line):
     """
     Check the agi code and set a dict for error handling
     """
-    result = {'result': ('', '')}
+    result = {'status_code': code, 'result': ('', ''), 'msg': ''}
     if code == 200:
         for key, value, data in re_kv.findall(response):
             result[key] = (value, data)
@@ -78,15 +78,19 @@ def agi_code_check(code, response, line):
                 return {'error': 'AGIAppError', 'msg': 'Error executing application, or hangup'}
         return result
     elif code == 510:
-        return {'error': 'AGIInvalidCommand', 'msg': ''}
+        result['error'] = 'AGIInvalidCommand'
+        return result
     elif code == 520:
         usage = [line]
         usage = '%s\n' % '\n'.join(usage)
         # AGI Usage error
-        return {'error': 'AGIUsageError', 'msg': usage}
+        result['error'] = 'AGIUsageError'
+        result['msg'] = 'usage'
+        return result
     else:
         # Unhandled code or undefined response
-        return {'error': 'AGIUnknownError', 'msg': code}
+        result['error'] = 'AGIUnknownError'
+        return result
 
 
 class IdGenerator(object):
