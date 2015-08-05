@@ -22,21 +22,71 @@ except ImportError:  # pragma: no cover
     from ConfigParser import ConfigParser  # NOQA
 
 EOL = '\r\n'
-AGI_RESULT_REGEX = re.compile(
-    r'(?P<status_code>\d{3})(?: result=(?P<result>\-?[0-9]+)?'
-    r'(?: \(?(?P<value>.*)\))?)|(?P<message>.*)')
+
+re_code = re.compile(r'(^\d*)\s*(.*)')
+re_kv = re.compile(r'(?P<key>\w+)=(?P<value>[^\s]+)\s*(?:\((?P<data>.*)\))*')
 
 
-def parse_agi_result(result):
-    m = AGI_RESULT_REGEX.match(result)
+def parse_agi_result(line):
+    """Parse AGI results using Regular expression.
+
+    :AGI Result examples:
+
+    ::
+
+        200 result=0
+
+        200 result=-1
+
+        200 result=132456
+
+        200 result= (timeout)
+
+        510 Invalid or unknown command
+
+        520-Invalid command syntax.  Proper usage follows:
+        int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+
+        HANGUP
+
+    """
+    # print("--------------\n", line)
+    if line == 'HANGUP':
+        return {'error': 'AGIResultHangup', 'msg': 'User hungup during execution'}
+
+    code = 0
+    m = re_code.search(line)
     if m:
-        d = m.groupdict()
-        d['status_code'] = int(d['status_code'])
-        if 'result' in d:
-            d['result'] = int(d['result'])
-        return d
+        code, response = m.groups()
+        code = int(code)
+
+    return agi_code_check(code, response, line)
+
+
+def agi_code_check(code, response, line):
+    """
+    Check the agi code and set a dict for error handling
+    """
+    result = {'result': ('', '')}
+    if code == 200:
+        for key, value, data in re_kv.findall(response):
+            result[key] = (value, data)
+            # If user hangs up... we get 'hangup' in the data
+            if data == 'hangup':
+                return {'error': 'AGIResultHangup', 'msg': 'User hungup during execution'}
+            if key == 'result' and value == '-1':
+                return {'error': 'AGIAppError', 'msg': 'Error executing application, or hangup'}
+        return result
+    elif code == 510:
+        return {'error': 'AGIInvalidCommand', 'msg': ''}
+    elif code == 520:
+        usage = [line]
+        usage = '%s\n' % '\n'.join(usage)
+        # AGI Usage error
+        return {'error': 'AGIUsageError', 'msg': usage}
     else:
-        raise ValueError('Can\'t parse result in %r' % result)
+        # Unhandled code or undefined response
+        return {'error': 'AGIUnknownError', 'msg': code}
 
 
 class IdGenerator(object):
@@ -49,7 +99,7 @@ class IdGenerator(object):
     ..
         >>> IdGenerator.reset(uid='an_uuid4')
 
-    It increment counters at each calls:
+    It increments the counter at each calls:
 
     .. code-block:: python
 
@@ -68,6 +118,8 @@ class IdGenerator(object):
         self.generator = self.get_generator()
 
     def get_generator(self):
+        # TODO: remove 1 increment, I guess i and use modulo instead (%)
+        # TODO: check if format is faster than the current concatenation
         i = 0
         j = 1
         while True:

@@ -36,7 +36,13 @@ class Request:
         self.writer.write(command.encode(self.encoding))
         yield from self.writer.drain()
         response = yield from self.reader.readline()
-        return parse_agi_result(response.decode(self.encoding)[:-1])
+        agi_result = parse_agi_result(response.decode(self.encoding)[:-1])
+        # when we got AGIUsageError the following line contains some indication
+        if 'error' in agi_result and agi_result['error'] == 'AGIUsageError':
+            buff_usage_error = yield from self.reader.readline()
+            agi_result['msg'] = agi_result['msg'] + buff_usage_error.decode(self.encoding)
+
+        return agi_result
 
 
 class Application(dict):

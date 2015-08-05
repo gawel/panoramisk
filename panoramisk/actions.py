@@ -94,7 +94,8 @@ class Action(utils.CaseInsensitiveDict):
 
 
 class Command(Action):
-    """Dict like object to handle actions. Generate action ids for you:
+    """Dict like object to handle Commands.
+    Generate action/command ids for you:
 
     ..
         >>> utils.IdGenerator.reset('myuuid')
