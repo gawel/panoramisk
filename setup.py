@@ -9,7 +9,7 @@ version = '0.7.dev0'
 
 install_requires = []
 test_requires = [
-    'pytest', 'pytest-asyncio', 'coverage<3.99', 'coveralls'
+    'pytest', 'coverage<3.99', 'coveralls'
 ]
 
 if sys.version_info[:2] < (3, 0):
@@ -23,6 +23,9 @@ elif sys.version_info[:2] < (3, 3):
     test_requires.extend(['mock'])
 elif sys.version_info[:2] < (3, 4):
     install_requires.append('asyncio')
+    test_requires.append('pytest-asyncio')
+else:
+    test_requires.append('pytest-asyncio')
 
 
 def read(*rnames):
