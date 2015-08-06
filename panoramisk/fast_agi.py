@@ -27,6 +27,7 @@ class Request:
 
             @asyncio.coroutine
             def call_waiting(request):
+                print(['AGI variables:', request.headers])
                 yield from request.send_command('ANSWER')
                 yield from request.send_command('EXEC StartMusicOnHold')
                 yield from request.send_command('EXEC Wait 10')
@@ -36,7 +37,13 @@ class Request:
         self.writer.write(command.encode(self.encoding))
         yield from self.writer.drain()
         response = yield from self.reader.readline()
-        return parse_agi_result(response.decode(self.encoding)[:-1])
+        agi_result = parse_agi_result(response.decode(self.encoding)[:-1])
+        # when we got AGIUsageError the following line contains some indication
+        if 'error' in agi_result and agi_result['error'] == 'AGIUsageError':
+            buff_usage_error = yield from self.reader.readline()
+            agi_result['msg'] = agi_result['msg'] + buff_usage_error.decode(self.encoding)
+
+        return agi_result
 
 
 class Application(dict):
@@ -67,8 +74,10 @@ class Application(dict):
 
         ::
 
+            @asyncio.coroutine
             def start(request):
                 print('Receive a FastAGI request')
+                print(['AGI variables:', request.headers])
 
             fa_app = Application()
             fa_app.add_route('calls/start', start)
@@ -91,8 +100,10 @@ class Application(dict):
 
         ::
 
+            @asyncio.coroutine
             def start(request):
                 print('Receive a FastAGI request')
+                print(['AGI variables:', request.headers])
 
             fa_app = Application()
             fa_app.add_route('calls/start', start)
@@ -111,8 +122,10 @@ class Application(dict):
 
         ::
 
+            @asyncio.coroutine
             def start(request):
                 print('Receive a FastAGI request')
+                print(['AGI variables:', request.headers])
 
             fa_app = Application()
             fa_app.add_route('calls/start', start)
