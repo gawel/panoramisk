@@ -21,7 +21,7 @@ Panoramisk. The Asterisk's druid
         :target: https://github.com/gawel/panoramisk/blob/master/LICENSE
 
 
-`Panoramisk` is a library based on python's `Asyncio
+`Panoramisk` is a library based on python's `AsyncIO
 <http://docs.python.org/dev/library/asyncio.html>`_ to play with `Asterisk
 <http://www.asterisk.org/community/documentation>`_'s `manager
 <https://wiki.asterisk.org/wiki/display/AST/The+Asterisk+Manager+TCP+IP+API>`_.
