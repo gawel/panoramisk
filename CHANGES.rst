@@ -1,4 +1,4 @@
-1.0 (unreleased)
+1.0 (2015-08-19)
 ================
 
 - Add FastAGI server, implemented with high-level AsyncIO API (Streams)
