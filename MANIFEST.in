@@ -1,7 +1,14 @@
+graft examples
 graft docs
 prune docs/_build
 graft panoramisk
 graft tests
-include *.rst *.cfg *.ini
+graft tests_python3
+include *.rst *.cfg *.ini .coveragerc LICENCE
 global-exclude *.pyc
 global-exclude __pycache__
+include *.py
+include .coveragerc
+include LICENSE
+recursive-include examples *.py
+recursive-include tests_python3 *.py
