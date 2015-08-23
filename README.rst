@@ -80,4 +80,4 @@ You can check their references on their website:
 
 Moreover, ALLOcloud is a cloud solution for SMEs, it handles several millions of calls by month.
 
-If you also use Panoramisk on production, don't hesitate to open a pull request to add your company's name.
+If you also use Panoramisk on production, don't hesitate to open a pull request to add your company's name with some details.
