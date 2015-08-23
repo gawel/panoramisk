@@ -75,9 +75,8 @@ For now, mainly `Eyepea
 You shouldn't know theses companies, however, Eyepea is a provider of several famous European companies and governments organizations.
 You can check their references on their website:
 
-*. http://www.eyepea.eu/customers
-
-*. http://www.eyepea.eu/company/news
+* http://www.eyepea.eu/customers
+* http://www.eyepea.eu/company/news
 
 Moreover, ALLOcloud is a cloud solution for SMEs, it handles several millions of calls by month.
 
