@@ -64,3 +64,20 @@ Install, upgrade and uninstall panoramisk with these commands::
     $ pip install panoramisk
     $ pip install --upgrade panoramisk
     $ pip uninstall panoramisk
+
+Who use Panoramisk on production ?
+----------------------------------
+
+For now, mainly `Eyepea
+<http://www.eyepea.eu/>`_ and `ALLOcloud
+<http://www.allocloud.com/>`_.
+
+You shouldn't know theses companies, however, Eyepea is a provider of several famous European companies and governments organizations.
+You can check their references on their website:
+
+*. http://www.eyepea.eu/customers
+*. http://www.eyepea.eu/company/news
+
+Moreover, ALLOcloud is a cloud solution for SMEs, it handles several millions of calls by month.
+
+If you also use Panoramisk on production, don't hesitate to open a pull request to add you company's name.
