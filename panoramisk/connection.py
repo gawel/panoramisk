@@ -19,13 +19,14 @@ class Connection(asyncio.Protocol):
         self.log = logging.getLogger(__name__)
 
     def send(self, data, as_list=False):
+        encoding = getattr(self, 'encoding', 'ascii')
         if not isinstance(data, actions.Action):
             if 'Command' in data:
                 klass = actions.Command
             else:
                 klass = actions.Action
             data = klass(data, as_list=as_list)
-        self.transport.write(str(data).encode('utf8'))
+        self.transport.write(str(data).encode(encoding))
         self.responses[data.id] = data
         if data.action_id:
             self.responses[data.action_id] = data
