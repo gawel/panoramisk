@@ -31,7 +31,7 @@ def originate():
         if event.event.lower() == 'hangup' and event.cause in ('0', '17'):
             break
     callmanager.clean_originate(call)
-
+    callmanager.close()
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(originate())

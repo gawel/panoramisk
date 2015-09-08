@@ -46,16 +46,16 @@ class Request:
         return agi_result
 
 
-class Application(dict):
+class FastAGI_App(dict):
     """Main object:
 
     .. code-block:: python
 
-        >>> fa_app = Application()
+        >>> fa_app = FastAGI_App()
     """
 
     def __init__(self, default_encoding='utf-8', loop=None):
-        super(Application, self).__init__()
+        super(FastAGI_App, self).__init__()
         self.default_encoding = default_encoding
         if loop is None:
             loop = asyncio.get_event_loop()
@@ -79,7 +79,7 @@ class Application(dict):
                 print('Receive a FastAGI request')
                 print(['AGI variables:', request.headers])
 
-            fa_app = Application()
+            fa_app = FastAGI_App()
             fa_app.add_route('calls/start', start)
 
         """
@@ -105,7 +105,7 @@ class Application(dict):
                 print('Receive a FastAGI request')
                 print(['AGI variables:', request.headers])
 
-            fa_app = Application()
+            fa_app = FastAGI_App()
             fa_app.add_route('calls/start', start)
             fa_app.del_route('calls/start')
 
@@ -127,7 +127,7 @@ class Application(dict):
                 print('Receive a FastAGI request')
                 print(['AGI variables:', request.headers])
 
-            fa_app = Application()
+            fa_app = FastAGI_App()
             fa_app.add_route('calls/start', start)
             coro = asyncio.start_server(fa_app.handler, '0.0.0.0', 4574)
             server = loop.run_until_complete(coro)

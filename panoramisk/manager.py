@@ -3,7 +3,6 @@ import logging
 from collections import defaultdict
 import re
 import fnmatch
-
 from .ami_protocol import AMIProtocol
 from .utils import asyncio
 from . import actions

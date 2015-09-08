@@ -36,7 +36,7 @@ Launch: ``rasterisk -x 'manager reload'``
 
 .. automodule:: panoramisk.fast_agi
 
-.. autoclass:: Application
+.. autoclass:: FastAGI_App
    :members:
 
 .. toctree::
