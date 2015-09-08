@@ -4,7 +4,7 @@ from collections import defaultdict
 import re
 import fnmatch
 
-from .connection import AMIProtocol
+from .ami_protocol import AMIProtocol
 from .utils import asyncio
 from . import actions
 from . import utils
