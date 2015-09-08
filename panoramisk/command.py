@@ -3,7 +3,7 @@ import sys
 import argparse
 import logging
 from . import utils
-from .call_manager import Manager
+from .call_manager import CallManager
 from .call_manager import Call
 
 try:
@@ -30,8 +30,8 @@ def main(argv=None):
     args = parser.parse_args(argv or sys.argv[1:])
     config = utils.config(args.config)
     config['save_stream'] = args.output
-    manager = Manager(**config)
-    task = manager.connect()
+    call_manager = CallManager(**config)
+    task = call_manager.connect()
 
     logging.basicConfig(stream=sys.stderr, level=logging.INFO)
     logging.getLogger('asyncio').setLevel(logging.ERROR)
@@ -55,25 +55,25 @@ def main(argv=None):
         if args.input:
             action = yaml.load(args.input)
             if action.get('Action').lower() == 'originate':
-                future = manager.send_originate(action)
+                future = call_manager.send_originate(action)
             elif action.get('Action').lower() == 'agi':
-                future = manager.send_agi_command(action)
+                future = call_manager.send_agi_command(action)
             elif 'commandid' in [k.lower() for k in action.keys()]:
-                future = manager.send_command(action)
+                future = call_manager.send_command(action)
             else:
-                future = manager.send_action(action)
+                future = call_manager.send_action(action)
             log.info('Action %r sent', action)
             future.add_done_callback(done)
 
     def connected(f):
-        if manager.authenticated_future is not None:
-            manager.authenticated_future.add_done_callback(send_action)
+        if call_manager.authenticated_future is not None:
+            call_manager.authenticated_future.add_done_callback(send_action)
         else:
             send_action(f)
 
     task.add_done_callback(connected)
 
     try:
-        manager.loop.run_forever()
+        call_manager.loop.run_forever()
     except KeyboardInterrupt:
         args.output.close()

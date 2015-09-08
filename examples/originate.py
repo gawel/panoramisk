@@ -1,19 +1,25 @@
+"""
+Example script to originate a call through Asterisk Manager Interface.
+
+Usage: python originate.py config.ini
+
+"""
 import sys
 import asyncio
-from panoramisk.call_manager import Manager
+from panoramisk.call_manager import CallManager
 
 
 @asyncio.coroutine
 def originate():
-    manager = Manager.from_config(sys.argv[1])
-    yield from manager.connect()
-    call = yield from manager.send_originate({
+    callmanager = CallManager.from_config(sys.argv[1])
+    yield from callmanager.connect()
+    call = yield from callmanager.send_originate({
         'Action': 'Originate',
         'Channel': 'Local/gpasgrimaud@bearstech',
         'WaitTime': 20,
         'CallerID': 'gawel',
-        'Exten': '4260',
-        'Context': 'bearstech',
+        'Exten': '1000',
+        'Context': 'ael-demo',
         'Priority': 1})
     print(call)
     while not call.queue.empty():
@@ -24,8 +30,7 @@ def originate():
         print(event)
         if event.event.lower() == 'hangup' and event.cause in ('0', '17'):
             break
-    manager.clean_originate(call)
-    manager.close()
+    callmanager.clean_originate(call)
 
 
 loop = asyncio.get_event_loop()

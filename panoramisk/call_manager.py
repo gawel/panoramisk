@@ -19,10 +19,10 @@ class Call(object):
             self.queue.put_nowait(e)
 
 
-class Manager(manager.Manager):
+class CallManager(manager.Manager):
 
     def __init__(self, *args, **kwargs):
-        super(Manager, self).__init__(*args, **kwargs)
+        super(CallManager, self).__init__(*args, **kwargs)
         self.CallClass = kwargs.get('CallClass', Call)
         self.calls_queues = {}
         self.calls = {}

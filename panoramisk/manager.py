@@ -4,7 +4,7 @@ from collections import defaultdict
 import re
 import fnmatch
 
-from .connection import Connection
+from .connection import AMIProtocol
 from .utils import asyncio
 from . import actions
 from . import utils
@@ -28,7 +28,7 @@ class Manager(object):
         events='on',
         ssl=False,
         encoding='utf8',
-        connection_class=Connection,
+        connection_class=AMIProtocol,
         save_stream=None,
         loop=None,
     )
@@ -70,6 +70,7 @@ class Manager(object):
                     'Secret': self.config['secret'],
                     'Events': self.config['events']})
                 self.authenticated_future.add_done_callback(self.login)
+            self.log.debug('username not in config file')
             self.pinger = self.loop.call_later(10, self.ping)
 
     def login(self, future):
