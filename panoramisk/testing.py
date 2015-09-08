@@ -45,7 +45,7 @@ class Manager(manager.Manager):
 
     def __init__(self, **config):
         self.defaults.update(
-            connection_class=AMIProtocol,
+            protocol_factory=AMIProtocol,
             stream=None)
         super(Manager, self).__init__(**config)
 

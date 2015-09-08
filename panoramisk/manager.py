@@ -28,7 +28,7 @@ class Manager(object):
         events='on',
         ssl=False,
         encoding='utf8',
-        connection_class=AMIProtocol,
+        protocol_factory=AMIProtocol,
         save_stream=None,
         loop=None,
     )
@@ -162,7 +162,7 @@ class Manager(object):
             self.loop = asyncio.get_event_loop()
         t = asyncio.Task(
             self.loop.create_connection(
-                self.config['connection_class'],
+                self.config['protocol_factory'],
                 self.config['host'], self.config['port'],
                 ssl=self.config['ssl']),
             loop=self.loop)
