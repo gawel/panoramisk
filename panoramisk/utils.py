@@ -65,7 +65,7 @@ def parse_agi_result(line):
 
 def agi_code_check(code, response, line):
     """
-    Check the agi code and set a dict for error handling
+    Check the AGI code and return a dict to help on error handling.
     """
     result = {'status_code': code, 'result': ('', ''), 'msg': ''}
     if code == 200:
@@ -122,16 +122,11 @@ class IdGenerator(object):
         self.generator = self.get_generator()
 
     def get_generator(self):
-        # TODO: remove 1 increment, I guess i and use modulo instead (%)
-        # TODO: check if format is faster than the current concatenation
         i = 0
-        j = 1
+        max_val = 10000
         while True:
+            yield "%s/%s/%d/%d" % (self.prefix, self.uid, (i // max_val) + 1, (i % max_val) + 1)
             i += 1
-            yield self.prefix + '/' + self.uid + '/' + str(j) + '/' + str(i)
-            if i > 10000:  # pragma: no cover
-                j += 1
-                i = 0
 
     @classmethod
     def reset(cls, uid=None):
@@ -147,7 +142,28 @@ class IdGenerator(object):
 
 
 class CaseInsensitiveDict(collections.MutableMapping):
+    """
+    A case-insensitive ``dict``-like object.
 
+    Implements all methods and operations of ``collections.MutableMapping``.
+
+    All keys are expected to be strings. The structure remembers the
+    case of the last key to be set, and ``iter(instance)``,
+    ``keys()``, ``items()``, ``iterkeys()``, and ``iteritems()``
+    will contain case-sensitive keys. However, querying and contains
+    testing is case insensitive:
+
+    .. code-block:: python
+
+        cid = CaseInsensitiveDict()
+        cid['Action'] = 'SIPnotify'
+        cid['aCTION'] == 'SIPnotify'  # True
+        list(cid) == ['Action']  # True
+
+    For example, ``event['actionid']`` will return the
+    value of a ``'ActionID'`` response event, regardless
+    of how the event name was originally stored.
+    """
     def __init__(self, data=None, **kwargs):
         self._store = dict()
         self.update(data or {}, **kwargs)
@@ -174,6 +190,9 @@ class CaseInsensitiveDict(collections.MutableMapping):
 
     def __len__(self):
         return len(self._store)
+
+    def __repr__(self):
+        return str(dict(self.items()))
 
 
 def config(filename_or_fd, section='asterisk'):

@@ -4,7 +4,8 @@ from . import utils
 
 
 class Action(utils.CaseInsensitiveDict):
-    """Dict like object to handle actions. Generate action ids for you:
+    """Dict like object to handle actions.
+    Generate action IDs for you:
 
     ..
         >>> utils.IdGenerator.reset('myuuid')
@@ -95,7 +96,7 @@ class Action(utils.CaseInsensitiveDict):
 
 class Command(Action):
     """Dict like object to handle Commands.
-    Generate action/command ids for you:
+    Generate action/command IDs for you:
 
     ..
         >>> utils.IdGenerator.reset('myuuid')
