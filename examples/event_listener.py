@@ -20,10 +20,11 @@ def callback(event, manager):
 @asyncio.coroutine
 def queue_status():
     while True:
-        yield from manager.connect()
+        yield from asyncio.sleep(.001)
 
 
 def main():
+    manager.connect()
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(queue_status())
