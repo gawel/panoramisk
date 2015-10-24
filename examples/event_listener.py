@@ -1,7 +1,7 @@
 import asyncio
 from panoramisk import Manager
 from pprint import pprint
-
+from aiohttp.web import Application
 
 manager = Manager(loop=asyncio.get_event_loop(),
                   host='ip',
@@ -17,17 +17,36 @@ def callback(event, manager):
         print(manager)
 
 
+"""
+# This will print NewChannel Events
+@manager.register_event('NewChannel')
+def callback(event, manager):
+    print(manager)
+
+
+# This will print Hangup Events
+@manager.register_event('Hangup')
+def callback(event, manager):
+    print(manager)
+"""
+
+
 @asyncio.coroutine
-def keep_alive():
-    while True:
-        yield from asyncio.sleep(.001)
+def init(loop):
+    app = Application(loop=loop)
+    handler = app.make_handler()
+    srv = yield from loop.create_server(handler, '127.0.0.1', 8080)
+    return srv, handler
 
 
 def main():
     manager.connect()
     loop = asyncio.get_event_loop()
+    srv, handler = loop.run_until_complete(init(loop))
     try:
-        loop.run_until_complete(keep_alive())
+        loop.run_forever()
+    except KeyboardInterrupt:
+        loop.run_until_complete(handler.finish_connections())
     finally:
         loop.close()
 
