@@ -1,6 +1,6 @@
 [run]
 omit =
-    */panoramisk/scripts.py
+    */panoramisk/command.py
     */panoramisk/call_manager.py
 include =
     */panoramisk/panoramisk/*
