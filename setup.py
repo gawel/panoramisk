@@ -9,7 +9,7 @@ version = '1.1.dev0'
 
 install_requires = []
 test_requires = [
-    'pytest', 'coverage<3.99', 'coveralls'
+    'pytest', 'coverage', 'coveralls'
 ]
 
 if sys.version_info[:2] < (3, 0):
