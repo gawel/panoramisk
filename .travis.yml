@@ -3,7 +3,7 @@ language: python
 install:
 - pip install tox coveralls coverage
 script:
-- .travis.script
+- ./.travis.script
 after_success:
 - "COVERAGE_FILE=.coverage coverage combine"
 - coveralls
