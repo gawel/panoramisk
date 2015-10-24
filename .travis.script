@@ -4,6 +4,7 @@ tox
 
 # no coverage run on flake8 example tests
 if [ $TOXENV != "flake8" ]
+then
   coverage combine
   coverage report --show-missing
 fi
