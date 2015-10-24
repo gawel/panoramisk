@@ -4,6 +4,7 @@ install:
 - pip install tox coveralls coverage
 script:
 - tox
+- coverage combine 
 - coverage report --show-missing
 after_success:
 - "COVERAGE_FILE=.coverage coverage combine"
