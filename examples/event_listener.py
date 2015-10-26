@@ -1,7 +1,5 @@
 import asyncio
 from panoramisk import Manager
-from pprint import pprint
-from aiohttp.web import Application
 
 manager = Manager(loop=asyncio.get_event_loop(),
                   host='ip',
@@ -31,23 +29,12 @@ def callback(event, manager):
 """
 
 
-@asyncio.coroutine
-def init(loop):
-    app = Application(loop=loop)
-    handler = app.make_handler()
-    srv = yield from loop.create_server(handler, '127.0.0.1', 8080)
-    return srv, handler
-
-
 def main():
     manager.connect()
     loop = asyncio.get_event_loop()
-    srv, handler = loop.run_until_complete(init(loop))
     try:
-        loop.run_forever()
+        manager.loop.run_forever()
     except KeyboardInterrupt:
-        loop.run_until_complete(handler.finish_connections())
-    finally:
         loop.close()
 
 if __name__ == '__main__':
