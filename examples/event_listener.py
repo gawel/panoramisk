@@ -31,11 +31,10 @@ def callback(event, manager):
 
 def main():
     manager.connect()
-    loop = asyncio.get_event_loop()
     try:
         manager.loop.run_forever()
     except KeyboardInterrupt:
-        loop.close()
+        manager.loop.close()
 
 if __name__ == '__main__':
     main()
