@@ -14,6 +14,7 @@ def manager():
         if stream:
             config['stream'] = os.path.join(test_dir, stream)
         return testing.Manager(**config)
+    manager().connect()
     return manager
 
 
