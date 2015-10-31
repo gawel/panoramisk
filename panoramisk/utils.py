@@ -137,8 +137,16 @@ class IdGenerator(object):
                 instance.uid = uid
             instance.generator = instance.get_generator()
 
+    def get_instances(self):
+        """Mostly used for debugging"""
+        return ["<%s prefix:%s (uid:%s)>" % (self.__class__.__name__, i.prefix, self.uid)
+                for i in self.instances]
+
     def __call__(self):
         return next(self.generator)
+
+    def __repr__(self):
+        return "<%s prefix:%s (uid:%s)>" % (self.__class__.__name__, self.prefix, self.uid)
 
 
 class CaseInsensitiveDict(collections.MutableMapping):

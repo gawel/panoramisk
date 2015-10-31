@@ -2,8 +2,6 @@ import sys
 import asyncio
 from panoramisk.call_manager import Manager
 
-loop = asyncio.get_event_loop()
-
 
 @asyncio.coroutine
 def originate():
@@ -27,5 +25,9 @@ def originate():
         if event.event.lower() == 'hangup' and event.cause in ('0', '17'):
             break
     manager.clean_originate(call)
+    manager.close()
 
+
+loop = asyncio.get_event_loop()
 loop.run_until_complete(originate())
+loop.close()

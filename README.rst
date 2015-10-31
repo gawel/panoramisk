@@ -38,10 +38,17 @@ You can find some help on IRC: irc://irc.freenode.net/panoramisk (`www
 Running the Tests
 -----------------
 
-Running your test with::
+Install dependencies::
 
     $ python setup.py test
+
+Running all the tests::
+
     $ py.test tests/ docs/
+
+Running individual test::
+
+    $ py.test tests/test_manager.py::test_connection
 
 
 Source code
@@ -64,6 +71,7 @@ Install, upgrade and uninstall panoramisk with these commands::
     $ pip install panoramisk
     $ pip install --upgrade panoramisk
     $ pip uninstall panoramisk
+
 
 Who use Panoramisk on production ?
 ----------------------------------
