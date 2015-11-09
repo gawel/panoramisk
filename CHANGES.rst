@@ -1,8 +1,8 @@
 1.1 (unreleased)
 ================
 
-- Nothing changed yet.
-
+- Improve AMI reconnection
+- Internal refactoring
 
 1.0 (2015-08-19)
 ================

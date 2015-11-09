@@ -76,9 +76,7 @@ class Connection(asyncio.Protocol):
         if not self.closed:
             self.close()
             # wait a few before reconnect
-            time.sleep(2)
-            # reconnect
-            self.factory.connect()
+            asyncio.get_event_loop().call_later(2, self.factory.connect)
 
     def close(self):  # pragma: no cover
         if not self.closed:
