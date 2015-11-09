@@ -12,7 +12,7 @@ class Connection(asyncio.Protocol):
 
     def connection_made(self, transport):
         self.transport = transport
-        self.closed = False
+        self.closing = False
         self.queue = utils.Queue()
         self.responses = {}
         self.factory = None
@@ -73,14 +73,12 @@ class Connection(asyncio.Protocol):
             self.factory.dispatch(message)
 
     def connection_lost(self, exc):  # pragma: no cover
-        if not self.closed:
+        if not self.closing:
             self.close()
             # wait a few before reconnect
             asyncio.get_event_loop().call_later(2, self.factory.connect)
 
     def close(self):  # pragma: no cover
-        if not self.closed:
-            try:
-                self.transport.close()
-            finally:
-                self.closed = True
+        if not self.closing:
+            self.closing = True
+            self.transport.close()
