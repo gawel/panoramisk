@@ -220,6 +220,10 @@ class Manager(object):
         if getattr(self, 'protocol', None):
             self.protocol.close()
 
+    def connection_lost(self, exc):
+        # wait a few before reconnect
+        self.loop.call_later(2, self.connect)
+
     @classmethod
     def from_config(cls, filename_or_fd, section='asterisk'):
         return cls(**utils.config(filename_or_fd, section=section))

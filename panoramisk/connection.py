@@ -5,6 +5,7 @@ import time
 from .message import Message
 from .utils import asyncio
 from . import actions
+from . import errors
 from . import utils
 
 
@@ -26,6 +27,8 @@ class Connection(asyncio.Protocol):
             else:
                 klass = actions.Action
             data = klass(data, as_list=as_list)
+        if self.closing:
+            raise errors.DisconnectedError
         self.transport.write(str(data).encode(encoding))
         self.responses[data.id] = data
         if data.action_id:
@@ -75,10 +78,14 @@ class Connection(asyncio.Protocol):
     def connection_lost(self, exc):  # pragma: no cover
         if not self.closing:
             self.close()
-            # wait a few before reconnect
-            asyncio.get_event_loop().call_later(2, self.factory.connect)
+            self.factory.connection_lost(exc)
 
     def close(self):  # pragma: no cover
         if not self.closing:
             self.closing = True
+            for idx in self.responses:
+                if not self.responses[idx].future.done():
+                    self.responses[idx].future.set_exception(errors.DisconnectedError)
             self.transport.close()
+            del self
+

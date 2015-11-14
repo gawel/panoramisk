@@ -9,7 +9,7 @@
 .. code-block:: python
 
     >>> from panoramisk import testing
-    >>> manager = testing.Manager(stream=stream)  # stream is a filename contaning an Asterisk trace
+    >>> manager = testing.Manager(stream=stream)  # stream is a filename containing an Asterisk trace
     >>> future = manager.send_action({'Action': 'Ping'})
     >>> resp = future.result()
     >>> assert 'ping' in resp
