@@ -12,8 +12,9 @@ def ping(lp, username, secret):
     yield from manager.connect()
     while True:
         p = yield from manager.send_action({'Action': 'ping'})
+        # p = yield from manager.send_action({'Action': 'SIPpeers'})
         pprint(p)
-        yield from asyncio.sleep(0)
+        yield from asyncio.sleep(1)
     manager.close()
 
 loop = asyncio.get_event_loop()

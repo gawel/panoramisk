@@ -21,14 +21,8 @@ class Connection(asyncio.Protocol):
 
     def send(self, data, as_list=False):
         encoding = getattr(self, 'encoding', 'ascii')
-        if not isinstance(data, actions.Action):
-            if 'Command' in data:
-                klass = actions.Command
-            else:
-                klass = actions.Action
-            data = klass(data, as_list=as_list)
         if self.closing:
-            raise errors.DisconnectedError
+            raise errors.DisconnectedError(data)
         self.transport.write(str(data).encode(encoding))
         self.responses[data.id] = data
         if data.action_id:
@@ -73,6 +67,8 @@ class Connection(asyncio.Protocol):
                 if response.action_id:
                     self.responses.pop(response.action_id, None)
         elif 'Event' in message:
+            if message['Event'] == 'Shutdown':
+                self.connection_lost(message)
             self.factory.dispatch(message)
 
     def connection_lost(self, exc):  # pragma: no cover
@@ -85,7 +81,7 @@ class Connection(asyncio.Protocol):
             self.closing = True
             for idx in self.responses:
                 if not self.responses[idx].future.done():
-                    self.responses[idx].future.set_exception(errors.DisconnectedError)
+                    self.responses[idx].future.set_exception(errors.DisconnectedError(self.responses[idx]))
             self.transport.close()
             del self
 
