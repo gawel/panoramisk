@@ -271,6 +271,8 @@ class Manager(object):
         if self.config['automatic_reconnection']:
             self.log.info('Try to connect again in 2 seconds')
             self.loop.call_later(2, self.connect)
+        else:
+            raise errors.DisconnectedError(None)
 
     @classmethod
     def from_config(cls, filename_or_fd, section='asterisk'):
