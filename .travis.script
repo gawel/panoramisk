@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 tox
 
 # no coverage run on flake8 example tests
