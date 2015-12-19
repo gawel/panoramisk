@@ -8,7 +8,7 @@ from . import actions
 from . import utils
 
 
-class Connection(asyncio.Protocol):
+class AMIProtocol(asyncio.Protocol):
 
     def connection_made(self, transport):
         self.transport = transport

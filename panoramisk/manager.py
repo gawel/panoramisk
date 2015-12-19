@@ -3,8 +3,7 @@ import logging
 from collections import defaultdict
 import re
 import fnmatch
-
-from .connection import Connection
+from .ami_protocol import AMIProtocol
 from .utils import asyncio
 from . import actions
 from . import utils
@@ -28,7 +27,7 @@ class Manager(object):
         events='on',
         ssl=False,
         encoding='utf8',
-        connection_class=Connection,
+        protocol_factory=AMIProtocol,
         save_stream=None,
         loop=None,
     )
@@ -70,6 +69,7 @@ class Manager(object):
                     'Secret': self.config['secret'],
                     'Events': self.config['events']})
                 self.authenticated_future.add_done_callback(self.login)
+            self.log.debug('username not in config file')
             self.pinger = self.loop.call_later(10, self.ping)
 
     def login(self, future):
@@ -161,7 +161,7 @@ class Manager(object):
             self.loop = asyncio.get_event_loop()
         t = asyncio.Task(
             self.loop.create_connection(
-                self.config['connection_class'],
+                self.config['protocol_factory'],
                 self.config['host'], self.config['port'],
                 ssl=self.config['ssl']),
             loop=self.loop)

@@ -12,10 +12,9 @@ def call_waiting(request):
     pprint((yield from request.send_command('EXEC StartMusicOnHold')))
     pprint((yield from request.send_command('EXEC Wait 30')))
 
+
 fa_app = fast_agi.Application(loop=loop)
 fa_app.add_route('call_waiting', call_waiting)
-
-
 coro = asyncio.start_server(fa_app.handler, '0.0.0.0', 4574, loop=loop)
 server = loop.run_until_complete(coro)
 
