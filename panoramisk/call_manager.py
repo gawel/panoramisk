@@ -29,7 +29,11 @@ class CallManager(manager.Manager):
         self.register_event('*', self.handle_calls)
 
     def set_result(self, future, result):
-        event = result.result()[-1]
+        res = result.result()
+        if isinstance(res, (list, tuple)):
+            event = res[-1]
+        else:
+            event = res
         uniqueid = event.uniqueid.split('.', 1)[0]
         call = self.calls_queues[uniqueid]
         call.action_id = event.action_id
