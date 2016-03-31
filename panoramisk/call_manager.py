@@ -19,17 +19,21 @@ class Call(object):
             self.queue.put_nowait(e)
 
 
-class Manager(manager.Manager):
+class CallManager(manager.Manager):
 
     def __init__(self, *args, **kwargs):
-        super(Manager, self).__init__(*args, **kwargs)
+        super(CallManager, self).__init__(*args, **kwargs)
         self.CallClass = kwargs.get('CallClass', Call)
         self.calls_queues = {}
         self.calls = {}
         self.register_event('*', self.handle_calls)
 
     def set_result(self, future, result):
-        event = result.result()[-1]
+        res = result.result()
+        if isinstance(res, (list, tuple)):
+            event = res[-1]
+        else:
+            event = res
         uniqueid = event.uniqueid.split('.', 1)[0]
         call = self.calls_queues[uniqueid]
         call.action_id = event.action_id

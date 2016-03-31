@@ -1,5 +1,5 @@
 import asyncio
-from panoramisk import fast_agi
+from panoramisk.fast_agi import Application
 import pytest
 
 FAST_AGI_PAYLOAD = b'''agi_network: yes
@@ -50,7 +50,7 @@ def fake_asterisk_client(loop):
 
 @pytest.mark.asyncio
 def test_fast_agi_application(event_loop):
-    fa_app = fast_agi.Application(loop=event_loop)
+    fa_app = Application(loop=event_loop)
     fa_app.add_route('call_waiting', call_waiting)
 
     server = yield from asyncio.start_server(fa_app.handler, '127.0.0.1', 4575, loop=event_loop)
