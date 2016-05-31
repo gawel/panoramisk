@@ -54,6 +54,14 @@ def test_queue_status(manager):
     assert len(responses) == 9
 
 
+def test_pjsip_show_endpoint(manager):
+    manager = manager(stream='pjsip_show_endpoint.yaml')
+    future = manager.send_action({'Action': 'PJSIPShowEndpoint',
+                                  'Endpoint': 'XXXXX'})
+    responses = future.result()
+    assert len(responses) == 7
+
+
 def test_command_core_show_version(manager):
     manager = manager(stream='command_core_show_version.yaml')
     future = manager.send_command('core show version')
