@@ -59,6 +59,8 @@ class Action(utils.CaseInsensitiveDict):
         msg = resp.message.lower()
         if resp.subevent == 'Start':
             return True
+        elif 'EventList' in resp and resp['EventList'] == 'start':
+            return True
         elif 'will follow' in msg:
             return True
         elif msg.startswith('added') and msg.endswith('to queue'):
@@ -76,7 +78,7 @@ class Action(utils.CaseInsensitiveDict):
             return True
         elif resp.subevent in ('End', 'Exec'):
             return True
-        elif resp.response in ('Success', 'Error', 'Fail'):
+        elif resp.response in ('Success', 'Error', 'Fail', 'Failure'):
             return True
         elif not self.multi:
             return True

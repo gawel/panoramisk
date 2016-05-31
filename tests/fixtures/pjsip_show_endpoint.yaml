@@ -1,0 +1,172 @@
+Response: Success
+ActionID: action/transaction_uid/1/1
+EventList: start
+Message: Following are Events for each object associated with the the Endpoint
+
+Event: EndpointDetail
+ActionID: action/transaction_uid/1/1
+ObjectType: endpoint
+ObjectName: XXXXX
+TimersSessExpires: 1800
+DeviceStateBusyAt: 0
+DtlsCipher: 
+FromDomain: 
+DtlsRekey: 0
+DtlsFingerprint: SHA-256
+DirectMediaMethod: invite
+SendRpid: false
+PickupGroup: 
+SdpSession: ALLOcloud v3.0
+DtlsVerify: No
+MessageContext: 
+Mailboxes: YYYY
+NamedPickupGroup: 
+RecordOnFeature: automixmon
+DtlsPrivateKey: 
+NamedCallGroup: 
+T38UdptlMaxdatagram: 0
+MediaEncryptionOptimistic: false
+Aors: XXXXX
+RpidImmediate: false
+OutboundProxy: 
+IdentifyBy: username
+InbandProgress: false
+RtpSymmetric: true
+Transport: tcp_5060
+RtpKeepalive: 0
+T38UdptlEc: none
+FaxDetect: false
+T38UdptlNat: false
+AllowTransfer: true
+TosVideo: 0
+SrtpTag32: false
+TimersMinSe: 90
+CallGroup: 
+SubMinExpiry: 0
+100rel: yes
+DirectMedia: false
+RtpTimeoutHold: 0
+G726NonStandard: false
+DtmfMode: rfc4733
+RtpTimeout: 0
+DtlsCertFile: 
+MediaEncryption: no
+MediaUseReceivedTransport: false
+DirectMediaGlareMitigation: none
+TrustIdInbound: false
+ForceAvp: false
+RecordOffFeature: automixmon
+SendDiversion: true
+Language: en_US
+MwiFromUser: 
+RtpIpv6: false
+IceSupport: false
+Callerid: "XXXX" <YYYYYY>
+AggregateMwi: true
+OneTouchRecording: false
+CosVideo: 0
+Accountcode: 
+Allow: (alaw|opus|speex|vp8|h264)
+RewriteContact: true
+T38UdptlIpv6: false
+ToneZone: 
+UserEqPhone: false
+AllowSubscribe: true
+RtpEngine: asterisk
+Auth: XXXXX
+FromUser: 
+DisableDirectMediaOnNat: false
+UsePtime: false
+OutboundAuth: 
+MediaAddress: 
+TosAudio: 0
+DtlsCaPath: 
+DtlsSetup: active
+ForceRport: true
+ConnectedLineMethod: invite
+CalleridTag: 
+Timers: yes
+SdpOwner: -
+TrustIdOutbound: false
+UseAvpf: false
+Context: default
+MohSuggest: default
+SendPai: false
+T38Udptl: false
+DtlsCaFile: 
+CalleridPrivacy: allowed_not_screened
+CosAudio: 0
+DeviceState: Not in use
+ActiveChannels: 
+
+Event: AuthDetail
+ActionID: action/transaction_uid/1/1
+ObjectType: auth
+ObjectName: XXXXX
+Md5Cred: 
+Realm: asterisk
+AuthType: userpass
+Password: ZZZZZZZZZZZ
+NonceLifetime: 32
+Username: XXXXX
+EndpointName: XXXXX
+
+Event: TransportDetail
+ActionID: action/transaction_uid/1/1
+ObjectType: transport
+ObjectName: tcp_5060
+WebsocketWriteTimeout: 100
+Cos: 0
+Protocol: tcp
+Domain: 
+VerifyServer: No
+Bind: 0.0.0.0:5060
+PrivKeyFile: 
+Method: unspecified
+RequireClientCert: No
+Tos: 0
+CaListPath: 
+Cipher: 
+ExternalSignalingPort: 0
+Password: 
+CertFile: 
+VerifyClient: No
+ExternalSignalingAddress: 
+AsyncOperations: 1
+ExternalMediaAddress: 
+CaListFile: 
+LocalNet: 
+EndpointName: XXXXX
+
+Event: AorDetail
+ActionID: action/transaction_uid/1/1
+ObjectType: aor
+ObjectName: XXXXX
+SupportPath: false
+DefaultExpiration: 3600
+QualifyTimeout: 3.000000
+Mailboxes: 
+MinimumExpiration: 60
+OutboundProxy: 
+MaximumExpiration: 7200
+QualifyFrequency: 0
+AuthenticateQualify: false
+Contacts: XXXXX/sip:XXXXX@A.B.C.D:46365;transport=TCP;rinstance=RRRRRR
+MaxContacts: 10
+RemoveExisting: false
+TotalContacts: 1
+ContactsRegistered: 1
+EndpointName: XXXXX
+
+Event: ContactStatusDetail
+ActionID: action/transaction_uid/1/1
+AOR: XXXXX
+URI: sip:XXXXX@A.B.C.D:46365;transport=TCP;rinstance=RRRRRR
+Status: Unknown
+RoundtripUsec: N/A
+EndpointName: XXXXX
+
+Event: EndpointDetailComplete
+ActionID: action/transaction_uid/1/1
+EventList: Complete
+ListItems: 5
