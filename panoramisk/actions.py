@@ -58,6 +58,8 @@ class Action(utils.CaseInsensitiveDict):
         msg = resp.message.lower()
         if resp.subevent == 'Start':
             return True
+        elif 'EventList' in resp and resp['EventList'] == 'start':
+            return True
         elif 'will follow' in msg:
             return True
         elif msg.startswith('added') and msg.endswith('to queue'):
