@@ -69,7 +69,7 @@ class Asterisk(object):
         self.protocol.factory = self
         yield from self.loop.create_server(
             lambda: self.protocol, '127.0.0.1', self.port)
-        return self.protocol
+        return self.started
 
     @asyncio.coroutine
     def stop(self):
