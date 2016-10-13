@@ -22,8 +22,9 @@ class _Asterisk(asyncio.Protocol):
         print(self)
         self.actions = []
         self.uuid = transport.get_extra_info('peername')
-        self.factory.clients[self.uuid] = self
         self.transport = transport
+        self.factory.clients[self.uuid] = self
+        self.factory.started.set_result(True)
 
     def data_received(self, data):
         data = data.decode('utf8')
@@ -39,6 +40,8 @@ class _Asterisk(asyncio.Protocol):
                 if a['action'] == 'Login':
                     message = LOGIN % a['actionid'].encode('utf8')
                     self.transport.write(message)
+        if not self.factory.data_received.done():
+            self.factory.data_received.set_result(True)
 
 
 class Asterisk(object):
@@ -58,6 +61,8 @@ class Asterisk(object):
     @asyncio.coroutine
     def start(self):
         self.clients = {}
+        self.started = asyncio.Future()
+        self.data_received = asyncio.Future()
         self.protocol = _Asterisk()
         self.protocol.factory = self
         yield from self.loop.create_server(
@@ -82,7 +87,7 @@ def test_basic_reconnection(event_loop, unused_tcp_port_factory):
     server = Asterisk(event_loop, unused_tcp_port)
     yield from server.start()
     yield from manager.connect()
-    yield from asyncio.sleep(.1)
+    yield from server.data_received
     login = server.client.actions[0]
     assert login['action'] == 'Login'
     unused_tcp_port = unused_tcp_port_factory()
@@ -91,8 +96,8 @@ def test_basic_reconnection(event_loop, unused_tcp_port_factory):
     manager.config['port'] = unused_tcp_port
     yield from server.stop()
     yield from server.start()
-    yield from asyncio.sleep(.1)
-    yield from server.stop()
+    yield from server.data_received
     login2 = server.client.actions[0]
+    yield from server.stop()
     assert login2['action'] == 'Login'
     assert login['actionid'] != login2['actionid']
