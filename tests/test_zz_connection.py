@@ -29,6 +29,8 @@ class _Asterisk(asyncio.Protocol):
         self.factory.started.set_result(True)
 
     def data_received(self, data):
+        if not self.factory.data_received.done():
+            self.factory.data_received.set_result(True)
         data = data.decode('utf8')
         for line in data.split(utils.EOL + utils.EOL):
             a = Action()
@@ -42,8 +44,6 @@ class _Asterisk(asyncio.Protocol):
                 if a['action'] == 'Login':
                     message = login(a['actionid'])
                     self.transport.write(message)
-        if not self.factory.data_received.done():
-            self.factory.data_received.set_result(True)
 
 
 class Asterisk(object):
