@@ -38,17 +38,13 @@ You can find some help on IRC: irc://irc.freenode.net/panoramisk (`www
 Running the Tests
 -----------------
 
-Install dependencies::
-
-    $ python setup.py test
-
 Running all the tests::
 
-    $ py.test tests/ docs/
+    $ tox
 
-Running individual test::
+Running individual test with python 3.5::
 
-    $ py.test tests/test_manager.py::test_connection
+    $ tox -e py35 tests/test_manager.py::test_connection
 
 
 Source code
