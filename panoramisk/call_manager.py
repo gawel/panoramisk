@@ -1,17 +1,16 @@
-# -*- coding: utf-8 -*-
+import asyncio
 from . import manager
-from . import utils
 from . import actions
 from datetime import datetime
 from functools import partial
 
 
-class Call(object):
+class Call:
 
     def __init__(self, uniqueid):
         self.uniqueid = uniqueid
         self.action_id = None
-        self.queue = utils.Queue()
+        self.queue = asyncio.Queue()
         self.created_at = datetime.now()
 
     def append(self, *events):
@@ -42,7 +41,7 @@ class CallManager(manager.Manager):
     def send_originate(self, action):
         action['Async'] = 'true'
         action = actions.Action(action)
-        future = utils.asyncio.Future()
+        future = asyncio.Future()
         self.send_action(action).add_done_callback(
             partial(self.set_result, future))
         return future

@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
 import re
 import uuid
 import collections
+
 from configparser import ConfigParser
 
 EOL = '\r\n'
@@ -76,7 +76,7 @@ def agi_code_check(code, response, line):
         return result
 
 
-class IdGenerator(object):
+class IdGenerator:
     """Generate some uuid for actions:
 
     .. code-block:: python

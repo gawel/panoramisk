@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from panoramisk.message import Message
 from panoramisk import utils
 import pytest

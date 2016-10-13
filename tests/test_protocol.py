@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from panoramisk import testing
 import asyncio
 import pytest
