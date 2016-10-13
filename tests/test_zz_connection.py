@@ -7,11 +7,13 @@ from panoramisk.actions import Action
 
 EOL = utils.EOL.encode('utf8')
 
-LOGIN = b'''
-Response: Success
-ActionID: %s
-Message: Authentication accepted
-'''.strip() + EOL + EOL
+
+def login(action_id):
+    return b'''
+    Response: Success
+    ActionID: ''' + action_id.encode('utf8') + '''
+    Message: Authentication accepted
+    '''.strip() + EOL + EOL
 
 
 class _Asterisk(asyncio.Protocol):
@@ -38,7 +40,7 @@ class _Asterisk(asyncio.Protocol):
             print(repr(a))  # debug
             if 'action' in a:
                 if a['action'] == 'Login':
-                    message = LOGIN % a['actionid'].encode('utf8')
+                    message = login(a['actionid'])
                     self.transport.write(message)
         if not self.factory.data_received.done():
             self.factory.data_received.set_result(True)
