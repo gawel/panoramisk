@@ -71,7 +71,7 @@ class Asterisk(object):
 
 
 @pytest.mark.asyncio
-def test_test_server(event_loop, unused_tcp_port_factory):
+def test_basic_reconnection(event_loop, unused_tcp_port_factory):
     unused_tcp_port = unused_tcp_port_factory()
     print('Start server on %s' % unused_tcp_port)
     manager = Manager(loop=event_loop,
