@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 import os
 import pytest
+import asyncio
 from panoramisk import testing
 from panoramisk import message
-from panoramisk.utils import asyncio
 
 test_dir = os.path.join(os.path.dirname(__file__), 'fixtures')
 
 
 @pytest.fixture
-def manager():
+def manager(request, event_loop):
     def manager(stream=None, **config):
+        config['loop'] = event_loop
         if stream:
             config['stream'] = os.path.join(test_dir, stream)
         return testing.Manager(**config)
-    manager().connect()
     return manager
 
 
@@ -143,7 +143,7 @@ def test_coroutine_events_handler(manager):
     assert matches == ['Peer*']
 
 
-def test_from_config(tmpdir):
+def test_from_config(event_loop, tmpdir):
     f = tmpdir.mkdir("config").join("config.ini")
     f.write('''
 [asterisk]
@@ -151,11 +151,11 @@ host = 127.0.0.1
 user= username
 secret = mysecret
     ''')
-    manager = testing.Manager.from_config(str(f))
+    manager = testing.Manager.from_config(str(f), loop=event_loop)
     assert manager.config['secret'] == 'mysecret'
 
     with open(str(f)) as fd:
-        manager = testing.Manager.from_config(fd)
+        manager = testing.Manager.from_config(fd, loop=event_loop)
     assert manager.config['secret'] == 'mysecret'
 
 

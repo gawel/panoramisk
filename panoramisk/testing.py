@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import asyncio
+from unittest import mock
 
 from . import manager
 from . import utils
-
-
-try:
-    from unittest import mock
-except ImportError:  # pragma: no cover
-    import mock  # NOQA
 
 
 MagicMock = mock.MagicMock
@@ -27,7 +23,7 @@ class AMIProtocol(manager.AMIProtocol):
     def send(self, data, as_list=False):
         utils.IdGenerator.reset(uid='transaction_uid')
         future = super(AMIProtocol, self).send(data, as_list=as_list)
-        if self.factory.stream is not None:
+        if getattr(self.factory, 'stream', None) is not None:
             with open(self.factory.stream, 'rb') as fd:
                 for resp in fd.read().split(b'\n\n'):
                     self.data_received(resp + b'\n\n')
@@ -42,6 +38,7 @@ class AMIProtocol(manager.AMIProtocol):
 class Manager(manager.Manager):
 
     fixtures_dir = None
+    defaults = manager.Manager.defaults.copy()
 
     def __init__(self, **config):
         self.defaults.update(
@@ -50,12 +47,14 @@ class Manager(manager.Manager):
         super(Manager, self).__init__(**config)
 
         self.stream = self.config.get('stream')
-        self.loop = utils.asyncio.get_event_loop()
+
+        if self.loop is None:
+            self.loop = asyncio.get_event_loop()
 
         protocol = AMIProtocol()
         protocol.factory = manager
         protocol.connection_made(mock.MagicMock())
-        future = utils.asyncio.Future()
+        future = asyncio.Future()
         future.set_result((mock.MagicMock(), protocol))
         self.protocol = protocol
         self.connection_made(future)

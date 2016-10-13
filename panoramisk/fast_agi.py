@@ -1,6 +1,6 @@
 import logging
+import asyncio
 from collections import OrderedDict
-from .utils import asyncio
 from .utils import parse_agi_result
 
 log = logging.getLogger(__name__)

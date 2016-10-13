@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-import logging
 import time
+import logging
+import asyncio
+from asyncio.queues import Queue
 
 from .message import Message
-from .utils import asyncio
 from . import actions
 from . import utils
 
@@ -13,7 +14,7 @@ class AMIProtocol(asyncio.Protocol):
     def connection_made(self, transport):
         self.transport = transport
         self.closed = False
-        self.queue = utils.Queue()
+        self.queue = Queue()
         self.responses = {}
         self.factory = None
         self.log = logging.getLogger(__name__)

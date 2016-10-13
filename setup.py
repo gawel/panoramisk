@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #  -*- coding: utf-8 -*-
 import os
-import sys
 from setuptools import setup
 from setuptools import find_packages
 
@@ -9,23 +8,8 @@ version = '1.1.dev0'
 
 install_requires = []
 test_requires = [
-    'pytest', 'coverage', 'coveralls'
+    'pytest', 'pytest-asyncio', 'coverage', 'coveralls'
 ]
-
-if sys.version_info[:2] < (3, 0):
-    install_requires.extend([
-        'trollius',
-        'futures',
-    ])
-    test_requires.extend(['mock'])
-elif sys.version_info[:2] < (3, 3):
-    install_requires.append('trollius')
-    test_requires.extend(['mock'])
-elif sys.version_info[:2] < (3, 4):
-    install_requires.append('asyncio')
-    test_requires.append('pytest-asyncio')
-else:
-    test_requires.append('pytest-asyncio')
 
 
 def read(*rnames):
@@ -43,9 +27,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Communications :: Telephony',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],

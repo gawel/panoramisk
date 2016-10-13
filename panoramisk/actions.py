@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .utils import asyncio
+import asyncio
 from . import utils
 
 
