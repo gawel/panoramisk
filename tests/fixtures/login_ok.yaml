@@ -1,5 +1,5 @@
 Asterisk Call Manager/1.3
-action: login
+Action: login
 ActionID: action/transaction_uid/1/1
 username: nnnnnnnnn
 secret: yyyyyyyyyyyy
