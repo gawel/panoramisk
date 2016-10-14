@@ -75,7 +75,7 @@ class Manager:
             else:
                 self.send_awaiting_actions()
                 self.log.debug('username not in config file')
-            self.pinger = self.loop.call_later(10, self.ping)
+            self.pinger = self.loop.call_later(self.ping_delay, self.ping)
 
     def login(self, future):
         self.authenticated_future = None
@@ -84,7 +84,7 @@ class Manager:
         self.send_awaiting_actions()
         if self.pinger is not None:
             self.pinger.cancel()
-        self.ping()
+        self.pinger = self.loop.call_later(self.ping_delay, self.ping)
         return self.authenticated
 
     def ping(self):  # pragma: no cover
