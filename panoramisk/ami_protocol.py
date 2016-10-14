@@ -19,6 +19,15 @@ class AMIProtocol(asyncio.Protocol):
         self.factory = None
         self.log = logging.getLogger(__name__)
 
+    def is_closing(self):
+        if self.closed:
+            return True
+        # py35
+        is_closing = getattr(self.transport, 'is_closing', None)
+        if is_closing is not None:
+            return is_closing()
+        return False
+
     def send(self, data, as_list=False):
         encoding = getattr(self, 'encoding', 'ascii')
         if not isinstance(data, actions.Action):
@@ -27,7 +36,7 @@ class AMIProtocol(asyncio.Protocol):
             else:
                 klass = actions.Action
             data = klass(data, as_list=as_list)
-        if self.closed:
+        if self.is_closing():
             self.factory.awaiting_actions.put_nowait((data, as_list))
         else:
             try:

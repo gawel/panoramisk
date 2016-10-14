@@ -20,6 +20,9 @@ class AMIProtocol(manager.AMIProtocol):
         super(AMIProtocol, self).connection_made(transport)
         self.transport = MagicMock()
 
+    def is_closing(self):
+        return False
+
     def send(self, data, as_list=False):
         utils.IdGenerator.reset(uid='transaction_uid')
         future = super(AMIProtocol, self).send(data, as_list=as_list)
