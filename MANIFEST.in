@@ -1,4 +1,5 @@
 graft examples
+graft tools
 graft docs
 prune docs/_build
 graft panoramisk
