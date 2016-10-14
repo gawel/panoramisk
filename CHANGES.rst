@@ -1,23 +1,23 @@
 1.1 (unreleased)
-================
+----------------
 
 - Nothing changed yet.
 
 
 1.0 (2015-08-19)
-================
+----------------
 
 - Add FastAGI server, implemented with high-level AsyncIO API (Streams)
 - Add events parameter for Manager, to disable AMI events reception (Useful for performance reasons)
 - Finish AsyncAGI commands support (WIP)
 
 0.6 (2014-11-16)
-================
+----------------
 
 - Avoid failure when factory is not already set
 
 0.5 (2014-11-16)
-================
+----------------
 
 - AMI command results tracking fixed
 - Return AMI command result with multiple events in a Future
@@ -35,18 +35,18 @@
 - Support of AsyncAGI commands (Not finished)
 
 0.4 (2014-05-30)
-================
+----------------
 
 - Compat with the latest trollius
 
 
 0.3 (2014-01-10)
-================
+----------------
 
 - Don't send commands twice
 
 
 0.2 (2014-01-09)
-================
+----------------
 
 - Initial release
