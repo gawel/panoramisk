@@ -67,13 +67,11 @@ options, args = parser.parse_args()
 ######################################################################
 # load/install setuptools
 
-try:
-    if options.allow_site_packages:
-        import setuptools
-        import pkg_resources
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
+if options.allow_site_packages:
+    import setuptools
+    import pkg_resources
+from urllib.request import urlopen
+
 
 ez = {}
 exec(urlopen('https://bootstrap.pypa.io/ez_setup.py').read(), ez)

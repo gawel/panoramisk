@@ -1,7 +1,7 @@
 1.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- End of support for python<3.4
 
 
 1.0 (2015-08-19)

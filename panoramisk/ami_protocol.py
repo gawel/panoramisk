@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-import time
 import logging
+import time
 import asyncio
-from asyncio.queues import Queue
+from asyncio import Queue
 
 from .message import Message
 from . import actions

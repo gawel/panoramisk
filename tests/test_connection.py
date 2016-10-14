@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import pytest
 import asyncio
 from panoramisk import Manager
