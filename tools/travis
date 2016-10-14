@@ -2,7 +2,7 @@
 
 set -e
 
-tox
+tox -- -sv
 
 # no coverage run on flake8 example tests
 if [ $TOXENV != "flake8" ]
