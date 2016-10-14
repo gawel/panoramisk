@@ -6,16 +6,14 @@ from configparser import ConfigParser
 
 EOL = '\r\n'
 
-re_code = re.compile(r'(^\d*)\s*(.*)')
+re_code = re.compile(r'(?P<code>^\d*)\s*(?P<response>.*)')
 re_kv = re.compile(r'(?P<key>\w+)=(?P<value>[^\s]+)\s*(?:\((?P<data>.*)\))*')
 
 
 def parse_agi_result(line):
     """Parse AGI results using Regular expression.
 
-    :AGI Result examples:
-
-    ::
+    AGI Result examples::
 
         200 result=0
 
@@ -27,54 +25,57 @@ def parse_agi_result(line):
 
         510 Invalid or unknown command
 
-        520-Invalid command syntax.  Proper usage follows:
-        int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+        520-Invalid command syntax. Proper usage follows:
+        int() argument must be a string, a bytes-like object or a number, not
+        'NoneType'
 
         HANGUP
 
     """
     # print("--------------\n", line)
     if line == 'HANGUP':
-        return {'error': 'AGIResultHangup', 'msg': 'User hungup during execution'}
+        return {'error': 'AGIResultHangup',
+                'msg': 'User hungup during execution'}
 
-    code = 0
-    response = ""
+    kwargs = dict(code=0, response="", line=line)
     m = re_code.search(line)
-    if m:
-        code, response = m.groups()
-        code = int(code)
+    try:
+        kwargs.update(m.groupdict())
+    except AttributeError:
+        # None has no attribute groupdict
+        pass
+    return agi_code_check(**kwargs)
 
-    return agi_code_check(code, response, line)
 
-
-def agi_code_check(code, response, line):
+def agi_code_check(code=None, response=None, line=None):
     """
     Check the AGI code and return a dict to help on error handling.
     """
+    code = int(code)
+    response = response or ""
     result = {'status_code': code, 'result': ('', ''), 'msg': ''}
     if code == 200:
         for key, value, data in re_kv.findall(response):
             result[key] = (value, data)
             # If user hangs up... we get 'hangup' in the data
             if data == 'hangup':
-                return {'error': 'AGIResultHangup', 'msg': 'User hungup during execution'}
-            if key == 'result' and value == '-1':
-                return {'error': 'AGIAppError', 'msg': 'Error executing application, or hangup'}
-        return result
+                return {
+                    'error': 'AGIResultHangup',
+                    'msg': 'User hungup during execution'}
+            elif key == 'result' and value == '-1':
+                return {
+                    'error': 'AGIAppError',
+                    'msg': 'Error executing application, or hangup'}
     elif code == 510:
         result['error'] = 'AGIInvalidCommand'
-        return result
     elif code == 520:
-        usage = [line]
-        usage = '%s\n' % '\n'.join(usage)
         # AGI Usage error
         result['error'] = 'AGIUsageError'
-        result['msg'] = 'usage'
-        return result
+        result['msg'] = line
     else:
         # Unhandled code or undefined response
         result['error'] = 'AGIUnknownError'
-        return result
+    return result
 
 
 class IdGenerator:
@@ -109,7 +110,9 @@ class IdGenerator:
         i = 0
         max_val = 10000
         while True:
-            yield "%s/%s/%d/%d" % (self.prefix, self.uid, (i // max_val) + 1, (i % max_val) + 1)
+            yield "%s/%s/%d/%d" % (self.prefix,
+                                   self.uid, (i // max_val) + 1,
+                                   (i % max_val) + 1)
             i += 1
 
     @classmethod
@@ -123,7 +126,8 @@ class IdGenerator:
 
     def get_instances(self):
         """Mostly used for debugging"""
-        return ["<%s prefix:%s (uid:%s)>" % (self.__class__.__name__, i.prefix, self.uid)
+        return ["<%s prefix:%s (uid:%s)>" % (self.__class__.__name__,
+                                             i.prefix, self.uid)
                 for i in self.instances]
 
     def __call__(self):
