@@ -8,6 +8,7 @@ import fnmatch
 from .ami_protocol import AMIProtocol
 from . import actions
 from . import utils
+from . import errors
 
 
 class Manager(object):
@@ -31,6 +32,8 @@ class Manager(object):
         protocol_factory=AMIProtocol,
         save_stream=None,
         loop=None,
+        automatic_reconnection=True,
+        auto_ping=True,
     )
 
     def __init__(self, **config):
@@ -44,6 +47,8 @@ class Manager(object):
         self.authenticated = False
         self.authenticated_future = None
         self.pinger = None
+        self.responses = {}
+        self.waiting_actions = utils.Queue()
 
     def connection_made(self, f):
         if getattr(self, 'protocol', None):
@@ -51,8 +56,10 @@ class Manager(object):
         try:
             transport, protocol = f.result()
         except OSError as e:  # pragma: no cover
-            self.log.exception(e)
-            self.loop.call_later(2, self.connect)
+            self.log.error('Impossible to connect: %s', str(e.args))
+            if self.config['automatic_reconnection']:
+                self.log.info('Try to connect again in 2 seconds')
+                self.loop.call_later(2, self.connect)
         else:
             self.log.debug('Manager connected')
             self.protocol = protocol
@@ -61,7 +68,6 @@ class Manager(object):
             self.protocol.log = self.log
             self.protocol.config = self.config
             self.protocol.encoding = self.encoding = self.config['encoding']
-            self.responses = self.protocol.responses = {}
             if 'username' in self.config:
                 self.authenticated = False
                 self.authenticated_future = self.send_action({
@@ -77,11 +83,17 @@ class Manager(object):
         self.authenticated_future = None
         resp = future.result()
         self.authenticated = bool(resp.success)
+        if self.authenticated:
+            while not self.waiting_actions.empty():
+                action = self.waiting_actions.get_nowait()
+                self.send_action(action)
+            if self.config['auto_ping']:
+                self.pinger = self.loop.call_later(10, self.ping)
         return self.authenticated
 
     def ping(self):  # pragma: no cover
         self.pinger = self.loop.call_later(10, self.ping)
-        self.protocol.send({'Action': 'Ping'})
+        self.send_action({'Action': 'Ping'})
 
     def send_action(self, action, as_list=False, **kwargs):
         """Send an :class:`~panoramisk.actions.Action` to the server:
@@ -111,7 +123,39 @@ class Manager(object):
         more information on actions
         """
         action.update(kwargs)
-        return self.protocol.send(action, as_list=as_list)
+        if not isinstance(action, actions.Action):
+            if 'Command' in action:
+                klass = actions.Command
+            else:
+                klass = actions.Action
+            action = klass(action, as_list=as_list)
+        self.responses[action.id] = action
+        if action.action_id:
+            self.responses[action.action_id] = action
+        action.future.add_done_callback(self.handle_future_messages)
+        try:
+            self.protocol.send(action, as_list=as_list)
+        except errors.DisconnectedError:
+            action.future.remove_done_callback(self.handle_future_messages)
+            self.waiting_actions.put_nowait(action)
+        # return action.future
+        return action.high_level_future
+
+    def handle_future_messages(self, future):
+        try:
+            result = first_response = future.result()
+        except errors.DisconnectedError as e:
+            if self.config['automatic_reconnection']:
+                self.waiting_actions.put_nowait(e.action)
+            else:
+                e.action.high_level_future.set_exception(e)
+        else:
+            if isinstance(result, list):
+                first_response = result[0]
+            response = self.responses.pop(first_response['ActionID'])
+            if response.action_id:
+                self.responses.pop(response.action_id, None)
+            response.high_level_future.set_result(result)
 
     def send_command(self, command, as_list=False):
         """Send a :class:`~panoramisk.actions.Command` to the server::
@@ -221,6 +265,17 @@ class Manager(object):
             self.pinger = None
         if getattr(self, 'protocol', None):
             self.protocol.close()
+
+    def connection_lost(self, exc):
+        self.log.error('Connection lost')
+        if self.pinger:
+            self.pinger.cancel()
+            self.pinger = None
+        if self.config['automatic_reconnection']:
+            self.log.info('Try to connect again in 2 seconds')
+            self.loop.call_later(2, self.connect)
+        else:
+            raise errors.DisconnectedError(None)
 
     @classmethod
     def from_config(cls, filename_or_fd, section='asterisk', **kwargs):

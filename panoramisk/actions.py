@@ -35,6 +35,7 @@ class Action(utils.CaseInsensitiveDict):
             self['ActionID'] = self.action_id_generator()
         self.responses = []
         self.future = asyncio.Future()
+        self.high_level_future = asyncio.Future()
 
     @property
     def id(self):
