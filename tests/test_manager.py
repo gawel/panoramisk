@@ -28,15 +28,19 @@ def test_ping(manager):
     assert 'ping' in future.result()
 
 
+@pytest.mark.asyncio
 def test_login_ok(manager):
     manager = manager(username='xx', secret='xx', stream='login_ok.yaml')
-    assert manager.authenticated_future.result().success is True
+    authenticated = yield from manager.authenticated_future
+    assert authenticated.success is True
     assert manager.login(manager.authenticated_future) is True
 
 
+@pytest.mark.asyncio
 def test_login_failed(manager):
     manager = manager(username='xx', secret='xx', stream='login_failed.yaml')
-    assert manager.authenticated_future.result().success is False
+    authenticated = yield from manager.authenticated_future
+    assert authenticated.success is False
     assert manager.login(manager.authenticated_future) is False
 
 

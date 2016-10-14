@@ -21,9 +21,9 @@ class Call(object):
 
 class CallManager(manager.Manager):
 
-    def __init__(self, *args, **kwargs):
-        super(CallManager, self).__init__(*args, **kwargs)
-        self.CallClass = kwargs.get('CallClass', Call)
+    def __init__(self, **config):
+        super(CallManager, self).__init__(**config)
+        self.CallClass = config.get('CallClass', Call)
         self.calls_queues = {}
         self.calls = {}
         self.register_event('*', self.handle_calls)
