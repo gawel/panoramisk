@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+import asyncio
 import logging
+from asyncio.queues import Queue
 from collections import defaultdict
 import re
 import fnmatch
 from .ami_protocol import AMIProtocol
-from .utils import asyncio
 from . import actions
 from . import utils
 from . import errors
@@ -62,7 +63,7 @@ class Manager(object):
         else:
             self.log.debug('Manager connected')
             self.protocol = protocol
-            self.protocol.queue = utils.Queue(loop=self.loop)
+            self.protocol.queue = Queue(loop=self.loop)
             self.protocol.factory = self
             self.protocol.log = self.log
             self.protocol.config = self.config
@@ -172,7 +173,8 @@ class Manager(object):
     def send_agi_command(self, channel, command, as_list=False):
         """Send a :class:`~panoramisk.actions.Command` to the server:
 
-        :param channel: Channel name where to launch command. Ex: 'SIP/000000-00000a53'
+        :param channel: Channel name where to launch command.
+               Ex: 'SIP/000000-00000a53'
         :type channel: String
         :param command: command to launch. Ex: 'GET VARIABLE async_agi_server'
         :type command: String
@@ -276,5 +278,7 @@ class Manager(object):
             raise errors.DisconnectedError(None)
 
     @classmethod
-    def from_config(cls, filename_or_fd, section='asterisk'):
-        return cls(**utils.config(filename_or_fd, section=section))
+    def from_config(cls, filename_or_fd, section='asterisk', **kwargs):
+        config = utils.config(filename_or_fd, section=section)
+        config.update(kwargs)
+        return cls(**config)

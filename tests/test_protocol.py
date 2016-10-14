@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-from panoramisk.utils import asyncio
 from panoramisk import testing
+import asyncio
 import pytest
 
 
 @pytest.fixture
-def conn(request):
+def conn(request, event_loop):
 
     def callback(*args):
         pass
 
-    manager = testing.Manager()
+    loop = asyncio.get_event_loop_policy().new_event_loop()
+    manager = testing.Manager(loop=loop)
     manager.register_event('Peer*', callback)
     return manager.protocol
 

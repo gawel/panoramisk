@@ -9,8 +9,6 @@ after_success:
 - "COVERAGE_FILE=.coverage coverage combine"
 - coveralls
 env:
-- TOXENV=py27
-- TOXENV=py33
 - TOXENV=py34
 - TOXENV=py35
 - TOXENV=flake8

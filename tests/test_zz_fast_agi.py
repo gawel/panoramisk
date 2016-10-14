@@ -1,6 +1,6 @@
 import asyncio
-from panoramisk.fast_agi import Application
 import pytest
+from panoramisk.fast_agi import Application
 
 FAST_AGI_PAYLOAD = b'''agi_network: yes
 agi_network_script: call_waiting
@@ -32,13 +32,14 @@ agi_arg_1: answered
 @asyncio.coroutine
 def call_waiting(request):
     r = yield from request.send_command('ANSWER')
-    assert {'message': None, 'result': 0, 'status_code': 200, 'value': None} == r
+    v = {'message': None, 'result': 0, 'status_code': 200, 'value': None}
+    assert r == v
 
 
 @asyncio.coroutine
-def fake_asterisk_client(loop):
+def fake_asterisk_client(loop, unused_tcp_port):
     reader, writer = yield from asyncio.open_connection(
-        '127.0.0.1', 4575, loop=loop)
+        '127.0.0.1', unused_tcp_port, loop=loop)
     # send headers
     writer.write(FAST_AGI_PAYLOAD)
     # read it back
@@ -49,13 +50,15 @@ def fake_asterisk_client(loop):
 
 
 @pytest.mark.asyncio
-def test_fast_agi_application(event_loop):
+def test_fast_agi_application(event_loop, unused_tcp_port):
     fa_app = Application(loop=event_loop)
     fa_app.add_route('call_waiting', call_waiting)
 
-    server = yield from asyncio.start_server(fa_app.handler, '127.0.0.1', 4575, loop=event_loop)
+    server = yield from asyncio.start_server(fa_app.handler, '127.0.0.1',
+                                             unused_tcp_port, loop=event_loop)
 
-    msg_back = yield from fake_asterisk_client(loop=event_loop)
+    msg_back = yield from fake_asterisk_client(event_loop,
+                                               unused_tcp_port)
     assert b'ANSWER\n' == msg_back
 
     server.close()

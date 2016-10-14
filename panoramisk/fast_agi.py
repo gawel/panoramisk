@@ -1,6 +1,6 @@
 import logging
+import asyncio
 from collections import OrderedDict
-from .utils import asyncio
 from .utils import parse_agi_result
 
 log = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ class Request:
         # when we got AGIUsageError the following line contains some indication
         if 'error' in agi_result and agi_result['error'] == 'AGIUsageError':
             buff_usage_error = yield from self.reader.readline()
-            agi_result['msg'] = agi_result['msg'] + buff_usage_error.decode(self.encoding)
+            agi_result['msg'] += buff_usage_error.decode(self.encoding)
 
         return agi_result
 
@@ -53,6 +53,8 @@ class Application(dict):
 
         >>> fa_app = Application()
     """
+
+    buf_size = 100
 
     def __init__(self, default_encoding='utf-8', loop=None):
         super(Application, self).__init__()
@@ -136,28 +138,29 @@ class Application(dict):
         """
         buffer = b''
         while b'\n\n' not in buffer:
-            buffer += yield from reader.read(100)
+            buffer += yield from reader.read(self.buf_size)
         lines = buffer[:-2].decode(self.default_encoding).split('\n')
-        headers = OrderedDict()
-        for line in lines:
-            k, v = line.split(': ', 1)
-            headers[k] = v
-        log.info('Received FastAGI request from %r for "%s" route',
-                 writer.get_extra_info('peername'),
-                 headers['agi_network_script'])
-        log.debug("Asterisk Headers: %r",
-                  headers)
+        headers = OrderedDict([line.split(': ', 1) for line in lines])
 
-        if headers['agi_network_script'] in self._route:
-            request = Request(app=self,
-                              headers=headers,
-                              reader=reader, writer=writer,
-                              encoding=self.default_encoding)
-            try:
-                yield from self._route[headers['agi_network_script']](request)
-            except Exception as e:
-                log.exception(e)
+        agi_network_script = headers.get('agi_network_script')
+        log.info('Received FastAGI request from %r for "%s" route',
+                 writer.get_extra_info('peername'), agi_network_script)
+        log.debug("Asterisk Headers: %r", headers)
+
+        if agi_network_script is not None:
+            route = self._route.get(agi_network_script)
+            if route is not None:
+                request = Request(app=self,
+                                  headers=headers,
+                                  reader=reader, writer=writer,
+                                  encoding=self.default_encoding)
+                try:
+                    yield from route(request)
+                except Exception as e:
+                    log.exception(e)
+            else:
+                log.error('No route for the request "%s"', agi_network_script)
         else:
-            log.error('No route for the request "%s"', headers['agi_network_script'])
+            log.error('No agi_network_script header for the request')
         log.debug("Closing client socket")
         writer.close()

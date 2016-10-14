@@ -2,24 +2,7 @@
 import re
 import uuid
 import collections
-
-try:  # pragma: no cover
-    from urllib.parse import unquote
-except ImportError:  # pragma: no cover
-    from urllib import unquote  # NOQA
-
-
-try:  # pragma: no cover
-    import asyncio
-    from asyncio.queues import Queue
-except ImportError:  # pragma: no cover
-    import trollius as asyncio  # NOQA
-    from trollius.queues import Queue  # NOQA
-
-try:
-    from configparser import ConfigParser
-except ImportError:  # pragma: no cover
-    from ConfigParser import ConfigParser  # NOQA
+from configparser import ConfigParser
 
 EOL = '\r\n'
 

@@ -33,6 +33,11 @@ def originate():
     callmanager.clean_originate(call)
     callmanager.close()
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(originate())
-loop.close()
+
+def main():
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(originate())
+    loop.close()
+
+if __name__ == '__main__':
+    main()

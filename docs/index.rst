@@ -11,7 +11,7 @@ How to configure Asterisk
 
 In ``/etc/asterisk/manager.conf``, add:
 
-::
+.. code-block:: ini
 
     [username]
     secret=password
@@ -20,11 +20,18 @@ In ``/etc/asterisk/manager.conf``, add:
     read = all
     write = all
 
-Launch: ``rasterisk -x 'manager reload'``
+Launch:
+
+.. code-block:: sh
+
+    $ rasterisk -x 'manager reload'
 
 =====================
 :mod:`panoramisk` api
 =====================
+
+AMI
+---
 
 .. automodule:: panoramisk
 
@@ -33,6 +40,9 @@ Launch: ``rasterisk -x 'manager reload'``
 
 .. toctree::
    :maxdepth: 2
+
+Fast AGI
+--------
 
 .. automodule:: panoramisk.fast_agi
 
@@ -48,6 +58,7 @@ CHANGES
 
 .. include:: ../CHANGES.rst
 
+==================
 Indices and tables
 ==================
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from . import utils
+from urllib.parse import unquote
 
 
 class Message(utils.CaseInsensitiveDict):
@@ -106,7 +107,7 @@ class Message(utils.CaseInsensitiveDict):
             if ': ' in mline:
                 k, v = mline.split(': ', 1)
                 if k.lower() in cls.quoted_keys:
-                    v = utils.unquote(v).strip()
+                    v = unquote(v).strip()
                 if k in headers:
                     o = headers.setdefault(k, [])
                     if not isinstance(o, list):

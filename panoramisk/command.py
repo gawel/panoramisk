@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import asyncio
 import argparse
 import logging
 from . import utils
@@ -47,7 +48,7 @@ def main(argv=None):
             def show(f=None):
                 if f:
                     print(f.result())
-                f = utils.asyncio.Task(result.queue.get())
+                f = asyncio.Task(result.queue.get())
                 f.add_done_callback(show)
             show()
 
