@@ -133,7 +133,7 @@ def test_reconnection_without_lost(event_loop, unused_tcp_port_factory):
 
     f = manager.send_action({'Action': 'Test'})
     yield from asyncio.sleep(.1)
-    assert not manager.awaiting_actions.empty()
+    assert manager.awaiting_actions
     yield from server.start()
     resp = yield from f
     yield from server.stop()

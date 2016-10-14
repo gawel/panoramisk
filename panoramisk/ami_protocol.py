@@ -1,7 +1,6 @@
 import logging
-import time
 import asyncio
-from asyncio import Queue
+from collections import deque
 
 from .message import Message
 from . import actions
@@ -13,19 +12,10 @@ class AMIProtocol(asyncio.Protocol):
     def connection_made(self, transport):
         self.transport = transport
         self.closed = False
-        self.queue = Queue()
+        self.queue = deque()
         self.responses = {}
         self.factory = None
         self.log = logging.getLogger(__name__)
-
-    def is_closing(self):
-        if self.closed:
-            return True
-        # py35
-        is_closing = getattr(self.transport, 'is_closing', None)
-        if is_closing is not None:
-            return is_closing()
-        return False
 
     def send(self, data, as_list=False):
         encoding = getattr(self, 'encoding', 'ascii')
@@ -41,7 +31,7 @@ class AMIProtocol(asyncio.Protocol):
             self.responses[data.action_id] = data
         try:
             self.transport.write(str(data).encode(encoding))
-        except Exception:
+        except Exception:  # pragma: no cover
             self.log.exception('Fail to send %r' % data)
         return data.future
 
@@ -57,10 +47,10 @@ class AMIProtocol(asyncio.Protocol):
                     fd.write(data.encode(encoding))
         # Very verbose, uncomment only if necessary
         # self.log.debug('data received: "%s"', data)
-        if not self.queue.empty():
-            data = self.queue.get_nowait() + data
+        if self.queue:
+            data = self.queue.popleft() + data
         lines = data.split(utils.EOL+utils.EOL)
-        self.queue.put_nowait(lines.pop(-1))
+        self.queue.append(lines.pop(-1))
         for line in lines:
             # Because sometimes me receive only one EOL from Asterisk
             line = line.strip()
@@ -87,21 +77,29 @@ class AMIProtocol(asyncio.Protocol):
                 self.connection_lost(message)
             self.factory.dispatch(message)
 
-    def connection_lost(self, exc):  # pragma: no cover
+    def connection_lost(self, exc):
         if not self.closed:
             self.close()
-            # wait a few before reconnect
-            time.sleep(2)
-            # reconnect
             self.factory.connection_lost(exc)
 
-    def close(self):  # pragma: no cover
-        if not self.closed:
-            for action in self.responses.values():
-                if action['action'].lower() in ('login', 'ping'):
+    def close(self):
+        if self.factory and self.responses:
+            uuids = set()
+            forgetable_actions = self.factory.forgetable_actions
+            awaiting_actions = self.factory.awaiting_actions
+            for k in list(self.responses.keys()):
+                action = self.responses.pop(k)
+                if action.id in uuids:
                     continue
-                if not action.future.done():
-                    self.factory.awaiting_actions.put_nowait(action)
+                elif action['action'].lower() in forgetable_actions:
+                    uuids.add(action.id)
+                    continue
+                elif action.future.done():
+                    uuids.add(action.id)
+                    continue
+                uuids.add(action.id)
+                awaiting_actions.append(action)
+        if not self.closed:
             try:
                 self.transport.close()
             finally:

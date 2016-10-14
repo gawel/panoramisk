@@ -1,7 +1,7 @@
 import asyncio
 import logging
-from asyncio.queues import Queue
 from collections import defaultdict
+from collections import deque
 import re
 import fnmatch
 from .ami_protocol import AMIProtocol
@@ -44,7 +44,7 @@ class Manager:
         self.save_stream = self.config.get('save_stream')
         self.authenticated = False
         self.authenticated_future = None
-        self.awaiting_actions = Queue()
+        self.awaiting_actions = deque()
         self.forgetable_actions = self.config['forgetable_actions']
         self.pinger = None
         self.ping_delay = int(self.config['ping_delay'])
@@ -54,13 +54,13 @@ class Manager:
             self.protocol.close()
         try:
             transport, protocol = f.result()
-        except OSError as e:  # pragma: no cover
-            self.log.exception(e)
+        except OSError:  # pragma: no cover
+            self.log.exception('Not able to connect')
             self.loop.call_later(2, self.connect)
         else:
             self.log.debug('Manager connected')
             self.protocol = protocol
-            self.protocol.queue = Queue(loop=self.loop)
+            self.protocol.queue = deque()
             self.protocol.factory = self
             self.protocol.log = self.log
             self.protocol.config = self.config
@@ -94,8 +94,8 @@ class Manager:
         self.protocol.send({'Action': 'Ping'})
 
     def send_awaiting_actions(self):
-        while not self.awaiting_actions.empty():
-            action = self.awaiting_actions.get_nowait()
+        while self.awaiting_actions:
+            action = self.awaiting_actions.popleft()
             if action['action'].lower() not in self.forgetable_actions:
                 self.send_action(action, as_list=action.as_list)
 
