@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import asyncio
 import logging
 from asyncio.queues import Queue
@@ -10,7 +9,7 @@ from . import actions
 from . import utils
 
 
-class Manager(object):
+class Manager:
     """Main object:
 
     .. code-block:: python
