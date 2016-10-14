@@ -36,19 +36,15 @@ class AMIProtocol(asyncio.Protocol):
             else:
                 klass = actions.Action
             data = klass(data, as_list=as_list)
-        if self.is_closing():
-            self.factory.awaiting_actions.put_nowait((data, as_list))
-        else:
-            try:
-                self.transport.write(str(data).encode(encoding))
-            except Exception as e:
-                self.factory.log.exception(e)
-                self.factory.awaiting_actions.put_nowait((data, as_list))
-            else:
-                self.responses[data.id] = data
-                if data.action_id:
-                    self.responses[data.action_id] = data
-                return data.future
+        data.as_list = as_list
+        self.responses[data.id] = data
+        if data.action_id:
+            self.responses[data.action_id] = data
+        try:
+            self.transport.write(str(data).encode(encoding))
+        except Exception:
+            self.log.exception('Fail to send %r' % data)
+        return data.future
 
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')
@@ -87,7 +83,9 @@ class AMIProtocol(asyncio.Protocol):
                 self.responses.pop(response.id)
                 if response.action_id:
                     self.responses.pop(response.action_id, None)
-        elif 'Event' in message:
+        elif 'event' in message:
+            if message['event'].lower() == 'shutdown':
+                self.connection_lost(message)
             self.factory.dispatch(message)
 
     def connection_lost(self, exc):  # pragma: no cover
@@ -96,10 +94,15 @@ class AMIProtocol(asyncio.Protocol):
             # wait a few before reconnect
             time.sleep(2)
             # reconnect
-            self.factory.connect()
+            self.factory.connection_lost(exc)
 
     def close(self):  # pragma: no cover
         if not self.closed:
+            for action in self.responses.values():
+                if action['action'].lower() in ('login', 'ping'):
+                    continue
+                if not action.future.done():
+                    self.factory.awaiting_actions.put_nowait(action)
             try:
                 self.transport.close()
             finally:

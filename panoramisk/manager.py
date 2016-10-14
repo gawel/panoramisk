@@ -89,8 +89,9 @@ class Manager(object):
 
     def send_awaiting_actions(self):
         while not self.awaiting_actions.empty():
-            action, as_list = self.awaiting_actions.get_nowait()
-            self.send_action(action, as_list)
+            action = self.awaiting_actions.get_nowait()
+            if action['action'].lower() not in ('login', 'ping'):
+                self.send_action(action, as_list=action.as_list)
 
     def send_action(self, action, as_list=False, **kwargs):
         """Send an :class:`~panoramisk.actions.Action` to the server:
@@ -230,6 +231,14 @@ class Manager(object):
             self.pinger = None
         if getattr(self, 'protocol', None):
             self.protocol.close()
+
+    def connection_lost(self, exc):
+        self.log.error('Connection lost')
+        if self.pinger:
+            self.pinger.cancel()
+            self.pinger = None
+        self.log.info('Try to connect again in 2 seconds')
+        self.loop.call_later(2, self.connect)
 
     @classmethod
     def from_config(cls, filename_or_fd, section='asterisk', **kwargs):
