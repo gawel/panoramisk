@@ -38,6 +38,7 @@ def parse_agi_result(line):
         return {'error': 'AGIResultHangup', 'msg': 'User hungup during execution'}
 
     code = 0
+    response = ""
     m = re_code.search(line)
     if m:
         code, response = m.groups()
