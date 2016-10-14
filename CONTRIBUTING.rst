@@ -18,6 +18,11 @@ that you have'nt broke anything by running tox::
 
     $ tox -e py35
 
+Running individual test::
+
+    $ tox -e py35 tests/test_manager.py::test_connection
+
+
 You can also build the docs with::
 
     $ tox -e docs

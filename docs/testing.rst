@@ -1,6 +1,6 @@
-=========================
-:mod:`panoramisk.testing`
-=========================
+==========================================
+:mod:`panoramisk.testing` - Writing tests
+==========================================
 
 ..
     >>> import os
@@ -14,6 +14,9 @@
     >>> resp = future.result()
     >>> assert 'ping' in resp
     >>> assert resp.ping == 'Pong'
+
+API
+---
 
 .. automodule:: panoramisk.testing
 
