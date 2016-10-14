@@ -5,52 +5,48 @@
 
 .. include:: ../README.rst
 
-=========================
-How to configure Asterisk
-=========================
+=============
+Installation
+=============
 
-In ``/etc/asterisk/manager.conf``, add:
-
-.. code-block:: ini
-
-    [username]
-    secret=password
-    deny=0.0.0.0/0.0.0.0
-    permit=127.0.0.1/255.255.255.255
-    read = all
-    write = all
-
-Launch:
+Install, upgrade and uninstall panoramisk with these commands:
 
 .. code-block:: sh
 
-    $ rasterisk -x 'manager reload'
+    $ pip install panoramisk
+    $ pip install --upgrade panoramisk
+    $ pip uninstall panoramisk
 
-=====================
-:mod:`panoramisk` api
-=====================
 
-AMI
----
-
-.. automodule:: panoramisk
-
-.. autoclass:: Manager
-   :members:
+========================
+Detailed Documentation
+========================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-Fast AGI
---------
+   manager.rst
+   fast_agi.rst
+   testing.rst
 
-.. automodule:: panoramisk.fast_agi
 
-.. autoclass:: Application
-   :members:
+===================================
+Who use Panoramisk on production ?
+===================================
 
-.. toctree::
-   :maxdepth: 2
+For now, mainly `Eyepea
+<http://www.eyepea.eu/>`_ and `ALLOcloud
+<http://www.allocloud.com/>`_.
+
+You shouldn't know theses companies, however, Eyepea is a provider of several famous European companies and governments organizations.
+You can check their references on their website:
+
+* http://www.eyepea.eu/customers
+* http://www.eyepea.eu/company/news
+
+Moreover, ALLOcloud is a cloud solution for SMEs, it handles several millions of calls by month.
+
+If you also use Panoramisk on production, don't hesitate to open a pull request to add your company's name with some details.
 
 =======
 CHANGES

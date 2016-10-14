@@ -189,8 +189,8 @@ class Manager:
 
         .. code-block:: python
 
-            >>> def callback(event, manager):
-            ...     print(event, manager)
+            >>> def callback(manager, event):
+            ...     print(manager, event)
             >>> manager = Manager()
             >>> manager.register_event('Meetme*', callback)
             <function callback at 0x...>
