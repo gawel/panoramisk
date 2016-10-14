@@ -94,7 +94,7 @@ class AMIProtocol(asyncio.Protocol):
                 elif action['action'].lower() in forgetable_actions:
                     uuids.add(action.id)
                     continue
-                elif action.future.done():
+                elif action.future.done():  # pragma: no cover
                     uuids.add(action.id)
                     continue
                 uuids.add(action.id)

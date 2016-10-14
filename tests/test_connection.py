@@ -131,7 +131,8 @@ def test_reconnection_without_lost(event_loop, unused_tcp_port_factory):
     manager.config['port'] = unused_tcp_port
     yield from server.stop()
 
-    f = manager.send_action({'Action': 'Test'})
+    manager.send_action({'Action': 'Ping'})
+    f = manager.send_action({'Action': 'Test', 'Command': 'test'})
     yield from asyncio.sleep(.1)
     assert manager.awaiting_actions
     yield from server.start()

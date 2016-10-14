@@ -97,7 +97,8 @@ class Manager:
         while self.awaiting_actions:
             action = self.awaiting_actions.popleft()
             if action['action'].lower() not in self.forgetable_actions:
-                self.send_action(action, as_list=action.as_list)
+                if not action.future.done():
+                    self.send_action(action, as_list=action.as_list)
 
     def send_action(self, action, as_list=False, **kwargs):
         """Send an :class:`~panoramisk.actions.Action` to the server:
