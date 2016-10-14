@@ -27,6 +27,7 @@ class Manager:
         events='on',
         ssl=False,
         encoding='utf8',
+        ping_delay=10,
         protocol_factory=AMIProtocol,
         save_stream=None,
         loop=None,
@@ -43,6 +44,7 @@ class Manager:
         self.authenticated = False
         self.authenticated_future = None
         self.pinger = None
+        self.ping_delay = int(self.config['ping_delay'])
 
     def connection_made(self, f):
         if getattr(self, 'protocol', None):
@@ -69,17 +71,21 @@ class Manager:
                     'Secret': self.config['secret'],
                     'Events': self.config['events']})
                 self.authenticated_future.add_done_callback(self.login)
-            self.log.debug('username not in config file')
-            self.pinger = self.loop.call_later(10, self.ping)
+            else:
+                self.log.debug('username not in config file')
+            self.pinger = self.loop.call_later(self.ping_delay, self.ping)
 
     def login(self, future):
         self.authenticated_future = None
         resp = future.result()
         self.authenticated = bool(resp.success)
+        if self.pinger is not None:
+            self.pinger.cancel()
+        self.ping()
         return self.authenticated
 
     def ping(self):  # pragma: no cover
-        self.pinger = self.loop.call_later(10, self.ping)
+        self.pinger = self.loop.call_later(self.ping_delay, self.ping)
         self.protocol.send({'Action': 'Ping'})
 
     def send_action(self, action, as_list=False, **kwargs):
