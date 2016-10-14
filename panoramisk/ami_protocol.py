@@ -27,11 +27,19 @@ class AMIProtocol(asyncio.Protocol):
             else:
                 klass = actions.Action
             data = klass(data, as_list=as_list)
-        self.transport.write(str(data).encode(encoding))
-        self.responses[data.id] = data
-        if data.action_id:
-            self.responses[data.action_id] = data
-        return data.future
+        if self.closed:
+            self.factory.awaiting_actions.put_nowait((data, as_list))
+        else:
+            try:
+                self.transport.write(str(data).encode(encoding))
+            except Exception as e:
+                self.factory.log.exception(e)
+                self.factory.awaiting_actions.put_nowait((data, as_list))
+            else:
+                self.responses[data.id] = data
+                if data.action_id:
+                    self.responses[data.action_id] = data
+                return data.future
 
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')

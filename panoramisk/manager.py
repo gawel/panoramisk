@@ -43,6 +43,7 @@ class Manager(object):
         self.save_stream = self.config.get('save_stream')
         self.authenticated = False
         self.authenticated_future = None
+        self.awaiting_actions = Queue()
         self.pinger = None
 
     def connection_made(self, f):
@@ -70,6 +71,8 @@ class Manager(object):
                     'Secret': self.config['secret'],
                     'Events': self.config['events']})
                 self.authenticated_future.add_done_callback(self.login)
+            else:
+                self.send_awaiting_actions()
             self.log.debug('username not in config file')
             self.pinger = self.loop.call_later(10, self.ping)
 
@@ -77,11 +80,17 @@ class Manager(object):
         self.authenticated_future = None
         resp = future.result()
         self.authenticated = bool(resp.success)
+        self.send_awaiting_actions()
         return self.authenticated
 
     def ping(self):  # pragma: no cover
         self.pinger = self.loop.call_later(10, self.ping)
         self.protocol.send({'Action': 'Ping'})
+
+    def send_awaiting_actions(self):
+        while not self.awaiting_actions.empty():
+            action, as_list = self.awaiting_actions.get_nowait()
+            self.send_action(action, as_list)
 
     def send_action(self, action, as_list=False, **kwargs):
         """Send an :class:`~panoramisk.actions.Action` to the server:
