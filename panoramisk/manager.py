@@ -31,6 +31,7 @@ class Manager:
         protocol_factory=AMIProtocol,
         save_stream=None,
         loop=None,
+        forgetable_actions=('ping', 'login'),
     )
 
     def __init__(self, **config):
@@ -44,6 +45,7 @@ class Manager:
         self.authenticated = False
         self.authenticated_future = None
         self.awaiting_actions = Queue()
+        self.forgetable_actions = self.config['forgetable_actions']
         self.pinger = None
         self.ping_delay = int(self.config['ping_delay'])
 
@@ -94,7 +96,7 @@ class Manager:
     def send_awaiting_actions(self):
         while not self.awaiting_actions.empty():
             action = self.awaiting_actions.get_nowait()
-            if action['action'].lower() not in ('login', 'ping'):
+            if action['action'].lower() not in self.forgetable_actions:
                 self.send_action(action, as_list=action.as_list)
 
     def send_action(self, action, as_list=False, **kwargs):
