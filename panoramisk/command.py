@@ -57,8 +57,6 @@ def main(argv=None):
             action = yaml.load(args.input)
             if action.get('Action').lower() == 'originate':
                 future = call_manager.send_originate(action)
-            elif action.get('Action').lower() == 'agi':
-                future = call_manager.send_agi_command(action)
             elif 'commandid' in [k.lower() for k in action.keys()]:
                 future = call_manager.send_command(action)
             else:
