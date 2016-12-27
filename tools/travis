@@ -2,10 +2,10 @@
 
 set -e
 
-tox
+tox -- -sv
 
-# no coverage run on flake8 example tests
-if [ $TOXENV != "flake8" ]
+# run only if we are in a pyXX TOXENV
+if [ "${TOXENV:0:2}" == "py" ]
 then
   coverage combine
   coverage report --show-missing

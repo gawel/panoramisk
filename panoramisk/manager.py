@@ -1,7 +1,7 @@
 import asyncio
 import logging
-from asyncio.queues import Queue
 from collections import defaultdict
+from collections import deque
 import re
 import fnmatch
 from .ami_protocol import AMIProtocol
@@ -31,6 +31,7 @@ class Manager:
         protocol_factory=AMIProtocol,
         save_stream=None,
         loop=None,
+        forgetable_actions=('ping', 'login'),
     )
 
     def __init__(self, **config):
@@ -43,6 +44,8 @@ class Manager:
         self.save_stream = self.config.get('save_stream')
         self.authenticated = False
         self.authenticated_future = None
+        self.awaiting_actions = deque()
+        self.forgetable_actions = self.config['forgetable_actions']
         self.pinger = None
         self.ping_delay = int(self.config['ping_delay'])
 
@@ -51,13 +54,13 @@ class Manager:
             self.protocol.close()
         try:
             transport, protocol = f.result()
-        except OSError as e:  # pragma: no cover
-            self.log.exception(e)
+        except OSError:  # pragma: no cover
+            self.log.exception('Not able to connect')
             self.loop.call_later(2, self.connect)
         else:
             self.log.debug('Manager connected')
             self.protocol = protocol
-            self.protocol.queue = Queue(loop=self.loop)
+            self.protocol.queue = deque()
             self.protocol.factory = self
             self.protocol.log = self.log
             self.protocol.config = self.config
@@ -72,6 +75,7 @@ class Manager:
                     'Events': self.config['events']})
                 self.authenticated_future.add_done_callback(self.login)
             else:
+                self.send_awaiting_actions()
                 self.log.debug('username not in config file')
             self.pinger = self.loop.call_later(self.ping_delay, self.ping)
 
@@ -79,14 +83,22 @@ class Manager:
         self.authenticated_future = None
         resp = future.result()
         self.authenticated = bool(resp.success)
+        self.send_awaiting_actions()
         if self.pinger is not None:
             self.pinger.cancel()
-        self.ping()
+        self.pinger = self.loop.call_later(self.ping_delay, self.ping)
         return self.authenticated
 
     def ping(self):  # pragma: no cover
         self.pinger = self.loop.call_later(self.ping_delay, self.ping)
         self.protocol.send({'Action': 'Ping'})
+
+    def send_awaiting_actions(self):
+        while self.awaiting_actions:
+            action = self.awaiting_actions.popleft()
+            if action['action'].lower() not in self.forgetable_actions:
+                if not action.future.done():
+                    self.send_action(action, as_list=action.as_list)
 
     def send_action(self, action, as_list=False, **kwargs):
         """Send an :class:`~panoramisk.actions.Action` to the server:
@@ -226,6 +238,14 @@ class Manager:
             self.pinger = None
         if getattr(self, 'protocol', None):
             self.protocol.close()
+
+    def connection_lost(self, exc):
+        self.log.error('Connection lost')
+        if self.pinger:
+            self.pinger.cancel()
+            self.pinger = None
+        self.log.info('Try to connect again in 2 seconds')
+        self.loop.call_later(2, self.connect)
 
     @classmethod
     def from_config(cls, filename_or_fd, section='asterisk', **kwargs):

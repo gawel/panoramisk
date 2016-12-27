@@ -32,7 +32,8 @@ agi_arg_1: answered
 @asyncio.coroutine
 def call_waiting(request):
     r = yield from request.send_command('ANSWER')
-    v = {'message': None, 'result': 0, 'status_code': 200, 'value': None}
+    v = {'msg': '', 'result': ('0', ''),
+         'status_code': 200}
     assert r == v
 
 

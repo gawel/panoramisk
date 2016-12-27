@@ -1,4 +1,12 @@
 #!/bin/bash
+
+host=localhost
+port=5039
+if [ "$1" != "" ]; then
+    host=$1
+    port=5038
+fi;
+
 while true
 do
     BACKUP_EXT=$(date +%y%m%d%h%m%s)
@@ -10,6 +18,7 @@ do
     fi
     rm pipe
     mkfifo pipe
-    echo "Capture incoming and outgoing traffic:"
-    nc -l -p 5039 < pipe | tee outgoing.log | nc localhost 5038 | tee pipe incoming.log
+    echo "Listening on localhost:$port"
+    echo "Capture incoming and outgoing traffic from $host:5038"
+    nc -l -p $port < pipe | tee outgoing.log | nc $host 5038 | tee pipe incoming.log
 done

@@ -4,7 +4,7 @@ python: 3.5
 install:
 - pip install tox coveralls coverage
 script:
-- ./.travis.script
+- tools/travis
 after_success:
 - "COVERAGE_FILE=.coverage coverage combine"
 - coveralls
@@ -12,3 +12,4 @@ env:
 - TOXENV=py34
 - TOXENV=py35
 - TOXENV=flake8
+- TOXENV=docs

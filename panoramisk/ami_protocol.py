@@ -1,7 +1,6 @@
 import logging
-import time
 import asyncio
-from asyncio import Queue
+from collections import deque
 
 from .message import Message
 from . import actions
@@ -13,7 +12,7 @@ class AMIProtocol(asyncio.Protocol):
     def connection_made(self, transport):
         self.transport = transport
         self.closed = False
-        self.queue = Queue()
+        self.queue = deque()
         self.responses = {}
         self.factory = None
         self.log = logging.getLogger(__name__)
@@ -26,10 +25,14 @@ class AMIProtocol(asyncio.Protocol):
             else:
                 klass = actions.Action
             data = klass(data, as_list=as_list)
-        self.transport.write(str(data).encode(encoding))
+        data.as_list = as_list
         self.responses[data.id] = data
         if data.action_id:
             self.responses[data.action_id] = data
+        try:
+            self.transport.write(str(data).encode(encoding))
+        except Exception:  # pragma: no cover
+            self.log.exception('Fail to send %r' % data)
         return data.future
 
     def data_received(self, data):
@@ -44,10 +47,10 @@ class AMIProtocol(asyncio.Protocol):
                     fd.write(data.encode(encoding))
         # Very verbose, uncomment only if necessary
         # self.log.debug('data received: "%s"', data)
-        if not self.queue.empty():
-            data = self.queue.get_nowait() + data
+        if self.queue:
+            data = self.queue.popleft() + data
         lines = data.split(utils.EOL+utils.EOL)
-        self.queue.put_nowait(lines.pop(-1))
+        self.queue.append(lines.pop(-1))
         for line in lines:
             # Because sometimes me receive only one EOL from Asterisk
             line = line.strip()
@@ -69,18 +72,33 @@ class AMIProtocol(asyncio.Protocol):
                 self.responses.pop(response.id)
                 if response.action_id:
                     self.responses.pop(response.action_id, None)
-        elif 'Event' in message:
+        elif 'event' in message:
+            if message['event'].lower() == 'shutdown':
+                self.connection_lost(message)
             self.factory.dispatch(message)
 
-    def connection_lost(self, exc):  # pragma: no cover
+    def connection_lost(self, exc):
         if not self.closed:
             self.close()
-            # wait a few before reconnect
-            time.sleep(2)
-            # reconnect
-            self.factory.connect()
+            self.factory.connection_lost(exc)
 
-    def close(self):  # pragma: no cover
+    def close(self):
+        if self.factory and self.responses:
+            uuids = set()
+            forgetable_actions = self.factory.forgetable_actions
+            awaiting_actions = self.factory.awaiting_actions
+            for k in list(self.responses.keys()):
+                action = self.responses.pop(k)
+                if action.id in uuids:
+                    continue
+                elif action['action'].lower() in forgetable_actions:
+                    uuids.add(action.id)
+                    continue
+                elif action.future.done():  # pragma: no cover
+                    uuids.add(action.id)
+                    continue
+                uuids.add(action.id)
+                awaiting_actions.append(action)
         if not self.closed:
             try:
                 self.transport.close()

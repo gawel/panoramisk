@@ -112,11 +112,12 @@ def test_close(manager):
 def test_events(manager):
     future = asyncio.Future()
 
+    manager = manager()
+
+    @manager.register_event('Peer*')
     def callback(manager, event):
         future.set_result(event)
 
-    manager = manager()
-    manager.register_event('Peer*', callback)
     event = message.Message.from_line('Event: PeerStatus')
     assert event.success is True
     assert event['Event'] == 'PeerStatus'
