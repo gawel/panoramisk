@@ -31,10 +31,7 @@ agi_arg_1: answered
 
 @asyncio.coroutine
 def call_waiting(request):
-    r = yield from request.send_command('ANSWER')
-    v = {'msg': '', 'result': ('0', ''),
-         'status_code': 200}
-    assert r == v
+    yield from request.send_command('CALL_WAITING')
 
 
 @asyncio.coroutine
@@ -50,6 +47,30 @@ def fake_asterisk_client(loop, unused_tcp_port):
     return msg_back
 
 
+@asyncio.coroutine
+def fake_asterisk_client_middleware(loop, unused_tcp_port):
+    reader, writer = yield from asyncio.open_connection(
+        '127.0.0.1', unused_tcp_port, loop=loop)
+    # send headers
+    writer.write(FAST_AGI_PAYLOAD)
+    # read it back
+    msg_back_1 = yield from reader.readline()
+    writer.write(b'200 result=0\n')
+    msg_back_2 = yield from reader.readline()
+    writer.write(b'200 result=0\n')
+    writer.close()
+    return msg_back_1, msg_back_2
+
+
+@asyncio.coroutine
+def fake_middleware_factory(app, route):
+    def fake_middleware(request):
+        yield from request.send_command('FAKE_MIDDLEWARE')
+        yield from route(request)
+
+    return fake_middleware
+
+
 @pytest.mark.asyncio
 def test_fast_agi_application(event_loop, unused_tcp_port):
     fa_app = Application(loop=event_loop)
@@ -60,7 +81,26 @@ def test_fast_agi_application(event_loop, unused_tcp_port):
 
     msg_back = yield from fake_asterisk_client(event_loop,
                                                unused_tcp_port)
-    assert b'ANSWER\n' == msg_back
+    assert b'CALL_WAITING\n' == msg_back
+
+    server.close()
+    yield from server.wait_closed()
+    yield from asyncio.sleep(1)  # Wait the end of endpoint
+
+
+@pytest.mark.asyncio
+def test_fast_agi_middleware_application(event_loop, unused_tcp_port):
+    fa_app = Application(loop=event_loop, middleware=[fake_middleware_factory, ])
+    fa_app.add_route('call_waiting', call_waiting)
+
+    server = yield from asyncio.start_server(fa_app.handler, '127.0.0.1',
+                                             unused_tcp_port, loop=event_loop)
+
+    msg_back = yield from fake_asterisk_client_middleware(event_loop,
+                                                          unused_tcp_port)
+
+    assert b'FAKE_MIDDLEWARE\n' == msg_back[0]
+    assert b'CALL_WAITING\n' == msg_back[1]
 
     server.close()
     yield from server.wait_closed()

@@ -56,13 +56,14 @@ class Application(dict):
 
     buf_size = 100
 
-    def __init__(self, default_encoding='utf-8', loop=None):
+    def __init__(self, default_encoding='utf-8', loop=None, middleware=()):
         super(Application, self).__init__()
         self.default_encoding = default_encoding
         if loop is None:
             loop = asyncio.get_event_loop()
         self.loop = loop
         self._route = OrderedDict()
+        self._middleware = middleware
 
     def add_route(self, path, endpoint):
         """Add a route for FastAGI requests:
@@ -154,10 +155,14 @@ class Application(dict):
                                   headers=headers,
                                   reader=reader, writer=writer,
                                   encoding=self.default_encoding)
+
+                for factory in reversed(self._middleware):
+                    route = yield from factory(self, route)
                 try:
                     yield from route(request)
                 except Exception as e:
                     log.exception(e)
+                    raise
             else:
                 log.error('No route for the request "%s"', agi_network_script)
         else:
