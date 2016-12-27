@@ -35,6 +35,12 @@ def pong(action_id):
     ''')
 
 
+class Event:
+
+    def __init__(self, event):
+        self.event = event
+
+
 class _Asterisk(asyncio.Protocol):
 
     def connection_made(self, transport):
@@ -133,9 +139,16 @@ def test_reconnection_without_lost(event_loop, unused_tcp_port_factory):
 
     manager.send_action({'Action': 'Ping'})
     f = manager.send_action({'Action': 'Test', 'Command': 'test'})
+    fully_booted = Event('FullyBooted')
+
     yield from asyncio.sleep(.1)
     assert manager.awaiting_actions
     yield from server.start()
+    yield from asyncio.sleep(2)
+    assert manager.awaiting_actions
+    manager.dispatch(fully_booted)
+    yield from asyncio.sleep(.5)
+    assert not manager.awaiting_actions
     resp = yield from f
     yield from server.stop()
 
@@ -146,3 +159,4 @@ def test_reconnection_without_lost(event_loop, unused_tcp_port_factory):
     test_action = server.actions[-1]
     assert test_action.id == resp.id
     assert test_action['action'] == 'Test'
+
