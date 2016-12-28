@@ -24,5 +24,6 @@ def main():
     loop.run_until_complete(ping(loop, sys.argv[1], sys.argv[2]))
     loop.close()
 
+
 if __name__ == '__main__':
     main()

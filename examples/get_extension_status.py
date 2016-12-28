@@ -21,5 +21,6 @@ def main():
     loop.run_until_complete(extension_status())
     loop.close()
 
+
 if __name__ == '__main__':
     main()
