@@ -48,6 +48,8 @@ class Manager:
         self.forgetable_actions = self.config['forgetable_actions']
         self.pinger = None
         self.ping_delay = int(self.config['ping_delay'])
+        self._connected = False
+        self.register_event('FullyBooted', self.send_awaiting_actions)
 
     def connection_made(self, f):
         if getattr(self, 'protocol', None):
@@ -55,7 +57,11 @@ class Manager:
         try:
             transport, protocol = f.result()
         except OSError:  # pragma: no cover
-            self.log.exception('Not able to connect')
+            if self._connected:
+                self.log.exception('Not able to connect')
+                self._connected = False
+            else:
+                self.log.warning('Not able to reconnect')
             self.loop.call_later(2, self.connect)
         else:
             self.log.debug('Manager connected')
@@ -75,7 +81,6 @@ class Manager:
                     'Events': self.config['events']})
                 self.authenticated_future.add_done_callback(self.login)
             else:
-                self.send_awaiting_actions()
                 self.log.debug('username not in config file')
             self.pinger = self.loop.call_later(self.ping_delay, self.ping)
 
@@ -83,7 +88,6 @@ class Manager:
         self.authenticated_future = None
         resp = future.result()
         self.authenticated = bool(resp.success)
-        self.send_awaiting_actions()
         if self.pinger is not None:
             self.pinger.cancel()
         self.pinger = self.loop.call_later(self.ping_delay, self.ping)
@@ -93,7 +97,9 @@ class Manager:
         self.pinger = self.loop.call_later(self.ping_delay, self.ping)
         self.protocol.send({'Action': 'Ping'})
 
-    def send_awaiting_actions(self):
+    @asyncio.coroutine
+    def send_awaiting_actions(self, *_):
+        self.log.info('Sending awaiting actions')
         while self.awaiting_actions:
             action = self.awaiting_actions.popleft()
             if action['action'].lower() not in self.forgetable_actions:
