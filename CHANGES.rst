@@ -1,8 +1,11 @@
 1.1 (unreleased)
 ----------------
 
+- We no longer loosing calls on reconnection
+
 - End of support for python<3.4
 
+- Better test coverage
 
 1.0 (2015-08-19)
 ----------------
