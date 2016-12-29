@@ -8,6 +8,7 @@ graft tests_python3
 include *.rst *.cfg *.ini .coveragerc LICENCE
 global-exclude *.pyc
 global-exclude __pycache__
+global-exclude .installed.cfg
 include *.py
 include .coveragerc
 include LICENSE
