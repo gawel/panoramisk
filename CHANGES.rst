@@ -1,4 +1,4 @@
-1.1 (unreleased)
+1.1 (2016-12-29)
 ----------------
 
 - We no longer loosing calls on reconnection
