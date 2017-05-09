@@ -36,7 +36,8 @@ class CallManager(manager.Manager):
         uniqueid = event.uniqueid.split('.', 1)[0]
         call = self.calls_queues[uniqueid]
         call.action_id = event.action_id
-        future.set_result(call)
+        if not future.done():
+            future.set_result(call)
 
     def send_originate(self, action):
         action['Async'] = 'true'
