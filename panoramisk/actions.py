@@ -85,7 +85,7 @@ class Action(utils.CaseInsensitiveDict):
     def add_message(self, message):
         self.responses.append(message)
         multi = self.multi
-        if self.completed:
+        if self.completed and not self.future.done():
             if multi and len(self.responses) > 1:
                 self.future.set_result(self.responses)
             elif not multi:
