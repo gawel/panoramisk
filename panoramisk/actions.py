@@ -1,5 +1,9 @@
 import asyncio
+import logging
+
 from . import utils
+
+LOG = logging.getLogger(__name__)
 
 
 class Action(utils.CaseInsensitiveDict):

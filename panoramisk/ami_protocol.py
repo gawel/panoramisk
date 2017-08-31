@@ -89,16 +89,17 @@ class AMIProtocol(asyncio.Protocol):
             awaiting_actions = self.factory.awaiting_actions
             for k in list(self.responses.keys()):
                 action = self.responses.pop(k)
-                if action.id in uuids:
-                    continue
-                elif action['action'].lower() in forgetable_actions:
-                    uuids.add(action.id)
+                uuids.add(action.id)
+                if action['action'].lower() in forgetable_actions:
                     continue
                 elif action.future.done():  # pragma: no cover
-                    uuids.add(action.id)
                     continue
-                uuids.add(action.id)
-                awaiting_actions.append(action)
+                elif action.responses:
+                    # If at least one response was receive from asterisk we don't queue it again
+                    continue
+                else:
+                    self.log.info('Adding action "%s" to awaiting list: %s', action['action'].lower(), str(action))
+                    awaiting_actions.append(action)
         if not self.closed:
             try:
                 self.transport.close()
