@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #  -*- coding: utf-8 -*-
 import os
+import sys
 from setuptools import setup
 from setuptools import find_packages
 
@@ -8,7 +9,10 @@ version = '1.2.dev0'
 
 install_requires = []
 test_requires = [
-    'pytest', 'pytest-asyncio', 'coverage', 'coveralls'
+    'pytest',
+    'pytest-asyncio<0.6.0' if sys.version_info < (3, 5) else 'pytest-asyncio',
+    'coverage',
+    'coveralls',
 ]
 
 
