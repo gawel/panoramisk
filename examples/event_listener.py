@@ -8,24 +8,24 @@ manager = Manager(loop=asyncio.get_event_loop(),
 
 
 @manager.register_event('*')
-def callback(event, manager):
-    if "FullyBooted" not in manager.event:
+def callback(manager, message):
+    if "FullyBooted" not in message.event:
         """This will print every event, but the FullyBooted events as these
         will continuously spam your screen"""
-        print(manager)
+        print(message)
 
 
 """
 # This will print NewChannel Events
 @manager.register_event('NewChannel')
-def callback(event, manager):
-    print(manager)
+def callback(manager, message):
+    print(message)
 
 
 # This will print Hangup Events
 @manager.register_event('Hangup')
-def callback(event, manager):
-    print(manager)
+def callback(manager, message):
+    print(message)
 """
 
 
