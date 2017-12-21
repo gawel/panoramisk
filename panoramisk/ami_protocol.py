@@ -15,6 +15,7 @@ class AMIProtocol(asyncio.Protocol):
         self.queue = deque()
         self.responses = {}
         self.factory = None
+        self.version = None
         self.log = logging.getLogger(__name__)
 
     def send(self, data, as_list=False):
@@ -47,6 +48,8 @@ class AMIProtocol(asyncio.Protocol):
                     fd.write(data.encode(encoding))
         # Very verbose, uncomment only if necessary
         # self.log.debug('data received: "%s"', data)
+        if self.version is None:
+            self.version = data.strip()
         if self.queue:
             data = self.queue.popleft() + data
         lines = data.split(utils.EOL+utils.EOL)
