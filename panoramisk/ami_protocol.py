@@ -48,8 +48,11 @@ class AMIProtocol(asyncio.Protocol):
                     fd.write(data.encode(encoding))
         # Very verbose, uncomment only if necessary
         # self.log.debug('data received: "%s"', data)
+
         if self.version is None:
-            self.version = data.strip()
+            if data.startswith('Asterisk Call Manager/'):
+                self.version = data.strip().split('/')[1]
+
         if self.queue:
             data = self.queue.popleft() + data
         lines = data.split(utils.EOL+utils.EOL)
