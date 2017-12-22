@@ -214,8 +214,9 @@ class Manager:
             ...     print(manager, event)
         """
         def _register_event(callback):
-            self.patterns.append((pattern,
-                                 re.compile(fnmatch.translate(pattern))))
+            if not self.callbacks[pattern]:
+                self.patterns.append((pattern,
+                                     re.compile(fnmatch.translate(pattern))))
             self.callbacks[pattern].append(callback)
             return callback
         if callback is not None:
