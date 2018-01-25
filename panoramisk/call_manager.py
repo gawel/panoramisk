@@ -34,7 +34,10 @@ class CallManager(manager.Manager):
         else:
             event = res
         uniqueid = event.uniqueid.split('.', 1)[0]
-        call = self.calls_queues[uniqueid]
+        if uniqueid in self.calls_queues:
+            call = self.calls_queues[uniqueid]
+        else:
+            call = Call(uniqueid)
         call.action_id = event.action_id
         if not future.done():
             future.set_result(call)
