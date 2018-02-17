@@ -248,6 +248,7 @@ class Manager:
             self.protocol.close()
 
     def connection_lost(self, exc):
+        self._connected = False
         self.log.error('Connection lost')
         if self.pinger:
             self.pinger.cancel()
