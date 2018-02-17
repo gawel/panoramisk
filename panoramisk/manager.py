@@ -64,6 +64,7 @@ class Manager:
                 self.log.warning('Not able to reconnect')
             self.loop.call_later(2, self.connect)
         else:
+            self._connected = True
             self.log.debug('Manager connected')
             self.protocol = protocol
             self.protocol.queue = deque()
@@ -247,6 +248,7 @@ class Manager:
             self.protocol.close()
 
     def connection_lost(self, exc):
+        self._connected = False
         self.log.error('Connection lost')
         if self.pinger:
             self.pinger.cancel()
