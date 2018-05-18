@@ -62,6 +62,8 @@ class Action(utils.CaseInsensitiveDict):
             return True
         elif 'will follow' in msg:
             return True
+        elif msg.startswith('added agi') and msg.endswith('to queue'):
+            return True
         elif msg.endswith('successfully queued') and self.async != 'false':
             return True
         elif self.as_list:
