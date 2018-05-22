@@ -51,7 +51,10 @@ class AMIProtocol(asyncio.Protocol):
 
         if self.version is None:
             if data.startswith('Asterisk Call Manager/'):
-                self.version = data.strip().split('/')[1]
+                version, __, __ = data.partition(utils.EOL)
+                __, __, version = version.partition('/')
+                self.version = version.strip()
+                self.log.info("protocol version: '%s'", self.version)
 
         if self.queue:
             data = self.queue.popleft() + data
