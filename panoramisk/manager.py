@@ -107,7 +107,7 @@ class Manager:
                 if not action.future.done():
                     self.send_action(action, as_list=action.as_list)
 
-    def send_action(self, action, as_list=False, **kwargs):
+    def send_action(self, action, as_list=None, **kwargs):
         """Send an :class:`~panoramisk.actions.Action` to the server:
 
         :param action: an Action or dict with action name and parameters to

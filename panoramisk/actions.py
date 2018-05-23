@@ -29,7 +29,7 @@ class Action(utils.CaseInsensitiveDict):
     action_id_generator = utils.IdGenerator('action')
 
     def __init__(self, *args, **kwargs):
-        self.as_list = kwargs.pop('as_list', False)
+        self.as_list = kwargs.pop('as_list', None)
         super(Action, self).__init__(*args, **kwargs)
         if 'actionid' not in self:
             self['ActionID'] = self.action_id_generator()
@@ -56,7 +56,9 @@ class Action(utils.CaseInsensitiveDict):
     def multi(self):
         resp = self.responses[0]
         msg = resp.message.lower()
-        if resp.subevent == 'Start':
+        if self.as_list is not None:
+            return bool(self.as_list)
+        elif resp.subevent == 'Start':
             return True
         elif 'EventList' in resp and resp['EventList'] == 'start':
             return True
@@ -65,8 +67,6 @@ class Action(utils.CaseInsensitiveDict):
         elif msg.startswith('added') and msg.endswith('to queue'):
             return True
         elif msg.endswith('successfully queued') and self.async != 'false':
-            return True
-        elif self.as_list:
             return True
         return False
 
