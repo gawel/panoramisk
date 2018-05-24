@@ -1,4 +1,4 @@
-1.2 (unreleased)
+1.2 (2018-05-24)
 ----------------
 
 - Fix KeyError problem in call_manager
