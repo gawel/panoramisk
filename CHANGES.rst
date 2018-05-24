@@ -1,7 +1,11 @@
 1.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix KeyError problem in call_manager
+
+- as_list is now default to none and is used first in Action.multi
+
+- improve AMI version detection
 
 
 1.1 (2016-12-29)
