@@ -236,7 +236,7 @@ class Manager:
                     ret = callback(self, event)
                     if (asyncio.iscoroutine(ret) or
                             isinstance(ret, asyncio.Future)):
-                        asyncio.async(ret, loop=self.loop)
+                        asyncio.ensure_future(ret, loop=self.loop)
         return matches
 
     def close(self):

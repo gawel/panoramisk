@@ -51,6 +51,7 @@ def fake_asterisk_client(loop, unused_tcp_port):
 
 
 @pytest.mark.asyncio
+@asyncio.coroutine
 def test_fast_agi_application(event_loop, unused_tcp_port):
     fa_app = Application(loop=event_loop)
     fa_app.add_route('call_waiting', call_waiting)
