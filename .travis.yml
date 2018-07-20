@@ -1,15 +1,37 @@
-sudo: false
 language: python
-python: 3.5
+
+matrix:
+  include:
+    - python: 3.4
+      env:
+        - TOXENV=py34
+    - python: 3.5
+      env:
+        - TOXENV=py35
+    - python: 3.5
+      env:
+        - TOXENV=docs
+    - python: 3.5
+      env:
+        - TOXENV=flake8
+    - python: 3.6
+      env:
+        - TOXENV=py36
+    - python: 3.7
+      dist: xenial
+      env:
+        - TOXENV=py37
+    - python: nightly
+      dist: xenial
+      env:
+        - TOXENV=py38
+
 install:
 - pip install tox coveralls coverage
+
 script:
 - tools/travis
+
 after_success:
 - "COVERAGE_FILE=.coverage coverage combine"
 - coveralls
-env:
-- TOXENV=py34
-- TOXENV=py35
-- TOXENV=flake8
-- TOXENV=docs

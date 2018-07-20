@@ -114,6 +114,7 @@ class Asterisk(object):
 
 
 @pytest.mark.asyncio
+@asyncio.coroutine
 def test_reconnection_without_lost(event_loop, unused_tcp_port_factory):
     unused_tcp_port = unused_tcp_port_factory()
 
