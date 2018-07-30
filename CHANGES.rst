@@ -1,7 +1,7 @@
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- py37 support
 
 
 1.2 (2018-05-24)
