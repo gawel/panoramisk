@@ -108,10 +108,12 @@ class Message(utils.CaseInsensitiveDict):
                 if k.lower() in cls.quoted_keys:
                     v = unquote(v).strip()
                 if k in headers:
-                    o = headers.setdefault(k, [])
-                    if not isinstance(o, list):
-                        o = [o]
-                    o.append(v)
+                    o = headers.setdefault(k, {})
+                    if not isinstance(o, dict):
+                        (key, value) = o.split('=', 1)
+                        o = {key.strip(): value.strip()}
+                    (key, value) = v.split('=', 1)
+                    o[key.strip()] = value.strip()
                     headers[k] = o
                 else:
                     headers[k] = v
