@@ -92,6 +92,31 @@ class Message(utils.CaseInsensitiveDict):
         else:
             raise ValueError('No result in %r' % self)
 
+    def getdict(self, key):
+        """Convert a multi values header to a case-insensitive dict:
+
+        .. code-block:: python
+
+            >>> resp = Message({
+            ...     'Response': 'Success',
+            ...     'ChanVariable': [
+            ...         'FROM_DID=', 'SIPURI=sip:42@10.10.10.1:4242'],
+            ... })
+            >>> print(resp.chanvariable)
+            ['FROM_DID=', 'SIPURI=sip:42@10.10.10.1:4242']
+            >>> value = resp.getdict('chanvariable')
+            >>> print(value['sipuri'])
+            sip:42@10.10.10.1:4242
+        """
+        values = self.get(key, None)
+        if not isinstance(values, list):
+            raise TypeError("{0} must be a list. got {1}".format(key, values))
+        result = utils.CaseInsensitiveDict()
+        for item in values:
+            k, v = item.split('=', 1)
+            result[k] = v
+        return result
+
     @classmethod
     def from_line(cls, line):
         mlines = line.split(utils.EOL)
