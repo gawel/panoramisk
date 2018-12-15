@@ -1,6 +1,11 @@
 import re
 import uuid
-import collections
+
+try:
+    from collections.abc import MutableMapping
+except ImportError:
+    from collections import MutableMapping
+
 
 from configparser import ConfigParser
 
@@ -137,7 +142,7 @@ class IdGenerator:
         return "<%s prefix:%s (uid:%s)>" % (self.__class__.__name__, self.prefix, self.uid)
 
 
-class CaseInsensitiveDict(collections.MutableMapping):
+class CaseInsensitiveDict(MutableMapping):
     """
     A case-insensitive ``dict``-like object.
 
@@ -194,7 +199,10 @@ class CaseInsensitiveDict(collections.MutableMapping):
 def config(filename_or_fd, section='asterisk'):
     config = ConfigParser()
     if hasattr(filename_or_fd, 'read'):
-        config.readfp(filename_or_fd)
+        if hasattr(config, 'read_file'):
+            config.read_file(filename_or_fd)
+        else:
+            config.readfp(filename_or_fd)
     else:
         config.read(filename_or_fd)
     return dict(config.items(section))

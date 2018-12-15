@@ -1,8 +1,17 @@
 import pytest
+import socket
 import asyncio
+import contextlib
 from panoramisk import Manager
 from panoramisk import utils
 from panoramisk.actions import Action
+
+
+def unused_tcp_port_factory():
+    """Find an unused localhost TCP port from 1024-65535 and return it."""
+    with contextlib.closing(socket.socket()) as sock:
+        sock.bind(('127.0.0.1', 0))
+        return sock.getsockname()[1]
 
 
 def message(msg):
@@ -115,7 +124,7 @@ class Asterisk(object):
 
 @pytest.mark.asyncio
 @asyncio.coroutine
-def test_reconnection_without_lost(event_loop, unused_tcp_port_factory):
+def test_reconnection_without_lost(event_loop):
     unused_tcp_port = unused_tcp_port_factory()
 
     print('Start server on %s' % unused_tcp_port)
@@ -160,4 +169,3 @@ def test_reconnection_without_lost(event_loop, unused_tcp_port_factory):
     test_action = server.actions[-1]
     assert test_action.id == resp.id
     assert test_action['action'] == 'Test'
-
