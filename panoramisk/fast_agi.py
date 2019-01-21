@@ -36,14 +36,27 @@ class Request:
         command += '\n'
         self.writer.write(command.encode(self.encoding))
         yield from self.writer.drain()
-        response = yield from self.reader.readline()
-        agi_result = parse_agi_result(response.decode(self.encoding)[:-1])
+
+        agi_result = yield from self._read_result()
+        # If Asterisk returns `100 Trying...`, wait for next the response.
+        while agi_result['status_code'] == 100:
+            agi_result = yield from self._read_result()
+
         # when we got AGIUsageError the following line contains some indication
         if 'error' in agi_result and agi_result['error'] == 'AGIUsageError':
             buff_usage_error = yield from self.reader.readline()
             agi_result['msg'] += buff_usage_error.decode(self.encoding)
 
         return agi_result
+
+    @asyncio.coroutine
+    def _read_result(self):
+        """Parse read a response from the AGI and parse it.
+
+        :return dict: The AGI response parsed into a dict.
+        """
+        response = yield from self.reader.readline()
+        return parse_agi_result(response.decode(self.encoding)[:-1])
 
 
 class Application(dict):
