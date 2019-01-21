@@ -20,6 +20,8 @@ def parse_agi_result(line):
 
     AGI Result examples::
 
+        100 result=0 Trying...
+
         200 result=0
 
         200 result=-1
@@ -59,7 +61,9 @@ def agi_code_check(code=None, response=None, line=None):
     code = int(code)
     response = response or ""
     result = {'status_code': code, 'result': ('', ''), 'msg': ''}
-    if code == 200:
+    if code == 100:
+        result['msg'] = line
+    elif code == 200:
         for key, value, data in re_kv.findall(response):
             result[key] = (value, data)
             # If user hangs up... we get 'hangup' in the data
@@ -80,6 +84,7 @@ def agi_code_check(code=None, response=None, line=None):
     else:
         # Unhandled code or undefined response
         result['error'] = 'AGIUnknownError'
+        result['msg'] = line
     return result
 
 

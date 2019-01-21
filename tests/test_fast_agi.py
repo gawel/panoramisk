@@ -45,6 +45,7 @@ def fake_asterisk_client(loop, unused_tcp_port):
     writer.write(FAST_AGI_PAYLOAD)
     # read it back
     msg_back = yield from reader.readline()
+    writer.write(b'100 Trying...\n')
     writer.write(b'200 result=0\n')
     writer.close()
     return msg_back
