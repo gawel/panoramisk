@@ -39,7 +39,7 @@ class Request:
 
         agi_result = yield from self._read_result()
         # If Asterisk returns `100 Trying...`, wait for next the response.
-        while agi_result['status_code'] == 100:
+        while 'status_code' in agi_result and agi_result['status_code'] == 100:
             agi_result = yield from self._read_result()
 
         # when we got AGIUsageError the following line contains some indication
