@@ -153,7 +153,9 @@ class Application(dict):
         while b'\n\n' not in buffer:
             buffer += yield from reader.read(self.buf_size)
         lines = buffer[:-2].decode(self.default_encoding).split('\n')
-        headers = OrderedDict([line.split(': ', 1) for line in lines])
+        headers = OrderedDict([
+            line.split(': ', 1) for line in lines if ': ' in line
+        ])
 
         agi_network_script = headers.get('agi_network_script')
         log.info('Received FastAGI request from %r for "%s" route',
