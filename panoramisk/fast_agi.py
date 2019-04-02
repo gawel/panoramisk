@@ -171,8 +171,11 @@ class Application(dict):
                                   encoding=self.default_encoding)
                 try:
                     yield from route(request)
-                except Exception as e:
-                    log.exception(e)
+                except BaseException:
+                    log.exception(
+                        'An exception has been raised for the request "%s"',
+                        agi_network_script
+                    )
             else:
                 log.error('No route for the request "%s"', agi_network_script)
         else:
