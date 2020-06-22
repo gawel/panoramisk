@@ -66,8 +66,6 @@ class Action(utils.CaseInsensitiveDict):
             return True
         elif msg.startswith('added') and msg.endswith('to queue'):
             return True
-        elif msg.endswith('successfully queued') and self['async'] == 'false':
-            return True
         return False
 
     @property
