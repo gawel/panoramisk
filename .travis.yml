@@ -18,7 +18,7 @@ matrix:
       dist: xenial
       env:
         - TOXENV=py37
-    - python: nightly
+    - python: 3.8
       dist: xenial
       env:
         - TOXENV=py38

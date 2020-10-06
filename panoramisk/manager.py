@@ -28,6 +28,7 @@ class Manager:
         ssl=False,
         encoding='utf8',
         ping_delay=10,
+        ping_interval=10,
         protocol_factory=AMIProtocol,
         save_stream=None,
         loop=None,
@@ -48,8 +49,12 @@ class Manager:
         self.forgetable_actions = self.config['forgetable_actions']
         self.pinger = None
         self.ping_delay = int(self.config['ping_delay'])
+        self.ping_interval = int(self.config['ping_interval'])
         self._connected = False
         self.register_event('FullyBooted', self.send_awaiting_actions)
+        self.on_login = config.get('on_login', on_login)
+        self.on_connect = config.get('on_connect', on_connect)
+        self.on_disconnect = config.get('on_disconnect', on_disconnect)
 
     def connection_made(self, f):
         if getattr(self, 'protocol', None):
@@ -66,6 +71,7 @@ class Manager:
         else:
             self._connected = True
             self.log.debug('Manager connected')
+            self.loop.call_soon(self.on_connect, self)
             self.protocol = protocol
             self.protocol.queue = deque()
             self.protocol.factory = self
@@ -89,13 +95,15 @@ class Manager:
         self.authenticated_future = None
         resp = future.result()
         self.authenticated = bool(resp.success)
+        if self.authenticated:
+            self.loop.call_soon(self.on_login, self)
         if self.pinger is not None:
             self.pinger.cancel()
         self.pinger = self.loop.call_later(self.ping_delay, self.ping)
         return self.authenticated
 
     def ping(self):  # pragma: no cover
-        self.pinger = self.loop.call_later(self.ping_delay, self.ping)
+        self.pinger = self.loop.call_later(self.ping_interval, self.ping)
         self.protocol.send({'Action': 'Ping'})
 
     @asyncio.coroutine
@@ -250,6 +258,7 @@ class Manager:
     def connection_lost(self, exc):
         self._connected = False
         self.log.error('Connection lost')
+        self.loop.call_soon(self.on_disconnect, self, exc)
         if self.pinger:
             self.pinger.cancel()
             self.pinger = None
@@ -261,3 +270,27 @@ class Manager:
         config = utils.config(filename_or_fd, section=section)
         config.update(kwargs)
         return cls(**config)
+
+
+# noinspection PyUnusedLocal
+def on_connect(manager: Manager):
+    """
+    Callback after connect
+    """
+    pass
+
+
+# noinspection PyUnusedLocal
+def on_login(manager: Manager):
+    """
+    Callback after login
+    """
+    pass
+
+
+# noinspection PyUnusedLocal
+def on_disconnect(manager: Manager, exc: Exception):
+    """
+    Callback after disconnect
+    """
+    pass
