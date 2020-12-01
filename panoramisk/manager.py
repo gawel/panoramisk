@@ -29,6 +29,7 @@ class Manager:
         encoding='utf8',
         ping_delay=10,
         ping_interval=10,
+        reconnect_timeout=2,
         protocol_factory=AMIProtocol,
         save_stream=None,
         loop=None,
@@ -50,6 +51,7 @@ class Manager:
         self.pinger = None
         self.ping_delay = int(self.config['ping_delay'])
         self.ping_interval = int(self.config['ping_interval'])
+        self.reconnect_timeout = int(self.config['reconnect_timeout'])
         self._connected = False
         self.register_event('FullyBooted', self.send_awaiting_actions)
         self.on_login = config.get('on_login', on_login)
@@ -67,7 +69,7 @@ class Manager:
                 self._connected = False
             else:
                 self.log.warning('Not able to reconnect')
-            self.loop.call_later(2, self.connect)
+            self.loop.call_later(self.reconnect_timeout, self.connect)
         else:
             self._connected = True
             self.log.debug('Manager connected')
@@ -262,8 +264,8 @@ class Manager:
         if self.pinger:
             self.pinger.cancel()
             self.pinger = None
-        self.log.info('Try to connect again in 2 seconds')
-        self.loop.call_later(2, self.connect)
+        self.log.info('Try to connect again in %d second(s)' % self.reconnect_timeout)
+        self.loop.call_later(self.reconnect_timeout, self.connect)
 
     @classmethod
     def from_config(cls, filename_or_fd, section='asterisk', **kwargs):
