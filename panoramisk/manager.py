@@ -29,6 +29,7 @@ class Manager:
         encoding='utf8',
         ping_delay=10,
         ping_interval=10,
+        reconnect_timeout=2,
         protocol_factory=AMIProtocol,
         save_stream=None,
         loop=None,
@@ -50,6 +51,7 @@ class Manager:
         self.pinger = None
         self.ping_delay = int(self.config['ping_delay'])
         self.ping_interval = int(self.config['ping_interval'])
+        self.reconnect_timeout = int(self.config['reconnect_timeout'])
         self._connected = False
         self.register_event('FullyBooted', self.send_awaiting_actions)
         self.on_login = config.get('on_login', on_login)
@@ -67,7 +69,7 @@ class Manager:
                 self._connected = False
             else:
                 self.log.warning('Not able to reconnect')
-            self.loop.call_later(2, self.connect)
+            self.loop.call_later(self.reconnect_timeout, self.connect)
         else:
             self._connected = True
             self.log.debug('Manager connected')
@@ -189,7 +191,7 @@ class Manager:
                                  as_list=as_list)
         return self.send_action(action)
 
-    def connect(self):
+    def connect(self, run_forever=False, on_startup=None, on_shutdown=None):
         """connect to the server"""
         if self.loop is None:  # pragma: no cover
             self.loop = asyncio.get_event_loop()
@@ -200,7 +202,23 @@ class Manager:
                 ssl=self.config['ssl']),
             loop=self.loop)
         t.add_done_callback(self.connection_made)
+
+        if run_forever:
+            self.run_forever(on_startup, on_shutdown)
         return t
+
+    def run_forever(self, on_startup, on_shutdown):
+        """Start loop forever"""
+        try:
+            if on_startup:
+                self.loop.run_until_complete(on_startup(self))
+            self.loop.run_forever()
+        except (KeyboardInterrupt, SystemExit):
+            self.close()
+        finally:
+            if on_shutdown:
+                self.loop.run_until_complete(on_shutdown(self))
+            self.loop.stop()
 
     def register_event(self, pattern, callback=None):
         """register an event. See :class:`~panoramisk.message.Message`:
@@ -262,8 +280,8 @@ class Manager:
         if self.pinger:
             self.pinger.cancel()
             self.pinger = None
-        self.log.info('Try to connect again in 2 seconds')
-        self.loop.call_later(2, self.connect)
+        self.log.info('Try to connect again in %d second(s)' % self.reconnect_timeout)
+        self.loop.call_later(self.reconnect_timeout, self.connect)
 
     @classmethod
     def from_config(cls, filename_or_fd, section='asterisk', **kwargs):
