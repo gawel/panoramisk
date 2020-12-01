@@ -191,7 +191,7 @@ class Manager:
                                  as_list=as_list)
         return self.send_action(action)
 
-    def connect(self):
+    def connect(self, run_forever=False, on_startup=None, on_shutdown=None):
         """connect to the server"""
         if self.loop is None:  # pragma: no cover
             self.loop = asyncio.get_event_loop()
@@ -202,7 +202,23 @@ class Manager:
                 ssl=self.config['ssl']),
             loop=self.loop)
         t.add_done_callback(self.connection_made)
+
+        if run_forever:
+            self.run_forever(on_startup, on_shutdown)
         return t
+
+    def run_forever(self, on_startup, on_shutdown):
+        """Start loop forever"""
+        try:
+            if on_startup:
+                self.loop.run_until_complete(on_startup(self))
+            self.loop.run_forever()
+        except (KeyboardInterrupt, SystemExit):
+            self.close()
+        finally:
+            if on_shutdown:
+                self.loop.run_until_complete(on_shutdown(self))
+            self.loop.stop()
 
     def register_event(self, pattern, callback=None):
         """register an event. See :class:`~panoramisk.message.Message`:
