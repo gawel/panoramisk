@@ -135,7 +135,7 @@ def test_coroutine_events_handler(manager):
     async def callback(manager, event):
         # to create quickly a coroutine generator, don't do that on
         # production code
-        yield
+        return
 
     manager = manager()
     manager.register_event('Peer*', callback)
