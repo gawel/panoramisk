@@ -29,22 +29,20 @@ agi_arg_1: answered
 '''
 
 
-@asyncio.coroutine
-def call_waiting(request):
-    r = yield from request.send_command('ANSWER')
+async def call_waiting(request):
+    r = await request.send_command('ANSWER')
     v = {'msg': '', 'result': ('0', ''),
          'status_code': 200}
     assert r == v
 
 
-@asyncio.coroutine
-def fake_asterisk_client(loop, unused_tcp_port):
-    reader, writer = yield from asyncio.open_connection(
-        '127.0.0.1', unused_tcp_port, loop=loop)
+async def fake_asterisk_client(loop, unused_tcp_port):
+    reader, writer = await asyncio.open_connection(
+        '127.0.0.1', unused_tcp_port)
     # send headers
     writer.write(FAST_AGI_PAYLOAD)
     # read it back
-    msg_back = yield from reader.readline()
+    msg_back = await reader.readline()
     writer.write(b'100 Trying...\n')
     writer.write(b'200 result=0\n')
     writer.close()
@@ -52,18 +50,17 @@ def fake_asterisk_client(loop, unused_tcp_port):
 
 
 @pytest.mark.asyncio
-@asyncio.coroutine
-def test_fast_agi_application(event_loop, unused_tcp_port):
+async def test_fast_agi_application(event_loop, unused_tcp_port):
     fa_app = Application(loop=event_loop)
     fa_app.add_route('call_waiting', call_waiting)
 
-    server = yield from asyncio.start_server(fa_app.handler, '127.0.0.1',
-                                             unused_tcp_port, loop=event_loop)
+    server = await asyncio.start_server(fa_app.handler, '127.0.0.1',
+                                        unused_tcp_port)
 
-    msg_back = yield from fake_asterisk_client(event_loop,
-                                               unused_tcp_port)
+    msg_back = await fake_asterisk_client(event_loop,
+                                          unused_tcp_port)
     assert b'ANSWER\n' == msg_back
 
     server.close()
-    yield from server.wait_closed()
-    yield from asyncio.sleep(1)  # Wait the end of endpoint
+    await server.wait_closed()
+    await asyncio.sleep(1)  # Wait the end of endpoint

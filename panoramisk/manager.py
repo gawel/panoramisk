@@ -108,8 +108,7 @@ class Manager:
         self.pinger = self.loop.call_later(self.ping_interval, self.ping)
         self.protocol.send({'Action': 'Ping'})
 
-    @asyncio.coroutine
-    def send_awaiting_actions(self, *_):
+    async def send_awaiting_actions(self, *_):
         self.log.info('Sending awaiting actions')
         while self.awaiting_actions:
             action = self.awaiting_actions.popleft()
@@ -133,7 +132,7 @@ class Manager:
         To retrieve answer in a coroutine::
 
             manager = Manager()
-            resp = yield from manager.send_action({'Action': 'Status'})
+            resp = await manager.send_action({'Action': 'Status'})
 
         With a callback::
 

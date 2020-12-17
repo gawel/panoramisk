@@ -99,32 +99,29 @@ class Asterisk(object):
     def client(self):
         return list(self.clients.values())[0]
 
-    @asyncio.coroutine
-    def start(self):
+    async def start(self):
         self.actions = []
         self.clients = {}
         self.started = asyncio.Future()
         self._data_received = asyncio.Future()
         self.protocol = _Asterisk()
         self.protocol.factory = self
-        yield from self.loop.create_server(
+        await self.loop.create_server(
             lambda: self.protocol, '127.0.0.1', self.port)
         return self.started
 
-    @asyncio.coroutine
-    def data_received(self):
+    async def data_received(self):
         self._data_received = asyncio.Future()
+        await self._data_received
         return self._data_received
 
-    @asyncio.coroutine
-    def stop(self):
+    async def stop(self):
         for client in self.clients.values():
             client.transport.close()
 
 
 @pytest.mark.asyncio
-@asyncio.coroutine
-def test_reconnection_without_lost(event_loop):
+async def test_reconnection_without_lost(event_loop):
     unused_tcp_port = unused_tcp_port_factory()
 
     print('Start server on %s' % unused_tcp_port)
@@ -135,9 +132,10 @@ def test_reconnection_without_lost(event_loop):
                       secret='secret')
     server = Asterisk(event_loop, unused_tcp_port)
 
-    yield from server.start()
-    yield from manager.connect()
-    yield from server.data_received()
+    await server.start()
+    await manager.connect()
+    await server.data_received()
+    print(server.actions)
     login = server.actions[0]
     assert login['action'] == 'Login'
     unused_tcp_port = unused_tcp_port_factory()
@@ -145,22 +143,22 @@ def test_reconnection_without_lost(event_loop):
     print('Restart server on %s' % unused_tcp_port)
     server.port = unused_tcp_port
     manager.config['port'] = unused_tcp_port
-    yield from server.stop()
+    await server.stop()
 
     manager.send_action({'Action': 'Ping'})
     f = manager.send_action({'Action': 'Test', 'Command': 'test'})
     fully_booted = Event('FullyBooted')
 
-    yield from asyncio.sleep(.1)
+    await asyncio.sleep(.1)
     assert manager.awaiting_actions
-    yield from server.start()
-    yield from asyncio.sleep(2)
+    await server.start()
+    await asyncio.sleep(2)
     assert manager.awaiting_actions
     manager.dispatch(fully_booted)
-    yield from asyncio.sleep(.5)
+    await asyncio.sleep(.5)
     assert not manager.awaiting_actions
-    resp = yield from f
-    yield from server.stop()
+    resp = await f
+    await server.stop()
 
     login2 = server.actions[0]
     assert login2['action'] == 'Login'
