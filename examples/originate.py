@@ -9,11 +9,10 @@ import asyncio
 from panoramisk.call_manager import CallManager
 
 
-@asyncio.coroutine
-def originate():
+async def originate():
     callmanager = CallManager.from_config(sys.argv[1])
-    yield from callmanager.connect()
-    call = yield from callmanager.send_originate({
+    await callmanager.connect()
+    call = await callmanager.send_originate({
         'Action': 'Originate',
         'Channel': 'Local/gpasgrimaud@bearstech',
         'WaitTime': 20,
@@ -26,7 +25,7 @@ def originate():
         event = call.queue.get_nowait()
         print(event)
     while True:
-        event = yield from call.queue.get()
+        event = await call.queue.get()
         print(event)
         if event.event.lower() == 'hangup' and event.cause in ('0', '17'):
             break

@@ -14,8 +14,7 @@ class Request:
         self.writer = writer
         self.encoding = encoding
 
-    @asyncio.coroutine
-    def send_command(self, command):
+    async def send_command(self, command):
         """Send a command for FastAGI request:
 
         :param command: Command to launch on FastAGI request. Ex: 'EXEC StartMusicOnHolds'
@@ -25,37 +24,35 @@ class Request:
 
         ::
 
-            @asyncio.coroutine
-            def call_waiting(request):
+            async def call_waiting(request):
                 print(['AGI variables:', request.headers])
-                yield from request.send_command('ANSWER')
-                yield from request.send_command('EXEC StartMusicOnHold')
-                yield from request.send_command('EXEC Wait 10')
+                await request.send_command('ANSWER')
+                await request.send_command('EXEC StartMusicOnHold')
+                await request.send_command('EXEC Wait 10')
 
         """
         command += '\n'
         self.writer.write(command.encode(self.encoding))
-        yield from self.writer.drain()
+        await self.writer.drain()
 
-        agi_result = yield from self._read_result()
+        agi_result = await self._read_result()
         # If Asterisk returns `100 Trying...`, wait for next the response.
         while agi_result.get('status_code') == 100:
-            agi_result = yield from self._read_result()
+            agi_result = await self._read_result()
 
         # when we got AGIUsageError the following line contains some indication
         if 'error' in agi_result and agi_result['error'] == 'AGIUsageError':
-            buff_usage_error = yield from self.reader.readline()
+            buff_usage_error = await self.reader.readline()
             agi_result['msg'] += buff_usage_error.decode(self.encoding)
 
         return agi_result
 
-    @asyncio.coroutine
-    def _read_result(self):
+    async def _read_result(self):
         """Parse read a response from the AGI and parse it.
 
         :return dict: The AGI response parsed into a dict.
         """
-        response = yield from self.reader.readline()
+        response = await self.reader.readline()
         return parse_agi_result(response.decode(self.encoding)[:-1])
 
 
@@ -89,8 +86,7 @@ class Application(dict):
 
         ::
 
-            @asyncio.coroutine
-            def start(request):
+            async def start(request):
                 print('Receive a FastAGI request')
                 print(['AGI variables:', request.headers])
 
@@ -115,8 +111,7 @@ class Application(dict):
 
         ::
 
-            @asyncio.coroutine
-            def start(request):
+            async def start(request):
                 print('Receive a FastAGI request')
                 print(['AGI variables:', request.headers])
 
@@ -129,16 +124,14 @@ class Application(dict):
             raise ValueError('This route doesn\'t exist.')
         del(self._route[path])
 
-    @asyncio.coroutine
-    def handler(self, reader, writer):
+    async def handler(self, reader, writer):
         """AsyncIO coroutine handler to launch socket listening.
 
         :Example:
 
         ::
 
-            @asyncio.coroutine
-            def start(request):
+            async def start(request):
                 print('Receive a FastAGI request')
                 print(['AGI variables:', request.headers])
 
@@ -151,7 +144,7 @@ class Application(dict):
         """
         buffer = b''
         while b'\n\n' not in buffer:
-            buffer += yield from reader.read(self.buf_size)
+            buffer += await reader.read(self.buf_size)
         lines = buffer[:-2].decode(self.default_encoding).split('\n')
         headers = OrderedDict([
             line.split(': ', 1) for line in lines if ': ' in line
@@ -170,7 +163,7 @@ class Application(dict):
                                   reader=reader, writer=writer,
                                   encoding=self.default_encoding)
                 try:
-                    yield from route(request)
+                    await route(request)
                 except BaseException:
                     log.exception(
                         'An exception has been raised for the request "%s"',

@@ -3,7 +3,7 @@ from panoramisk import utils
 import pytest
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def message():
     def _message(data):
         return Message.from_line(data)

@@ -5,24 +5,23 @@ from panoramisk import fast_agi
 loop = asyncio.get_event_loop()
 
 
-@asyncio.coroutine
-def call_waiting(request):
+async def call_waiting(request):
     pprint(['AGI variables:', request.headers])
 
-    pprint((yield from request.send_command('ANSWER')))
-    pprint((yield from request.send_command('SAY DIGITS 1 \"\"')))
+    pprint((await request.send_command('ANSWER')))
+    pprint((await request.send_command('SAY DIGITS 1 \"\"')))
 
     # To Raise a 510 error - 510 Invalid or unknown command
-    pprint((yield from request.send_command('INVALID-COMMAND')))
+    pprint((await request.send_command('INVALID-COMMAND')))
 
     # To Raise a 520 error - 520-Invalid command syntax. Proper usage follows:
-    pprint((yield from request.send_command('SAY PHONETIC Hello world .')))
+    pprint((await request.send_command('SAY PHONETIC Hello world .')))
 
-    pprint((yield from request.send_command('SAY NUMBER 100 \"\"')))
-    pprint((yield from request.send_command('GET DATA hello-world 5000 2')))
+    pprint((await request.send_command('SAY NUMBER 100 \"\"')))
+    pprint((await request.send_command('GET DATA hello-world 5000 2')))
 
-    pprint((yield from request.send_command('EXEC StartMusicOnHold')))
-    pprint((yield from request.send_command('EXEC Wait 30')))
+    pprint((await request.send_command('EXEC StartMusicOnHold')))
+    pprint((await request.send_command('EXEC Wait 30')))
 
 
 def main():

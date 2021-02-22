@@ -29,17 +29,17 @@ def test_ping(manager):
 
 
 @pytest.mark.asyncio
-def test_login_ok(manager):
+async def test_login_ok(manager):
     manager = manager(username='xx', secret='xx', stream='login_ok.yaml')
-    authenticated = yield from manager.authenticated_future
+    authenticated = await manager.authenticated_future
     assert authenticated.success is True
     assert manager.login(manager.authenticated_future) is True
 
 
 @pytest.mark.asyncio
-def test_login_failed(manager):
+async def test_login_failed(manager):
     manager = manager(username='xx', secret='xx', stream='login_failed.yaml')
-    authenticated = yield from manager.authenticated_future
+    authenticated = await manager.authenticated_future
     assert authenticated.success is False
     assert manager.login(manager.authenticated_future) is False
 
@@ -132,11 +132,10 @@ def test_events(manager):
 
 
 def test_coroutine_events_handler(manager):
-    @asyncio.coroutine
-    def callback(manager, event):
+    async def callback(manager, event):
         # to create quickly a coroutine generator, don't do that on
         # production code
-        yield
+        return
 
     manager = manager()
     manager.register_event('Peer*', callback)

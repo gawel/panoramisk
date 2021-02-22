@@ -5,12 +5,11 @@ from panoramisk import fast_agi
 loop = asyncio.get_event_loop()
 
 
-@asyncio.coroutine
-def call_waiting(request):
+async def call_waiting(request):
     pprint(['AGI variables:', request.headers])
-    pprint((yield from request.send_command('ANSWER')))
-    pprint((yield from request.send_command('EXEC StartMusicOnHold')))
-    pprint((yield from request.send_command('EXEC Wait 30')))
+    pprint((await request.send_command('ANSWER')))
+    pprint((await request.send_command('EXEC StartMusicOnHold')))
+    pprint((await request.send_command('EXEC Wait 30')))
 
 
 def main():
