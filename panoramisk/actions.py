@@ -73,6 +73,8 @@ class Action(utils.CaseInsensitiveDict):
         resp = self.responses[-1]
         if resp.event.endswith('Complete'):
             return True
+        elif resp.event == 'AsyncAGIExec':
+            return True
         elif resp.subevent in ('End', 'Exec'):
             return True
         elif resp.response in ('Success', 'Error', 'Fail', 'Failure'):
