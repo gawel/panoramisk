@@ -2,6 +2,7 @@ graft examples
 graft tools
 graft docs
 prune docs/_build
+prune .github/
 graft panoramisk
 graft tests
 graft tests_python3
