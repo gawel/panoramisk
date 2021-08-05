@@ -5,7 +5,7 @@ import sys
 from setuptools import setup
 from setuptools import find_packages
 
-version = '1.4.dev0'
+version = '1.4'
 
 install_requires = []
 test_requires = [
