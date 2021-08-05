@@ -1,7 +1,20 @@
 1.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- py38 support
+
+- no longer use `yield from` syntaxe.
+
+- Added custom options for connect method: run_forever, on_startup,
+  on_shutdown, reconnect_timeout
+
+- Make ping interval and ping delay more configurable. Callbacks on_login,
+  on_connect and on_disconnect added for use in metrics
+
+- Avoid double exception logging because log.exception() already logs the
+  stacktrace
+
+- Multiple FastAGI support improvement
 
 
 1.3 (2018-09-21)
