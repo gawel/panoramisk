@@ -122,10 +122,10 @@ class Manager:
         :param action: an Action or dict with action name and parameters to
                        send
         :type action: Action or dict or Command
-        :param as_list: If True, the action Future will retrieve all responses
+        :param as_list: If True, the action will retrieve all responses
         :type as_list: boolean
-        :return: a Future that will receive the response
-        :rtype: asyncio.Future
+        :return: an Action that will receive the response(s)
+        :rtype: panoramisk.actions.Action
 
         :Example:
 
