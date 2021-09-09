@@ -1,7 +1,7 @@
 1.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Action is now both a Future and an async iterator
 
 
 1.4 (2021-08-05)
