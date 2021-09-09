@@ -1,13 +1,11 @@
 from pprint import pprint
 import asyncio
 from panoramisk import Manager
-import sys
 
 
-async def ping(lp, username, secret):
-    manager = Manager(loop=lp,
-                      host='127.0.0.1', port=5038,
-                      username=username, secret=secret,
+async def ping():
+    manager = Manager(host='127.0.0.1', port=5038,
+                      username='username', secret='mysecret',
                       forgetable_actions=('login',))
     await manager.connect()
     while True:
@@ -19,9 +17,7 @@ async def ping(lp, username, secret):
 
 
 def main():
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(ping(loop, sys.argv[1], sys.argv[2]))
-    loop.close()
+    asyncio.run(ping())
 
 
 if __name__ == '__main__':

@@ -34,7 +34,7 @@ class AMIProtocol(asyncio.Protocol):
             self.transport.write(str(data).encode(encoding))
         except Exception:  # pragma: no cover
             self.log.exception('Fail to send %r' % data)
-        return data.future
+        return data
 
     def data_received(self, data):
         encoding = getattr(self, 'encoding', 'ascii')
@@ -101,7 +101,7 @@ class AMIProtocol(asyncio.Protocol):
                 uuids.add(action.id)
                 if action['action'].lower() in forgetable_actions:
                     continue
-                elif action.future.done():  # pragma: no cover
+                elif action.done():  # pragma: no cover
                     continue
                 elif action.responses:
                     # If at least one response was receive from asterisk we don't queue it again

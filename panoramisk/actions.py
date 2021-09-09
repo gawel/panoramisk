@@ -3,7 +3,7 @@ import asyncio
 from . import utils
 
 
-class Action(utils.CaseInsensitiveDict):
+class Action(utils.CaseInsensitiveDict, asyncio.Future):
     """Dict like object to handle actions.
     Generate action IDs for you:
 
@@ -31,10 +31,25 @@ class Action(utils.CaseInsensitiveDict):
     def __init__(self, *args, **kwargs):
         self.as_list = kwargs.pop('as_list', None)
         super(Action, self).__init__(*args, **kwargs)
+        asyncio.Future.__init__(self)
         if 'actionid' not in self:
             self['ActionID'] = self.action_id_generator()
         self.responses = []
-        self.future = asyncio.Future()
+        self.responses_index = 0
+
+    def __aiter__(self):
+        return self
+
+    async def __anext__(self):
+        while True:
+            if self.responses_index < len(self.responses):
+                res = self.responses[self.responses_index]
+                self.responses_index += 1
+                return res
+            elif self.done():
+                raise StopAsyncIteration
+            else:
+                await asyncio.sleep(.1)
 
     @property
     def id(self):
@@ -86,11 +101,11 @@ class Action(utils.CaseInsensitiveDict):
     def add_message(self, message):
         self.responses.append(message)
         multi = self.multi
-        if self.completed and not self.future.done():
+        if self.completed and not self.done():
             if multi and len(self.responses) > 1:
-                self.future.set_result(self.responses)
+                self.set_result(self.responses)
             elif not multi:
-                self.future.set_result(self.responses[0])
+                self.set_result(self.responses[0])
             else:
                 return False
             return True
