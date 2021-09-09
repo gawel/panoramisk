@@ -18,10 +18,6 @@ def manager(request, event_loop):
     return manager
 
 
-def test_connection(manager):
-    assert isinstance(manager().connect(), asyncio.Task)
-
-
 def test_ping(manager):
     manager = manager(stream='ping.yaml')
     future = manager.send_action({'Action': 'Ping'})

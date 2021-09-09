@@ -2,6 +2,8 @@ import subprocess
 
 import pytest
 
+from panoramisk import utils
+
 
 class Asterisk:
     def __init__(self):
@@ -45,6 +47,7 @@ class Asterisk:
 
 @pytest.fixture
 def asterisk(request):
+    utils.EOL = '\r\n'
     server = Asterisk()
     yield server
     server.stop()
