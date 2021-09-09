@@ -1,0 +1,15 @@
+---
+
+version: "3"
+
+services:
+
+    asterisk:
+        image: andrius/asterisk:latest
+        ports:
+            - 5038:5038
+            - 5060:5060/udp
+            - 5060:5060/tcp
+        volumes:
+            - ./:/opt
+        entrypoint: /opt/docker-entrypoint.sh

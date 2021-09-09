@@ -113,7 +113,7 @@ class Manager:
         while self.awaiting_actions:
             action = self.awaiting_actions.popleft()
             if action['action'].lower() not in self.forgetable_actions:
-                if not action.future.done():
+                if not action.done():
                     self.send_action(action, as_list=action.as_list)
 
     def send_action(self, action, as_list=None, **kwargs):

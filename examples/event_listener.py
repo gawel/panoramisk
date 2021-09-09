@@ -2,9 +2,9 @@ import asyncio
 from panoramisk import Manager
 
 manager = Manager(loop=asyncio.get_event_loop(),
-                  host='ip',
+                  host='127.0.0.1',
                   username='user',
-                  secret='secret')
+                  secret='mysecret')
 
 
 @manager.register_event('*')

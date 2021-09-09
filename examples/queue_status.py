@@ -4,20 +4,17 @@ from pprint import pprint
 
 
 async def queue_status():
-    manager = Manager(loop=asyncio.get_event_loop(),
-                      host='127.0.0.1', port=5039,
+    manager = Manager(host='127.0.0.1', port=5038,
                       username='username', secret='mysecret')
     await manager.connect()
-    queues_details = await manager.send_action(
-        {'Action': 'QueueStatus', 'Queue': 'queue_name'})
+    action = {'Action': 'QueueStatus', 'Queue': 'queue_name'}
+    async for message in manager.send_action(action):
+        pprint(message)
     manager.close()
-    pprint(queues_details)
 
 
 def main():
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(queue_status())
-    loop.close()
+    asyncio.run(queue_status())
 
 
 if __name__ == '__main__':

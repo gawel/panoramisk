@@ -8,8 +8,8 @@ from panoramisk import Manager, Message
 manager = Manager(
     host=os.getenv('AMI_HOST', '127.0.0.1'),
     port=os.getenv('AMI_PORT', 5038),
-    username=os.getenv('AMI_USERNAME', 'user'),
-    secret=os.getenv('AMI_SECRET', 'password'),
+    username=os.getenv('AMI_USERNAME', 'username'),
+    secret=os.getenv('AMI_SECRET', 'mysecret'),
     ping_delay=10,  # Delay after start
     ping_interval=10,  # Periodically ping AMI (dead or alive)
     reconnect_timeout=2,  # Timeout reconnect if connection lost
