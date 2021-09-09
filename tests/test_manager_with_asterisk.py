@@ -1,8 +1,24 @@
 import asyncio
+import subprocess
 
 import pytest
 
 from panoramisk import Manager
+
+try:
+    subprocess.check_call(
+        ['docker-compose', 'version'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    compose_available = True
+except Exception:
+    compose_available = False
+
+pytestmark = pytest.mark.skipif(
+    not compose_available,
+    reason='Compose is not available'
+)
 
 
 @pytest.mark.asyncio
