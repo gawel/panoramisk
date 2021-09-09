@@ -129,16 +129,16 @@ class Manager:
 
         :Example:
 
-        To retrieve answer in a coroutine::
+        To retrieve answer::
 
             manager = Manager()
             resp = await manager.send_action({'Action': 'Status'})
 
-        With a callback::
+        Or with an async for::
 
             manager = Manager()
-            future = manager.send_action({'Action': 'Status'})
-            future.add_done_callback(handle_status_response)
+            async for resp in  manager.send_action({'Action': 'Status'}):
+                print(resp)
 
         See https://wiki.asterisk.org/wiki/display/AST/AMI+Actions for
         more information on actions
@@ -150,7 +150,7 @@ class Manager:
         """Send a :class:`~panoramisk.actions.Command` to the server::
 
             manager = Manager()
-            resp = manager.send_command('http show status')
+            resp = await manager.send_command('http show status')
 
         Return a response :class:`~panoramisk.message.Message`.
         See https://wiki.asterisk.org/wiki/display/AST/ManagerAction_Command
