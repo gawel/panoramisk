@@ -1,6 +1,7 @@
 import logging
 import asyncio
 from collections import OrderedDict
+from .exceptions import AGIException, AGIUsageError
 from .utils import parse_agi_result
 
 log = logging.getLogger(__name__)
@@ -35,20 +36,32 @@ class Request:
         self.writer.write(command.encode(self.encoding))
         await self.writer.drain()
 
-        agi_result = await self._read_result()
-        # If Asterisk returns `100 Trying...`, wait for next the response.
-        while agi_result.get('status_code') == 100:
+        try:
             agi_result = await self._read_result()
-
-        # when we got AGIUsageError the following line contains some indication
-        if 'error' in agi_result and agi_result['error'] == 'AGIUsageError':
+            # If Asterisk returns `100 Trying...`, wait for next the response.
+            while agi_result.get('status_code') == 100:
+                agi_result = await self._read_result()
+        except AGIUsageError as err:
+            message = err.args[0]
+            # When we get AGIUsageError the following line contains some indication
             buff_usage_error = await self.reader.readline()
-            agi_result['msg'] += buff_usage_error.decode(self.encoding)
+            message += buff_usage_error.decode(self.encoding)
+            if self.app.raise_on_error:
+                raise AGIUsageError(message, err.items)
+            agi_result = err.items
+            agi_result['error'] = err.__class__.__name__
+            agi_result['msg'] = message
+        except AGIException as err:
+            if self.app.raise_on_error:
+                raise
+            agi_result = err.items
+            agi_result['error'] = err.__class__.__name__
+            agi_result['msg'] = err.args[0]
 
         return agi_result
 
     async def _read_result(self):
-        """Parse read a response from the AGI and parse it.
+        """Read a response from the AGI and parse it.
 
         :return dict: The AGI response parsed into a dict.
         """
@@ -66,12 +79,13 @@ class Application(dict):
 
     buf_size = 100
 
-    def __init__(self, default_encoding='utf-8', loop=None):
+    def __init__(self, default_encoding='utf-8', loop=None, raise_on_error=False):
         super(Application, self).__init__()
         self.default_encoding = default_encoding
         if loop is None:
             loop = asyncio.get_event_loop()
         self.loop = loop
+        self.raise_on_error = raise_on_error
         self._route = OrderedDict()
 
     def add_route(self, path, endpoint):
@@ -122,7 +136,7 @@ class Application(dict):
         """
         if path not in self._route:
             raise ValueError('This route doesn\'t exist.')
-        del(self._route[path])
+        del self._route[path]
 
     async def handler(self, reader, writer):
         """AsyncIO coroutine handler to launch socket listening.

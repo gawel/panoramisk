@@ -8,11 +8,13 @@ except ImportError:
 
 
 from configparser import ConfigParser
+from .exceptions import (AGIAppError, AGIDeadChannelError, AGIInvalidCommand, AGINoResultError,
+                         AGIResultHangup, AGIUnknownError, AGIUsageError)
 
 EOL = '\r\n'
 
 re_code = re.compile(r'(?P<code>^\d*)\s*(?P<response>.*)')
-re_kv = re.compile(r'(?P<key>\w+)=(?P<value>[^\s]+)\s*(?:\((?P<data>.*)\))*')
+re_kv = re.compile(r'(?P<key>\w+)=(?P<value>[^\s]*)\s*(?:\((?P<data>.*)\))*')
 
 
 def parse_agi_result(line):
@@ -39,10 +41,9 @@ def parse_agi_result(line):
         HANGUP
 
     """
-    # print("--------------\n", line)
+
     if line == 'HANGUP':
-        return {'error': 'AGIResultHangup',
-                'msg': 'User hungup during execution'}
+        raise AGIResultHangup('User hungup during execution', {})
 
     kwargs = dict(code=0, response="", line=line)
     m = re_code.search(line)
@@ -59,32 +60,30 @@ def agi_code_check(code=None, response=None, line=None):
     Check the AGI code and return a dict to help on error handling.
     """
     code = int(code)
-    response = response or ""
-    result = {'status_code': code, 'result': ('', ''), 'msg': ''}
+    response = response or ''
+    result = {'status_code': code, 'msg': ''}
     if code == 100:
-        result['msg'] = line
+        pass  # Trying
     elif code == 200:
         for key, value, data in re_kv.findall(response):
             result[key] = (value, data)
             # If user hangs up... we get 'hangup' in the data
             if data == 'hangup':
-                return {
-                    'error': 'AGIResultHangup',
-                    'msg': 'User hungup during execution'}
-            elif key == 'result' and value == '-1':
-                return {
-                    'error': 'AGIAppError',
-                    'msg': 'Error executing application, or hangup'}
+                raise AGIResultHangup('User hungup during execution', result)
+            if key == 'result' and value == '-1':
+                raise AGIAppError('Error executing application, or hangup', result)
+        if 'result' not in result:  # Result must be present
+            raise AGINoResultError('Result key/value pair missing in Asterisk response', result)
     elif code == 510:
-        result['error'] = 'AGIInvalidCommand'
+        raise AGIInvalidCommand(line, result)
+    elif code == 511:
+        raise AGIDeadChannelError(line, result)
     elif code == 520:
-        # AGI Usage error
-        result['error'] = 'AGIUsageError'
-        result['msg'] = line
+        raise AGIUsageError(line, result)
     else:
         # Unhandled code or undefined response
-        result['error'] = 'AGIUnknownError'
-        result['msg'] = line
+        raise AGIUnknownError(line, result)
+
     return result
 
 
