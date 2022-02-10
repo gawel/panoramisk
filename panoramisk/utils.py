@@ -45,17 +45,14 @@ def parse_agi_result(line):
     if line == 'HANGUP':
         raise AGIResultHangup('User hungup during execution', {})
 
-    kwargs = dict(code=0, response="", line=line)
-    m = re_code.search(line)
-    try:
-        kwargs.update(m.groupdict())
-    except AttributeError:
-        # None has no attribute groupdict
-        pass
-    return agi_code_check(**kwargs)
+    match = re_code.search(line)
+    # re_code matches on any string, no need to check
+    code = match.groupdict().get('code') or 0
+    response = match.groupdict().get('response', '')
+    return agi_code_check(code, response, line)
 
 
-def agi_code_check(code=None, response=None, line=None):
+def agi_code_check(code, response, line):
     """
     Check the AGI code and return a dict to help on error handling.
     """
