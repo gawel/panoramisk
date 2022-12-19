@@ -24,4 +24,4 @@ jobs:
         run: tox -e py
       - name: Run flake8 / docs
         run: tox -e flake8,docs
-        if: matrix.python == 3.8
+        if: matrix.python == "3.10"
