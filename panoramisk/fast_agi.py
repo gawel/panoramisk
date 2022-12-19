@@ -83,7 +83,7 @@ class Application(dict):
         super(Application, self).__init__()
         self.default_encoding = default_encoding
         if loop is None:
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
         self.loop = loop
         self.raise_on_error = raise_on_error
         self._route = OrderedDict()
