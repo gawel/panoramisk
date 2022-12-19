@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #  -*- coding: utf-8 -*-
 import os
-import sys
 from setuptools import setup
 from setuptools import find_packages
 
@@ -10,7 +9,7 @@ version = '1.5.dev0'
 install_requires = []
 test_requires = [
     'pytest',
-    'pytest-asyncio<0.6.0' if sys.version_info < (3, 5) else 'pytest-asyncio',
+    'pytest-asyncio',
     'coverage',
     'coveralls',
 ]
@@ -31,8 +30,10 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Topic :: Communications :: Telephony',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
