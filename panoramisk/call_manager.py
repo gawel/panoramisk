@@ -45,7 +45,7 @@ class CallManager(manager.Manager):
     def send_originate(self, action):
         action['Async'] = 'true'
         action = actions.Action(action)
-        future = asyncio.Future()
+        future = self.loop.create_future()
         self.send_action(action).add_done_callback(
             partial(self.set_result, future))
         return future

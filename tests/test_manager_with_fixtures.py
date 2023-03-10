@@ -106,9 +106,9 @@ def test_close(manager):
 
 
 def test_events(manager):
-    future = asyncio.Future()
-
     manager = manager()
+
+    future = manager.loop.create_future()
 
     @manager.register_event('Peer*')
     def callback(manager, event):

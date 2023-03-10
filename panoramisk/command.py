@@ -47,7 +47,7 @@ def main(argv=None):
             def show(f=None):
                 if f:
                     print(f.result())
-                f = asyncio.Task(result.queue.get())
+                f = asyncio.create_task(result.queue.get())
                 f.add_done_callback(show)
             show()
 
