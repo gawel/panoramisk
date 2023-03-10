@@ -92,6 +92,8 @@ class Action(utils.CaseInsensitiveDict, asyncio.Future):
             return True
         elif resp.subevent in ('End', 'Exec'):
             return True
+        elif resp.event in ('AsyncAGIExec',):
+            return True
         elif resp.response in ('Success', 'Error', 'Fail', 'Failure'):
             return True
         elif not self.multi:

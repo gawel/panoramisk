@@ -53,7 +53,7 @@ class Manager(manager.Manager):
         protocol = AMIProtocol()
         protocol.factory = manager
         protocol.connection_made(mock.MagicMock())
-        future = asyncio.Future()
+        future = self.loop.create_future()
         future.set_result((mock.MagicMock(), protocol))
         self.protocol = protocol
         self.connection_made(future)

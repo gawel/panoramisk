@@ -194,12 +194,12 @@ class Manager:
         """connect to the server"""
         if self.loop is None:  # pragma: no cover
             self.loop = asyncio.get_event_loop()
-        t = asyncio.Task(
+        t = asyncio.create_task(
             self.loop.create_connection(
                 self.config['protocol_factory'],
                 self.config['host'], self.config['port'],
                 ssl=self.config['ssl']),
-            loop=self.loop)
+        )
         t.add_done_callback(self.connection_made)
 
         if run_forever:
