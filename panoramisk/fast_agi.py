@@ -79,9 +79,12 @@ class Application(dict):
 
     buf_size = 100
 
-    def __init__(self, default_encoding='utf-8', loop=None, raise_on_error=False):
+    def __init__(
+            self, default_encoding='utf-8', loop=None, raise_on_error=False, decode_errors='strict'
+    ):
         super(Application, self).__init__()
         self.default_encoding = default_encoding
+        self.decode_errors = decode_errors
         if loop is None:
             try:
                 loop = asyncio.get_running_loop()
@@ -162,7 +165,7 @@ class Application(dict):
         buffer = b''
         while b'\n\n' not in buffer:
             buffer += await reader.read(self.buf_size)
-        lines = buffer[:-2].decode(self.default_encoding).split('\n')
+        lines = buffer[:-2].decode(self.default_encoding, errors=self.decode_errors).split('\n')
         headers = OrderedDict([
             line.split(': ', 1) for line in lines if ': ' in line
         ])
