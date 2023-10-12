@@ -1,4 +1,5 @@
 import asyncio
+import hashlib
 import logging
 from collections import defaultdict
 from collections import deque
@@ -53,6 +54,8 @@ class Manager:
         self.ping_interval = int(self.config['ping_interval'])
         self.reconnect_timeout = int(self.config['reconnect_timeout'])
         self._connected = False
+        self.auth_type = self.config.get('auth_type')
+        self.auth_challenge_future = None
         self.register_event('FullyBooted', self.send_awaiting_actions)
         self.on_login = config.get('on_login', on_login)
         self.on_connect = config.get('on_connect', on_connect)
@@ -82,6 +85,13 @@ class Manager:
             self.protocol.encoding = self.encoding = self.config['encoding']
             self.responses = self.protocol.responses = {}
             if 'username' in self.config:
+                if self.auth_type is not None:
+                    if self.auth_type.lower() == 'md5':
+                        self.auth_challenge_future = self.send_action({
+                            'Action': 'Challenge',
+                            'AuthType': self.auth_type.upper()})
+                        self.auth_challenge_future.add_done_callback(self.secure_login)
+                        return
                 self.authenticated = False
                 self.authenticated_future = self.send_action({
                     'Action': 'Login',
@@ -92,6 +102,20 @@ class Manager:
             else:
                 self.log.debug('username not in config file')
             self.pinger = self.loop.call_later(self.ping_delay, self.ping)
+
+    def secure_login(self, future):
+        resp = future.result()
+        if bool(resp.success):
+            auth_challenge = resp.Challenge + self.config['secret']
+            key = hashlib.md5(auth_challenge.encode('utf-8')).hexdigest()
+            self.authenticated = False
+            self.authenticated_future = self.send_action({
+                'Action': 'Login',
+                'Username': self.config['username'],
+                'AuthType': self.auth_type.upper(),
+                'Key': key,
+                'Events': self.config['events']})
+            self.authenticated_future.add_done_callback(self.login)
 
     def login(self, future):
         self.authenticated_future = None
