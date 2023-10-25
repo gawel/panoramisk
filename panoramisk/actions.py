@@ -81,14 +81,14 @@ class Action(utils.CaseInsensitiveDict, asyncio.Future):
             return True
         elif msg.startswith('added') and msg.endswith('to queue'):
             return True
-        elif msg.endswith('successfully queued') and self['async'] != 'false':
-            return True
         return False
 
     @property
     def completed(self):
         resp = self.responses[-1]
         if resp.event.endswith('Complete'):
+            return True
+        elif resp.event == 'AsyncAGIExec':
             return True
         elif resp.subevent in ('End', 'Exec'):
             return True

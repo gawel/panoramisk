@@ -123,9 +123,15 @@ class Manager:
         self.authenticated = bool(resp.success)
         if self.authenticated:
             self.loop.call_soon(self.on_login, self)
-        if self.pinger is not None:
-            self.pinger.cancel()
-        self.pinger = self.loop.call_later(self.ping_delay, self.ping)
+            if self.pinger is not None:
+                self.pinger.cancel()
+            self.pinger = self.loop.call_later(self.ping_delay, self.ping)
+        else:
+            self.log.error(
+                'Asterisk AMI user %s with secret %s...%s login failed.',
+                self.config['username'],
+                str(self.config['secret'])[:1],
+                str(self.config['secret'])[-1:])
         return self.authenticated
 
     def ping(self):  # pragma: no cover
