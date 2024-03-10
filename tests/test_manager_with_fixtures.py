@@ -54,6 +54,15 @@ def test_queue_status(manager):
     assert len(responses) == 9
 
 
+def test_queue_add(manager):
+    manager = manager(stream='queue_add.yaml')
+    future = manager.send_action({'Action': 'QueueAdd',
+                                  'Queue': 'xxxxxxxxxxxxxxxx-tous',
+                                  'Interface': 'SIP/000000'})
+    responses = future.result()
+    assert len(responses) == 4
+
+
 def test_pjsip_show_endpoint(manager):
     manager = manager(stream='pjsip_show_endpoint.yaml')
     future = manager.send_action({'Action': 'PJSIPShowEndpoint',
