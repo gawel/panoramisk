@@ -79,6 +79,8 @@ class Action(utils.CaseInsensitiveDict, asyncio.Future):
             return True
         elif 'will follow' in msg:
             return True
+        elif msg == 'added interface to queue':
+            return False
         elif msg.startswith('added') and msg.endswith('to queue'):
             return True
         elif msg.endswith('successfully queued') and self['async'] != 'false':
