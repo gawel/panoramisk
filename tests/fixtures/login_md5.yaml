@@ -1,0 +1,10 @@
+Asterisk Call Manager/7.0.3
+Action: Challenge
+AuthType: MD5
+ActionID: action/transaction_uid/1/1
+
+Response: Success
+Challenge: 145769581
+ActionID: action/transaction_uid/1/1
+
+
