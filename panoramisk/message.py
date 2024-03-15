@@ -109,9 +109,10 @@ class Message(utils.CaseInsensitiveDict):
             sip:42@10.10.10.1:4242
         """
         values = self.get(key, None)
-        if not isinstance(values, list):
-            raise TypeError("{0} must be a list. got {1}".format(key, values))
         result = utils.CaseInsensitiveDict()
+        if not isinstance(values, list):
+            result[key] = values
+            return result
         for item in values:
             k, v = item.split('=', 1)
             result[k] = v
