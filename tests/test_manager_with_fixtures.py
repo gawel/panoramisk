@@ -40,6 +40,15 @@ async def test_login_failed(manager):
     assert manager.login(manager.authenticated_future) is False
 
 
+@pytest.mark.asyncio
+async def test_login_md5(manager):
+    manager = manager(username='xx', secret='xx', auth_type='md5', stream='login_md5.yaml')
+    challenge = await manager.auth_challenge_future
+    assert len(challenge.challenge) == 9
+    assert challenge.success is True
+    assert manager.login(manager.auth_challenge_future) is True
+
+
 def test_logoff(manager):
     manager = manager(stream='logoff.yaml')
     future = manager.send_action({'Action': 'logoff'})
